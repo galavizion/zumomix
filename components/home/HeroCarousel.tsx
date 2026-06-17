@@ -60,8 +60,8 @@ export default function HeroCarousel({ items }: { items?: CarouselItem[] }) {
                 src={product!.images[0]}
                 alt={product!.name}
                 style={{
-                  width: "78%",
-                  maxWidth: "360px",
+                  width: "65%",
+                  maxWidth: "320px",
                   height: "auto",
                   display: "inline-block",
                   animation:

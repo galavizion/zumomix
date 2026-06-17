@@ -104,7 +104,7 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0 auto;
   padding: 78px 28px 70px;
   display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
+  grid-template-columns: 0.95fr 1.05fr; /* carousel izq, texto der */
   gap: 48px;
   align-items: center;
 }
@@ -112,16 +112,13 @@ h1, h2, h3, h4, h5, h6 {
 @media (max-width: 768px) {
   .hero-section {
     grid-template-columns: 1fr;
-    padding: 36px 20px 32px;
-    gap: 24px;
+    padding: 32px 20px 28px;
+    gap: 20px;
   }
+  /* carousel arriba (primer hijo), sin recorte */
   .hero-image-col {
-    /* visible en mobile, pero más compacto */
-    max-height: 320px;
-    overflow: hidden;
-  }
-  .hero-image-col img {
-    width: 60% !important;
+    max-height: none;
+    overflow: visible;
   }
   .hero-title {
     font-size: 34px !important;

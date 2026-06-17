@@ -22,6 +22,53 @@ export default function Hero() {
       id="inicio"
       className="hero-section"
     >
+      {/* ── Carousel (primero en DOM → arriba en mobile) ── */}
+      <div
+        data-dc-tpl="49"
+        className="hero-image-col"
+        style={{
+          position: "relative",
+          animationDuration: "0.75s",
+          animationTimingFunction: "ease",
+          animationDelay: "0s",
+          animationIterationCount: "1",
+          animationDirection: "normal",
+          animationFillMode: "both",
+          animationPlayState: "running",
+          animationName: "revup",
+          animationTimeline: "view()",
+          animationRange: "entry cover 26%",
+          transitionDelay: "120ms",
+          opacity: 1,
+          transform: "translateY(0px)",
+        }}
+      >
+        <div
+          style={{
+            position: "absolute",
+            inset: "8% 6%",
+            background: "radial-gradient(circle at 50% 40%, rgb(232, 245, 216), rgb(243, 249, 234) 70%)",
+            borderRadius: "50%",
+            filter: "blur(2px)",
+            animation: "blobpulse 4s ease-in-out infinite",
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            top: "-6%",
+            right: "4%",
+            width: "120px",
+            height: "120px",
+            border: "2px dashed rgb(207, 227, 176)",
+            borderRadius: "50%",
+            animation: "36s linear 0s infinite normal none running blobspin",
+          }}
+        />
+        <HeroCarousel items={carouselItems} />
+      </div>
+
+      {/* ── Texto (segundo en DOM → abajo en mobile) ── */}
       <div
         data-dc-tpl="27"
         data-reveal=""
@@ -242,55 +289,6 @@ export default function Hero() {
             </div>
           </div>
         </div>
-      </div>
-      <div
-        data-dc-tpl="49"
-        data-reveal=""
-        data-delay="120"
-        className="hero-image-col"
-        style={{
-          position: "relative",
-          animationDuration: "0.75s",
-          animationTimingFunction: "ease",
-          animationDelay: "0s",
-          animationIterationCount: "1",
-          animationDirection: "normal",
-          animationFillMode: "both",
-          animationPlayState: "running",
-          animationName: "revup",
-          animationTimeline: "view()",
-          animationRange: "entry cover 26%",
-          transitionDelay: "120ms",
-          opacity: 1,
-          transform: "translateY(0px)",
-        }}
-      >
-        <div
-          data-dc-tpl="50"
-          style={{
-            position: "absolute",
-            inset: "8% 6%",
-            background:
-              "radial-gradient(circle at 50% 40%, rgb(232, 245, 216), rgb(243, 249, 234) 70%)",
-            borderRadius: "50%",
-            filter: "blur(2px)",
-            animation: "blobpulse 4s ease-in-out infinite",
-          }}
-        ></div>
-        <div
-          data-dc-tpl="51"
-          style={{
-            position: "absolute",
-            top: "-6%",
-            right: "4%",
-            width: "120px",
-            height: "120px",
-            border: "2px dashed rgb(207, 227, 176)",
-            borderRadius: "50%",
-            animation: "36s linear 0s infinite normal none running blobspin",
-          }}
-        ></div>
-        <HeroCarousel items={carouselItems} />
       </div>
     </section>
     <div
