@@ -5,6 +5,7 @@ import Container from "@/components/ui/Container";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import { useCart } from "@/hooks/useCart";
+import { useCustomer } from "@/components/customer/CustomerProvider";
 import { formatPrice } from "@/lib/utils";
 import { CheckCircle } from "lucide-react";
 
@@ -18,16 +19,17 @@ type PaymentMethod = "paypal" | "stripe";
 
 export default function CheckoutClient() {
   const { items, subtotal, clearCart } = useCart();
+  const { customer } = useCustomer();
   const [step, setStep] = useState<Step>("contacto");
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("paypal");
   const [form, setForm] = useState({
-    nombre: "",
-    email: "",
-    telefono: "",
-    calle: "",
-    ciudad: "",
-    estado: "",
-    cp: "",
+    nombre: customer?.nombre || "",
+    email: customer?.email || "",
+    telefono: customer?.telefono || "",
+    calle: customer?.calle || "",
+    ciudad: customer?.ciudad || "",
+    estado: customer?.estado || "",
+    cp: customer?.cp || "",
   });
   const [errors, setErrors] = useState<Partial<typeof form>>({});
 
