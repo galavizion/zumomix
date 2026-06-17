@@ -1,0 +1,37 @@
+import { NextRequest, NextResponse } from "next/server";
+import jwt from "jsonwebtoken";
+import { supabase } from "@/lib/supabase";
+
+export async function GET(request: NextRequest) {
+  try {
+    const token = request.cookies.get("customer_token")?.value;
+
+    if (!token) {
+      return NextResponse.json(
+        { error: "No autenticado" },
+        { status: 401 }
+      );
+    }
+
+    const decoded = jwt.verify(
+      token,
+      process.env.JWT_SECRET || "tu-secret-key"
+    ) as any;
+
+    const { data, error } = await supabase
+      .from("orders")
+      .select("*")
+      .eq("customer_id", decoded.id)
+      .order("created_at", { ascending: false });
+
+    if (error) throw error;
+
+    return NextResponse.json(data || []);
+  } catch (error) {
+    console.error("Get orders error:", error);
+    return NextResponse.json(
+      { error: "Error obteniendo pedidos" },
+      { status: 500 }
+    );
+  }
+}
