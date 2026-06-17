@@ -301,11 +301,11 @@ export default function AjustesClient() {
 
                 <ImageUploadField
                   label="Logo del sitio"
-                  hint="PNG o SVG con fondo transparente. Se muestra en el Navbar."
+                  hint="PNG, SVG, WebP o JPG con fondo transparente. Se muestra en el Navbar."
                   value={settings.logo_url}
                   onChange={update("logo_url")}
                   storagePath="logo"
-                  accept="image/png,image/svg+xml,image/webp,image/jpeg"
+                  accept="image/*"
                 />
 
                 <Field
@@ -323,11 +323,11 @@ export default function AjustesClient() {
 
                 <ImageUploadField
                   label="Favicon (ícono del navegador)"
-                  hint="Imagen cuadrada 32×32 o 64×64 px — ICO, PNG o SVG"
+                  hint="Imagen cuadrada 32×32 o 64×64 px — ICO, PNG, WebP o SVG"
                   value={settings.favicon_url}
                   onChange={update("favicon_url")}
                   storagePath="favicon"
-                  accept="image/x-icon,image/png,image/svg+xml"
+                  accept="image/*"
                   preview="favicon"
                 />
               </div>
