@@ -1,18 +1,19 @@
 "use client";
 
 import Link from "next/link";
-import { PRODUCTS } from "@/lib/constants";
 import { useHomeData } from "@/hooks/useHomeData";
+import HeroCarousel from "./HeroCarousel";
 
 export default function Hero() {
   const { data } = useHomeData();
-  const firstProduct = PRODUCTS[0];
 
   const heroData = data.hero?.content || {
     title: "Exprimidores y dispensadores",
     subtitle: "a precio accesible",
     description: "Equipos robustos para naranjas, limones, frappés y aguas frescas. Atención personalizada, garantía y envíos a todo México.",
   };
+
+  const carouselItems = heroData.carousel ?? undefined;
 
   return (
     <>
@@ -289,85 +290,7 @@ export default function Hero() {
             animation: "36s linear 0s infinite normal none running blobspin",
           }}
         ></div>
-        <div
-          data-dc-tpl="52"
-          style={{
-            position: "relative",
-            textAlign: "center",
-            padding: "18px",
-          }}
-        >
-          <img
-            data-dc-tpl="53"
-            src={firstProduct.images[0]}
-            alt={firstProduct.name}
-            style={{
-              width: "78%",
-              maxWidth: "360px",
-              height: "auto",
-              display: "inline-block",
-              animation:
-                "6s ease-in-out 0s infinite normal none running floaty",
-              filter: "drop-shadow(rgba(40, 60, 20, 0.18) 0px 28px 40px)",
-              borderRadius: "20px",
-            }}
-          />
-        </div>
-        <div
-          data-dc-tpl="54"
-          style={{
-            position: "absolute",
-            bottom: "6%",
-            left: "0px",
-            background: "rgb(255, 255, 255)",
-            border: "1px solid rgb(238, 241, 234)",
-            borderRadius: "16px",
-            padding: "13px 18px",
-            boxShadow: "rgba(40, 60, 20, 0.12) 0px 16px 30px",
-            display: "flex",
-            alignItems: "center",
-            gap: "12px",
-          }}
-        >
-          <span
-            data-dc-tpl="55"
-            style={{
-              display: "inline-flex",
-              width: "38px",
-              height: "38px",
-              borderRadius: "11px",
-              background: "rgb(232, 245, 216)",
-              color: "rgb(122, 181, 54)",
-              alignItems: "center",
-              justifyContent: "center",
-              fontWeight: "800",
-              fontSize: "15px",
-            }}
-          >
-            ★
-          </span>
-          <div data-dc-tpl="56">
-            <div
-              data-dc-tpl="57"
-              style={{
-                fontSize: "13px",
-                fontWeight: "700",
-                color: "rgb(34, 48, 15)",
-              }}
-            >
-              Más vendido
-            </div>
-            <div
-              data-dc-tpl="58"
-              style={{
-                fontSize: "12px",
-                color: "rgb(124, 135, 114)",
-              }}
-            >
-              {firstProduct.name}
-            </div>
-          </div>
-        </div>
+        <HeroCarousel items={carouselItems} />
       </div>
     </section>
     <div
