@@ -3,7 +3,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
   LayoutDashboard, Package, ShoppingBag, Layers, Users, BarChart2, Home,
-  ExternalLink, LogOut, Menu, X,
+  ExternalLink, LogOut, Menu, X, Settings2,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -15,6 +15,7 @@ const NAV_ITEMS = [
   { href: "/admin/inventario", label: "Inventario", icon: Layers },
   { href: "/admin/clientes", label: "Clientes", icon: Users },
   { href: "/admin/reportes", label: "Reportes", icon: BarChart2 },
+  { href: "/admin/ajustes", label: "Ajustes", icon: Settings2 },
 ];
 
 export default function Sidebar() {

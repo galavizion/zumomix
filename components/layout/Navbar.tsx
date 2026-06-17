@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import Image from "next/image";
 import { useCart } from "@/hooks/useCart";
 import { ShoppingCart, Menu, X, MessageCircle } from "lucide-react";
 import { useState } from "react";
@@ -13,7 +14,12 @@ const NAV_LINKS = [
   { href: "/contacto", label: "Contacto" },
 ];
 
-export default function Navbar() {
+interface NavbarProps {
+  logoUrl?: string;
+  logoText?: string;
+}
+
+export default function Navbar({ logoUrl, logoText }: NavbarProps) {
   const { itemCount } = useCart();
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -92,9 +98,24 @@ export default function Navbar() {
         <nav className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="logo-link flex items-center gap-2">
-            <span className="text-2xl font-display font-bold text-brand-green">
-              zumo<span className="text-neutral-900">mix</span>
-            </span>
+            {logoUrl ? (
+              <Image
+                src={logoUrl}
+                alt={logoText || "Zumomix"}
+                width={140}
+                height={40}
+                style={{ height: "36px", width: "auto", objectFit: "contain" }}
+                priority
+              />
+            ) : (
+              <span className="text-2xl font-display font-bold text-brand-green">
+                {logoText ? (
+                  logoText
+                ) : (
+                  <>zumo<span className="text-neutral-900">mix</span></>
+                )}
+              </span>
+            )}
           </Link>
 
           {/* Desktop nav */}
