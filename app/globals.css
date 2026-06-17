@@ -96,3 +96,136 @@ h1, h2, h3, h4, h5, h6 {
     transform: scale(1.05);
   }
 }
+
+/* ===== Hero responsive ===== */
+.hero-section {
+  position: relative;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 78px 28px 70px;
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 48px;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    grid-template-columns: 1fr;
+    padding: 48px 20px 40px;
+    gap: 32px;
+  }
+  .hero-image-col {
+    display: none;
+  }
+  .hero-title {
+    font-size: 36px !important;
+  }
+  .hero-desc {
+    font-size: 16px !important;
+  }
+}
+
+/* ===== Product page hero ===== */
+.page-hero {
+  background: linear-gradient(135deg, rgb(247, 252, 239) 0%, rgb(232, 245, 216) 100%);
+  border-bottom: 1px solid rgb(216, 232, 194);
+}
+
+/* ===== Cards hover ===== */
+.product-card-new {
+  background: white;
+  border-radius: 20px;
+  border: 1px solid rgb(232, 236, 225);
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  display: flex;
+  flex-direction: column;
+}
+.product-card-new:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 48px rgba(40, 60, 20, 0.13);
+}
+
+/* ===== Flavor pills ===== */
+.flavor-pill {
+  padding: 8px 18px;
+  background: white;
+  border: 1.5px solid rgb(216, 232, 194);
+  border-radius: 999px;
+  font-size: 13.5px;
+  color: rgb(72, 84, 60);
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+  cursor: default;
+}
+.flavor-pill:hover {
+  background: rgb(122, 181, 54);
+  border-color: rgb(122, 181, 54);
+  color: white;
+}
+
+/* ===== Contact form inputs ===== */
+.contact-input {
+  width: 100%;
+  padding: 13px 16px;
+  border: 1.5px solid rgb(216, 232, 194);
+  border-radius: 14px;
+  font-size: 15px;
+  color: rgb(34, 48, 15);
+  background: white;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  font-family: 'Inter', sans-serif;
+}
+.contact-input:focus {
+  border-color: rgb(122, 181, 54);
+  box-shadow: 0 0 0 3px rgba(122, 181, 54, 0.12);
+}
+.contact-input::placeholder {
+  color: rgb(170, 180, 160);
+}
+
+/* ===== Section reveal animation ===== */
+.section-reveal {
+  animation: revup 0.6s ease both;
+  animation-timeline: view();
+  animation-range: entry cover 20%;
+}
+
+/* ===== Responsive grids ===== */
+.concentrados-hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 52px;
+  align-items: center;
+}
+
+.contacto-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 48px;
+  align-items: start;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 768px) {
+  .concentrados-hero-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .concentrados-hero-grid > div:last-child {
+    display: none;
+  }
+  .contacto-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}

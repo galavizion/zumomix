@@ -19,16 +19,7 @@ export default function Hero() {
     <section
       data-dc-tpl="26"
       id="inicio"
-      style={{
-        position: "relative",
-        maxWidth: "1180px",
-        margin: "0px auto",
-        padding: "78px 28px 70px",
-        display: "grid",
-        gridTemplateColumns: "1.05fr 0.95fr",
-        gap: "48px",
-        alignItems: "center",
-      }}
+      className="hero-section"
     >
       <div
         data-dc-tpl="27"
@@ -79,6 +70,7 @@ export default function Hero() {
         </span>
         <h1
           data-dc-tpl="30"
+          className="hero-title"
           style={{
             fontSize: "54px",
             lineHeight: "1.04",
@@ -96,6 +88,7 @@ export default function Hero() {
         </h1>
         <p
           data-dc-tpl="32"
+          className="hero-desc"
           style={{
             fontSize: "18px",
             lineHeight: "1.6",
@@ -253,6 +246,7 @@ export default function Hero() {
         data-dc-tpl="49"
         data-reveal=""
         data-delay="120"
+        className="hero-image-col"
         style={{
           position: "relative",
           animationDuration: "0.75s",
