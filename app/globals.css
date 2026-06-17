@@ -104,9 +104,14 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0 auto;
   padding: 78px 28px 70px;
   display: grid;
-  grid-template-columns: 0.95fr 1.05fr; /* carousel izq, texto der */
+  grid-template-columns: 1.05fr 0.95fr; /* texto izq, carousel der */
   gap: 48px;
   align-items: center;
+}
+
+/* Desktop: carousel va a la derecha (order 2) */
+.hero-image-col {
+  order: 2;
 }
 
 @media (max-width: 768px) {
@@ -115,8 +120,9 @@ h1, h2, h3, h4, h5, h6 {
     padding: 32px 20px 28px;
     gap: 20px;
   }
-  /* carousel arriba (primer hijo), sin recorte */
+  /* Mobile: carousel arriba, sin recorte */
   .hero-image-col {
+    order: -1;
     max-height: none;
     overflow: visible;
   }
