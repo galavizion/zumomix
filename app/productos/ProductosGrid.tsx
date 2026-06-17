@@ -122,11 +122,7 @@ function ProductCard({ product }: { product: Product }) {
 
 export default function ProductosGrid({ products }: { products: Product[] }) {
   return (
-    <div style={{
-      display: "grid",
-      gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
-      gap: "24px",
-    }}>
+    <div className="products-grid">
       {products.map((product) => (
         <ProductCard key={product.id} product={product} />
       ))}

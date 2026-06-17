@@ -112,17 +112,43 @@ h1, h2, h3, h4, h5, h6 {
 @media (max-width: 768px) {
   .hero-section {
     grid-template-columns: 1fr;
-    padding: 48px 20px 40px;
-    gap: 32px;
+    padding: 36px 20px 32px;
+    gap: 24px;
   }
   .hero-image-col {
-    display: none;
+    /* visible en mobile, pero más compacto */
+    max-height: 320px;
+    overflow: hidden;
+  }
+  .hero-image-col img {
+    width: 60% !important;
   }
   .hero-title {
-    font-size: 36px !important;
+    font-size: 34px !important;
   }
   .hero-desc {
     font-size: 16px !important;
+  }
+}
+
+/* ===== Product grids responsive ===== */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+@media (max-width: 900px) {
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+}
+
+@media (max-width: 500px) {
+  .products-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
   }
 }
 

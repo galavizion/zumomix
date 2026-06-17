@@ -85,11 +85,7 @@ export default function ProductGrid() {
       </div>
       <div
         data-dc-tpl="74"
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(3, 1fr)",
-          gap: "26px",
-        }}
+        className="products-grid"
       >
         {PRODUCTS.map((product, index) => {
           const delay = delays[index % 3];
