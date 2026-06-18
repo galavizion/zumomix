@@ -7,6 +7,7 @@ export interface Customer {
   ciudad?: string;
   estado?: string;
   cp?: string;
+  colonia?: string;
   created_at: string;
   updated_at: string;
 }

@@ -1,26 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
-import jwt from "jsonwebtoken";
 import { supabase } from "@/lib/supabase";
+import { verifyCustomerToken } from "@/lib/jwt";
 
 export async function POST(request: NextRequest) {
   try {
     const token = request.cookies.get("customer_token")?.value;
+
+    if (!token) {
+      return NextResponse.json({ error: "No autenticado" }, { status: 401 });
+    }
+
+    const decoded = verifyCustomerToken(token);
     const body = await request.json();
     const { items, total, paymentId, paymentMethod } = body;
 
-    if (!token) {
-      return NextResponse.json(
-        { error: "No autenticado" },
-        { status: 401 }
-      );
+    if (!items || !total || !paymentId) {
+      return NextResponse.json({ error: "Datos de orden incompletos" }, { status: 400 });
     }
 
-    const decoded = jwt.verify(
-      token,
-      process.env.JWT_SECRET || "tu-secret-key"
-    ) as any;
-
-    // Crear la orden
     const { data: order, error: orderError } = await supabase
       .from("orders")
       .insert({
@@ -35,7 +32,6 @@ export async function POST(request: NextRequest) {
 
     if (orderError) throw orderError;
 
-    // Crear los items de la orden
     const orderItems = items.map((item: any) => ({
       order_id: order.id,
       product_id: item.product.id,
@@ -50,15 +46,9 @@ export async function POST(request: NextRequest) {
 
     if (itemsError) throw itemsError;
 
-    return NextResponse.json({
-      orderId: order.id,
-      status: "created",
-    });
+    return NextResponse.json({ orderId: order.id, status: "created" });
   } catch (error) {
     console.error("Create order error:", error);
-    return NextResponse.json(
-      { error: "Error creando la orden" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Error creando la orden" }, { status: 500 });
   }
 }

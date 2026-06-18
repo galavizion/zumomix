@@ -1,10 +1,17 @@
 import checkoutNodeJssdk from "@paypal/checkout-server-sdk";
 
 function environment() {
-  let clientId = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID;
-  let clientSecret = process.env.PAYPAL_SECRET;
+  const clientId = process.env.PAYPAL_CLIENT_ID;
+  const clientSecret = process.env.PAYPAL_SECRET;
 
-  return new checkoutNodeJssdk.core.SandboxEnvironment(clientId!, clientSecret!);
+  if (!clientId || !clientSecret) {
+    throw new Error("PAYPAL_CLIENT_ID o PAYPAL_SECRET no están configurados");
+  }
+
+  if (process.env.PAYPAL_ENV === "production") {
+    return new checkoutNodeJssdk.core.LiveEnvironment(clientId, clientSecret);
+  }
+  return new checkoutNodeJssdk.core.SandboxEnvironment(clientId, clientSecret);
 }
 
 function client() {

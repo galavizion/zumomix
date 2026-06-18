@@ -14,18 +14,25 @@ export default function LoginClient() {
     e.preventDefault();
     setLoading(true);
     setError("");
-    await new Promise((r) => setTimeout(r, 500));
 
-    const validEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL ?? "admin@zumomix.com";
-    const validPass = process.env.NEXT_PUBLIC_ADMIN_PASSWORD ?? "changeme";
+    try {
+      const res = await fetch("/api/admin/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
 
-    if (form.email === validEmail && form.password === validPass) {
-      document.cookie = "admin-token=valid; path=/; max-age=86400";
-      router.push("/admin");
-    } else {
-      setError("Credenciales incorrectas. Verifica tu email y contraseña.");
+      if (res.ok) {
+        router.push("/admin");
+      } else {
+        const data = await res.json();
+        setError(data.error ?? "Error al iniciar sesión");
+      }
+    } catch {
+      setError("Error de conexión. Intenta de nuevo.");
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (
@@ -64,10 +71,6 @@ export default function LoginClient() {
             {loading ? "Verificando..." : "Iniciar sesión"}
           </Button>
         </form>
-
-        <p className="text-xs text-neutral-400 text-center mt-6">
-          Credenciales por defecto: admin@zumomix.com / changeme
-        </p>
       </div>
     </div>
   );

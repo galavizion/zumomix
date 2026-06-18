@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import Container from "@/components/ui/Container";
 import Input from "@/components/ui/Input";
@@ -15,23 +15,42 @@ const PayPalButton = dynamic(
 );
 
 type Step = "contacto" | "envio" | "pago" | "confirmado";
-type PaymentMethod = "paypal" | "stripe";
 
 export default function CheckoutClient() {
   const { items, subtotal, clearCart } = useCart();
   const { customer } = useCustomer();
   const [step, setStep] = useState<Step>("contacto");
-  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("paypal");
   const [form, setForm] = useState({
     nombre: customer?.nombre || "",
     email: customer?.email || "",
     telefono: customer?.telefono || "",
     calle: customer?.calle || "",
+    colonia: customer?.colonia || "",
     ciudad: customer?.ciudad || "",
     estado: customer?.estado || "",
     cp: customer?.cp || "",
   });
   const [errors, setErrors] = useState<Partial<typeof form>>({});
+  const [colonias, setColonias] = useState<string[]>([]);
+  const [cpLoading, setCpLoading] = useState(false);
+
+  useEffect(() => {
+    if (form.cp.length !== 5) { setColonias([]); return; }
+    setCpLoading(true);
+    fetch(`/api/cp/${form.cp}`)
+      .then((r) => r.json())
+      .then((data) => {
+        setColonias(data.colonias ?? []);
+        setForm((f) => ({
+          ...f,
+          colonia: "",
+          ciudad: data.municipio || f.ciudad,
+          estado: data.estado || f.estado,
+        }));
+      })
+      .catch(() => {})
+      .finally(() => setCpLoading(false));
+  }, [form.cp]);
 
   const update = (key: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setForm((f) => ({ ...f, [key]: e.target.value }));
@@ -49,11 +68,9 @@ export default function CheckoutClient() {
     if (validate(["nombre", "email", "telefono"])) setStep("envio");
   };
   const handleEnvio = () => {
-    if (validate(["calle", "ciudad", "estado", "cp"])) setStep("pago");
-  };
-  const handlePago = () => {
-    clearCart();
-    setStep("confirmado");
+    const fields: (keyof typeof form)[] = ["calle", "ciudad", "estado", "cp"];
+    if (colonias.length > 0) fields.push("colonia");
+    if (validate(fields)) setStep("pago");
   };
 
   if (step === "confirmado") {
@@ -118,7 +135,27 @@ export default function CheckoutClient() {
                   <Input label="Ciudad" value={form.ciudad} onChange={update("ciudad")} error={errors.ciudad} placeholder="Monterrey" />
                   <Input label="Estado" value={form.estado} onChange={update("estado")} error={errors.estado} placeholder="Nuevo León" />
                 </div>
-                <Input label="Código postal" value={form.cp} onChange={update("cp")} error={errors.cp} placeholder="64000" />
+                <Input label="Código postal" value={form.cp} onChange={update("cp")} error={errors.cp} placeholder="64000" maxLength={5} />
+                {(cpLoading || colonias.length > 0) && (
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-sm font-medium text-neutral-700">
+                      Colonia
+                      {cpLoading && <span className="text-neutral-400 font-normal ml-1">(buscando…)</span>}
+                    </label>
+                    <select
+                      value={form.colonia}
+                      onChange={(e) => setForm((f) => ({ ...f, colonia: e.target.value }))}
+                      disabled={cpLoading}
+                      className="w-full px-4 py-2.5 rounded-card border border-neutral-200 text-neutral-900 text-sm focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all duration-300 disabled:opacity-50"
+                    >
+                      <option value="">Selecciona una colonia</option>
+                      {colonias.map((c) => (
+                        <option key={c} value={c}>{c}</option>
+                      ))}
+                    </select>
+                    {errors.colonia && <span className="text-xs text-red-500">{errors.colonia}</span>}
+                  </div>
+                )}
                 <div className="flex gap-3">
                   <Button variant="ghost" onClick={() => setStep("contacto")}>Atrás</Button>
                   <Button size="lg" onClick={handleEnvio} className="flex-1">Continuar</Button>
@@ -128,60 +165,16 @@ export default function CheckoutClient() {
 
             {step === "pago" && (
               <div className="bg-white border border-neutral-200 rounded-card p-6 space-y-5">
-                <h2 className="font-display font-bold text-lg text-neutral-900">Método de pago</h2>
-                <div className="grid grid-cols-2 gap-3">
-                  {(["paypal", "stripe"] as PaymentMethod[]).map((method) => (
-                    <label
-                      key={method}
-                      className={`flex items-center gap-3 border-2 rounded-card p-4 cursor-pointer transition-colors ${
-                        paymentMethod === method
-                          ? "border-brand-green bg-brand-green/5"
-                          : "border-neutral-200 hover:border-brand-green"
-                      }`}
-                    >
-                      <input
-                        type="radio"
-                        name="pago"
-                        checked={paymentMethod === method}
-                        onChange={() => setPaymentMethod(method)}
-                        className="accent-brand-green"
-                      />
-                      <span className="text-sm font-medium text-neutral-700">
-                        {method === "paypal" ? "PayPal" : "Stripe (Tarjeta)"}
-                      </span>
-                    </label>
-                  ))}
-                </div>
+                <h2 className="font-display font-bold text-lg text-neutral-900">Pago con PayPal</h2>
                 <p className="text-xs text-neutral-400">
                   Pago seguro procesado con cifrado SSL. Tus datos están protegidos.
                 </p>
-
-                {paymentMethod === "paypal" && (
-                  <div className="bg-neutral-50 rounded-card p-4">
-                    <PayPalButton />
-                  </div>
-                )}
-
-                {paymentMethod === "stripe" && (
-                  <div className="flex gap-3">
-                    <Button variant="ghost" onClick={() => setStep("envio")}>
-                      Atrás
-                    </Button>
-                    <Button size="lg" onClick={handlePago} className="flex-1">
-                      Confirmar pedido — {formatPrice(subtotal)}
-                    </Button>
-                  </div>
-                )}
-
-                {paymentMethod === "paypal" && (
-                  <Button
-                    variant="ghost"
-                    onClick={() => setStep("envio")}
-                    className="w-full"
-                  >
-                    Atrás
-                  </Button>
-                )}
+                <div className="bg-neutral-50 rounded-card p-4">
+                  <PayPalButton onSuccess={clearCart} />
+                </div>
+                <Button variant="ghost" onClick={() => setStep("envio")} className="w-full">
+                  Atrás
+                </Button>
               </div>
             )}
           </div>
@@ -194,7 +187,7 @@ export default function CheckoutClient() {
                 <span className="text-neutral-700 truncate pr-2">
                   {item.product.name} x{item.quantity}
                 </span>
-                <span className="font-semibold text-neutral-900 flex-shrink-0">
+                <span className="font-semibold text-neutral-900 shrink-0">
                   {formatPrice((item.product.salePrice ?? item.product.price) * item.quantity)}
                 </span>
               </div>

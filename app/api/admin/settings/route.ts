@@ -1,7 +1,9 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
+import { verifyAdminToken, unauthorizedResponse } from "@/lib/adminAuth";
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  if (!verifyAdminToken(req)) return unauthorizedResponse();
   try {
     const { data, error } = await supabase
       .from("site_settings")
@@ -18,7 +20,8 @@ export async function GET() {
   }
 }
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
+  if (!verifyAdminToken(req)) return unauthorizedResponse();
   try {
     const body = await req.json();
     // body is a Record<string, string> of key-value pairs to upsert

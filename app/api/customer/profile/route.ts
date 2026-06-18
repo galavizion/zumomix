@@ -1,38 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
-import jwt from "jsonwebtoken";
 import { supabase } from "@/lib/supabase";
+import { verifyCustomerToken } from "@/lib/jwt";
 
 export async function PUT(request: NextRequest) {
   try {
     const token = request.cookies.get("customer_token")?.value;
 
     if (!token) {
-      return NextResponse.json(
-        { error: "No autenticado" },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "No autenticado" }, { status: 401 });
     }
 
-    const decoded = jwt.verify(
-      token,
-      process.env.JWT_SECRET || "tu-secret-key"
-    ) as any;
-
+    const decoded = verifyCustomerToken(token);
     const body = await request.json();
 
-    // Solo permitir actualizar estos campos
-    const allowed = [
-      "nombre",
-      "telefono",
-      "calle",
-      "ciudad",
-      "estado",
-      "cp",
-    ];
-    const updateData: any = {};
+    const allowed = ["nombre", "telefono", "calle", "colonia", "ciudad", "estado", "cp"];
+    const updateData: Record<string, string> = {};
 
     allowed.forEach((field) => {
-      if (field in body) {
+      if (field in body && typeof body[field] === "string") {
         updateData[field] = body[field];
       }
     });
@@ -54,6 +39,7 @@ export async function PUT(request: NextRequest) {
       nombre: data.nombre,
       telefono: data.telefono,
       calle: data.calle,
+      colonia: data.colonia,
       ciudad: data.ciudad,
       estado: data.estado,
       cp: data.cp,
@@ -62,9 +48,6 @@ export async function PUT(request: NextRequest) {
     });
   } catch (error) {
     console.error("Update profile error:", error);
-    return NextResponse.json(
-      { error: "Error actualizando perfil" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "No autenticado" }, { status: 401 });
   }
 }

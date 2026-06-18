@@ -1,28 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
-import jwt from "jsonwebtoken";
 import { supabase } from "@/lib/supabase";
+import { verifyCustomerToken } from "@/lib/jwt";
 
 export async function GET(request: NextRequest) {
   try {
-    const token = request.headers.get("Authorization")?.replace("Bearer ", "");
+    const authHeader = request.headers.get("Authorization");
+    const token =
+      authHeader?.replace("Bearer ", "") ||
+      request.cookies.get("customer_token")?.value;
 
     if (!token) {
-      // Intenta desde localStorage (client-side)
-      const cookieToken = request.cookies.get("customer_token")?.value;
-      if (!cookieToken) {
-        return NextResponse.json(
-          { error: "No autenticado" },
-          { status: 401 }
-        );
-      }
+      return NextResponse.json({ error: "No autenticado" }, { status: 401 });
     }
 
-    const finalToken = token || request.cookies.get("customer_token")?.value;
-
-    const decoded = jwt.verify(
-      finalToken!,
-      process.env.JWT_SECRET || "tu-secret-key"
-    ) as any;
+    const decoded = verifyCustomerToken(token);
 
     const { data, error } = await supabase
       .from("customers")
@@ -31,10 +22,7 @@ export async function GET(request: NextRequest) {
       .single();
 
     if (error || !data) {
-      return NextResponse.json(
-        { error: "Cliente no encontrado" },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Cliente no encontrado" }, { status: 404 });
     }
 
     return NextResponse.json({
@@ -43,6 +31,7 @@ export async function GET(request: NextRequest) {
       nombre: data.nombre,
       telefono: data.telefono,
       calle: data.calle,
+      colonia: data.colonia,
       ciudad: data.ciudad,
       estado: data.estado,
       cp: data.cp,
@@ -50,9 +39,6 @@ export async function GET(request: NextRequest) {
     });
   } catch (error) {
     console.error("Get customer error:", error);
-    return NextResponse.json(
-      { error: "Error obteniendo cliente" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "No autenticado" }, { status: 401 });
   }
 }

@@ -1,22 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
-import jwt from "jsonwebtoken";
 import { supabase } from "@/lib/supabase";
+import { verifyCustomerToken } from "@/lib/jwt";
 
 export async function GET(request: NextRequest) {
   try {
     const token = request.cookies.get("customer_token")?.value;
 
     if (!token) {
-      return NextResponse.json(
-        { error: "No autenticado" },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "No autenticado" }, { status: 401 });
     }
 
-    const decoded = jwt.verify(
-      token,
-      process.env.JWT_SECRET || "tu-secret-key"
-    ) as any;
+    const decoded = verifyCustomerToken(token);
 
     const { data, error } = await supabase
       .from("orders")
@@ -29,9 +23,6 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(data || []);
   } catch (error) {
     console.error("Get orders error:", error);
-    return NextResponse.json(
-      { error: "Error obteniendo pedidos" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "No autenticado" }, { status: 401 });
   }
 }

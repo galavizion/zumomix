@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
 import { supabase } from "@/lib/supabase";
+import { signCustomerToken } from "@/lib/jwt";
 
 export async function POST(request: NextRequest) {
   try {
@@ -14,7 +14,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Buscar el cliente
     const { data, error } = await supabase
       .from("customers")
       .select("*")
@@ -28,7 +27,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Verificar contraseña
     const validPassword = await bcrypt.compare(password, data.password_hash);
 
     if (!validPassword) {
@@ -38,12 +36,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Crear token JWT
-    const token = jwt.sign(
-      { id: data.id, email: data.email },
-      process.env.JWT_SECRET || "tu-secret-key",
-      { expiresIn: "30d" }
-    );
+    const token = signCustomerToken({ id: data.id, email: data.email });
 
     return NextResponse.json({
       token,
@@ -53,6 +46,7 @@ export async function POST(request: NextRequest) {
         nombre: data.nombre,
         telefono: data.telefono,
         calle: data.calle,
+        colonia: data.colonia,
         ciudad: data.ciudad,
         estado: data.estado,
         cp: data.cp,

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
 import { supabase } from "@/lib/supabase";
+import { signCustomerToken } from "@/lib/jwt";
 
 export async function POST(request: NextRequest) {
   try {
@@ -14,7 +14,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Verificar si el email ya existe
     const { data: existing } = await supabase
       .from("customers")
       .select("id")
@@ -28,28 +27,17 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Hash de la contraseña
     const passwordHash = await bcrypt.hash(password, 10);
 
-    // Crear el cliente
     const { data, error } = await supabase
       .from("customers")
-      .insert({
-        email,
-        password_hash: passwordHash,
-        nombre,
-      })
+      .insert({ email, password_hash: passwordHash, nombre })
       .select()
       .single();
 
     if (error) throw error;
 
-    // Crear token JWT
-    const token = jwt.sign(
-      { id: data.id, email: data.email },
-      process.env.JWT_SECRET || "tu-secret-key",
-      { expiresIn: "30d" }
-    );
+    const token = signCustomerToken({ id: data.id, email: data.email });
 
     return NextResponse.json({
       token,

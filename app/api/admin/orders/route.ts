@@ -1,16 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
+import { verifyAdminToken, unauthorizedResponse } from "@/lib/adminAuth";
+
+const VALID_STATUSES = ["pendiente", "confirmado", "enviado", "entregado", "cancelado"] as const;
 
 export async function GET(request: NextRequest) {
+  if (!verifyAdminToken(request)) return unauthorizedResponse();
   try {
-    const adminToken = request.cookies.get("admin-token")?.value;
-    if (!adminToken) {
-      return NextResponse.json(
-        { error: "No autorizado" },
-        { status: 401 }
-      );
-    }
-
     const { data, error } = await supabase
       .from("orders")
       .select(`
@@ -32,17 +28,14 @@ export async function GET(request: NextRequest) {
 }
 
 export async function PUT(request: NextRequest) {
+  if (!verifyAdminToken(request)) return unauthorizedResponse();
   try {
-    const adminToken = request.cookies.get("admin-token")?.value;
-    if (!adminToken) {
-      return NextResponse.json(
-        { error: "No autorizado" },
-        { status: 401 }
-      );
-    }
-
     const body = await request.json();
     const { orderId, status } = body;
+
+    if (!orderId || !VALID_STATUSES.includes(status)) {
+      return NextResponse.json({ error: "Datos inválidos" }, { status: 400 });
+    }
 
     const { data, error } = await supabase
       .from("orders")

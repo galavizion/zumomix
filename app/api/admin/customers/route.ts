@@ -1,16 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
+import { verifyAdminToken, unauthorizedResponse } from "@/lib/adminAuth";
 
 export async function GET(request: NextRequest) {
+  if (!verifyAdminToken(request)) return unauthorizedResponse();
   try {
-    // Verificar token admin (simplificado - en producción implementar mejor)
-    const adminToken = request.cookies.get("admin-token")?.value;
-    if (!adminToken) {
-      return NextResponse.json(
-        { error: "No autorizado" },
-        { status: 401 }
-      );
-    }
 
     const { data, error } = await supabase
       .from("customers")
