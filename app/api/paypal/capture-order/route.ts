@@ -74,7 +74,7 @@ export async function POST(request: NextRequest) {
             price: product.salePrice ?? product.price,
           };
         })
-        .filter(Boolean);
+        .filter((x): x is NonNullable<typeof x> => x !== null);
 
       if (orderItems.length > 0) {
         const { error: itemsError } = await supabase
