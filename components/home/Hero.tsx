@@ -4,6 +4,26 @@ import Link from "next/link";
 import { useHomeData } from "@/hooks/useHomeData";
 import HeroCarousel from "./HeroCarousel";
 
+const SPIRAL_COLORS = ["#E8175D", "#C1272D", "#F7941D", "#FFD200", "#8DC63F"];
+const SPIRAL_DOTS = (() => {
+  const dots: Array<{ x: number; y: number; r: number; color: string }> = [];
+  const cx = 60, cy = 60;
+  for (let arm = 0; arm < 3; arm++) {
+    const offset = (arm / 3) * 2 * Math.PI;
+    for (let i = 0; i < 20; i++) {
+      const t = i / 19;
+      const angle = offset + 1.25 * 2 * Math.PI * t;
+      dots.push({
+        x: cx + (4 + 44 * t) * Math.cos(angle),
+        y: cy + (4 + 44 * t) * Math.sin(angle),
+        r: 1.8 + 6 * t,
+        color: SPIRAL_COLORS[(arm * 2 + i) % SPIRAL_COLORS.length],
+      });
+    }
+  }
+  return dots;
+})();
+
 export default function Hero() {
   const { data } = useHomeData();
 
@@ -53,18 +73,22 @@ export default function Hero() {
             animation: "blobpulse 4s ease-in-out infinite",
           }}
         />
-        <div
+        <svg
+          viewBox="0 0 120 120"
+          xmlns="http://www.w3.org/2000/svg"
           style={{
             position: "absolute",
             top: "-6%",
             right: "4%",
             width: "120px",
             height: "120px",
-            border: "2px dashed rgb(207, 227, 176)",
-            borderRadius: "50%",
             animation: "36s linear 0s infinite normal none running blobspin",
           }}
-        />
+        >
+          {SPIRAL_DOTS.map((d, i) => (
+            <circle key={i} cx={d.x} cy={d.y} r={d.r} fill={d.color} />
+          ))}
+        </svg>
         <HeroCarousel items={carouselItems} />
       </div>
 
