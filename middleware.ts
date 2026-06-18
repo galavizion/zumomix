@@ -4,10 +4,10 @@ import type { NextRequest } from "next/server";
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  if (pathname.startsWith("/admin") && !pathname.startsWith("/admin/login")) {
+  if (pathname.startsWith("/admin")) {
     const token = request.cookies.get("admin-token")?.value;
     if (!token) {
-      return NextResponse.redirect(new URL("/admin/login", request.url));
+      return NextResponse.redirect(new URL("/acceso", request.url));
     }
   }
 

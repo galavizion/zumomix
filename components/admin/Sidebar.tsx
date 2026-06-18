@@ -25,7 +25,7 @@ export default function Sidebar() {
 
   const handleLogout = () => {
     document.cookie = "admin-token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    router.push("/admin/login");
+    router.push("/acceso");
   };
 
   const isActive = (href: string, exact?: boolean) =>
