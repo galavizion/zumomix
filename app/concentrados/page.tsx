@@ -17,12 +17,7 @@ export default function ConcentradosPage() {
       {/* ===== Hero ===== */}
       <section className="page-hero">
         <div style={{ maxWidth: "1180px", margin: "0 auto", padding: "60px 28px 56px" }}>
-          <div style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: "52px",
-            alignItems: "center",
-          }} className="concentrados-hero-grid">
+          <div className="concentrados-hero-grid">
             {/* Texto */}
             <div>
               <span style={{

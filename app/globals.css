@@ -263,11 +263,9 @@ h1, h2, h3, h4, h5, h6 {
 
 @media (max-width: 768px) {
   .concentrados-hero-grid {
-    grid-template-columns: 1fr;
-    gap: 32px;
-  }
-  .concentrados-hero-grid > div:last-child {
-    display: none;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 24px;
   }
   .contacto-grid {
     grid-template-columns: 1fr;

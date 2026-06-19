@@ -64,12 +64,7 @@ export default function ContactoClient() {
 
       {/* Cuerpo: Formulario + Info */}
       <div style={{ maxWidth: "1180px", margin: "0 auto", padding: "56px 28px 80px" }}>
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "1.4fr 1fr",
-          gap: "48px",
-          alignItems: "start",
-        }} className="contacto-grid">
+        <div className="contacto-grid">
 
           {/* ===== Formulario ===== */}
           <div>
