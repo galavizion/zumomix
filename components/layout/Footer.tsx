@@ -18,6 +18,31 @@ interface FooterProps {
   logoText?: string;
 }
 
+function FacebookIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="#1877F2">
+      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+    </svg>
+  );
+}
+
+function InstagramIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <defs>
+        <linearGradient id="ig-footer" x1="0%" y1="100%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#f09433" />
+          <stop offset="50%" stopColor="#dc2743" />
+          <stop offset="100%" stopColor="#bc1888" />
+        </linearGradient>
+      </defs>
+      <rect x="2" y="2" width="20" height="20" rx="5" ry="5" stroke="url(#ig-footer)" />
+      <circle cx="12" cy="12" r="4" stroke="url(#ig-footer)" />
+      <circle cx="17.5" cy="6.5" r="0.8" fill="#bc1888" />
+    </svg>
+  );
+}
+
 export default function Footer({ logoUrl, logoText }: FooterProps) {
   return (
     <footer style={{ background: "#efefef", color: "#333" }}>
@@ -82,7 +107,7 @@ export default function Footer({ logoUrl, logoText }: FooterProps) {
               </li>
               <li>
                 <a
-                  href={`tel:${CONTACT.phoneMonterrey}`}
+                  href={`tel:${CONTACT.phoneMonterrey.replace(/\D/g, "")}`}
                   className="flex items-center gap-2 text-sm transition-colors duration-300 hover:text-brand-green"
                   style={{ color: "#555" }}
                 >
@@ -92,7 +117,7 @@ export default function Footer({ logoUrl, logoText }: FooterProps) {
               </li>
               <li>
                 <a
-                  href={`tel:${CONTACT.phoneGuadalajara}`}
+                  href={`tel:${CONTACT.phoneGuadalajara.replace(/\D/g, "")}`}
                   className="flex items-center gap-2 text-sm transition-colors duration-300 hover:text-brand-green"
                   style={{ color: "#555" }}
                 >
@@ -100,27 +125,62 @@ export default function Footer({ logoUrl, logoText }: FooterProps) {
                   Guadalajara: {CONTACT.phoneGuadalajara}
                 </a>
               </li>
-              <li className="flex items-center gap-4 pt-1">
-                <a href="https://www.instagram.com/zumomix.mx" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-sm font-medium transition-colors duration-300 hover:text-brand-green" style={{ color: "#555" }}>
-                  Instagram
+              <li className="flex items-center gap-3 pt-1">
+                <a
+                  href="https://www.facebook.com/ZumomixExprimidores"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Facebook"
+                  className="transition-opacity hover:opacity-75"
+                >
+                  <FacebookIcon />
                 </a>
-                <a href="https://www.facebook.com/ZumomixExprimidores" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="text-sm font-medium transition-colors duration-300 hover:text-brand-green" style={{ color: "#555" }}>
-                  Facebook
+                <a
+                  href="https://www.instagram.com/zumomix.mx"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Instagram"
+                  className="transition-opacity hover:opacity-75"
+                >
+                  <InstagramIcon />
                 </a>
               </li>
             </ul>
           </div>
         </div>
 
-        <div className="py-6 flex flex-col sm:flex-row items-center justify-between gap-3" style={{ borderTop: "1px solid #d8d8d8" }}>
+        <div className="py-6 flex flex-col sm:flex-row items-center justify-between gap-4" style={{ borderTop: "1px solid #d8d8d8" }}>
           <p className="text-xs" style={{ color: "#888" }}>
             &copy; {new Date().getFullYear()} Zumomix. Todos los derechos reservados.
           </p>
-          <div className="flex items-center gap-2 text-xs" style={{ color: "#888" }}>
-            <span>Pagos seguros con</span>
-            <span className="font-semibold" style={{ color: "#666" }}>Stripe</span>
-            <span>&amp;</span>
-            <span className="font-semibold" style={{ color: "#666" }}>PayPal</span>
+          {/* Payment methods */}
+          <div className="flex items-center gap-3">
+            <span className="text-xs" style={{ color: "#888" }}>Pagos seguros:</span>
+            <Image
+              src="/paypal.webp"
+              alt="PayPal"
+              width={72}
+              height={20}
+              style={{ objectFit: "contain", height: "20px", width: "auto" }}
+            />
+            <a
+              href="https://www.facebook.com/ZumomixExprimidores"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Facebook"
+              className="transition-opacity hover:opacity-75"
+            >
+              <FacebookIcon />
+            </a>
+            <a
+              href="https://www.instagram.com/zumomix.mx"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+              className="transition-opacity hover:opacity-75"
+            >
+              <InstagramIcon />
+            </a>
           </div>
         </div>
       </Container>

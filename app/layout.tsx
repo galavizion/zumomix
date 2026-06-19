@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
+import TopBar from "@/components/layout/TopBar";
 import PromoBar from "@/components/layout/PromoBar";
 import Footer from "@/components/layout/Footer";
 import WhatsAppButton from "@/components/layout/WhatsAppButton";
@@ -17,7 +18,10 @@ export async function generateMetadata(): Promise<Metadata> {
       template: "%s | Zumomix",
     },
     description: s.site_description || "Equipos profesionales de extracción de jugos naturales.",
-    ...(s.favicon_url ? { icons: { icon: s.favicon_url, shortcut: s.favicon_url } } : {}),
+    icons: {
+      icon: s.favicon_url || "/favicon.ico",
+      shortcut: s.favicon_url || "/favicon.ico",
+    },
     ...(s.google_search_console
       ? { verification: { google: s.google_search_console } }
       : {}),
@@ -105,6 +109,7 @@ export default async function RootLayout({
       <body className="min-h-full flex flex-col bg-white text-neutral-900">
         <CustomerProvider>
           <CartProvider>
+            <TopBar />
             <Navbar logoUrl={settings.logo_url} logoText={settings.logo_text} />
             <PromoBar />
             <main className="flex-1">{children}</main>
