@@ -57,7 +57,7 @@ Fresa-Kiwi, pepino-limón, mango, maracuyá y muchos más.
 
 Hoy las personas cuidan mucho más lo que consumen. Ofrece a tus clientes aguas frescas y naturales. Ideales para restaurantes, mixología, bares, repostería, hoteles, etc.
 
-<ul style={{ listStyle: "none", padding: 0, margin: "0 0 36px", display: "flex", flexDirection: "column", gap: "4px" }}>
+<ul style={{ listStyle: "none", padding: 0, margin: "0 0 36px", display: "flex", flexDirection: "column", gap: "git 4px" }}>
                 {[
                   { icon: "🍶", text: "Presentación de litro." },
                   { icon: "📦", text: "Se surten en cajas de 24 litros y pueden ser mezclados los sabores." },
@@ -246,7 +246,7 @@ Hoy las personas cuidan mucho más lo que consumen. Ofrece a tus clientes aguas 
             Dispensadora de aguas frescas MIX3 y concentrados de fruta natural
           </h2>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "60px", alignItems: "center" }}>
-            <div>
+            <div>Con la máquina mix3 y mix 2 podrás ofrecer bebidas frías en tu negocio sin importar el giro, ya que es ideal para todo tipo de negocio. Puedes usar todo tipo de bebidas y de una manera muy ágil. Fabricada con materiales de alta calidad  y para un uso de larga duración  este equipo será una aliada para tu negocio.
               <ul style={{ listStyle: "none", padding: 0, margin: "0 0 32px", display: "flex", flexDirection: "column", gap: "16px" }}>
                 {[
                   { icon: "🧃", text: "Tanques de 18 lts para 3 sabores distintos." },
@@ -281,10 +281,12 @@ Hoy las personas cuidan mucho más lo que consumen. Ofrece a tus clientes aguas 
             </div>
             <div>
               <Image
-                src="https://www.zumomix.com/wp-content/uploads/2022/10/Diseno-sin-titulo-e1664756961677.png"
-                alt="MIXER 3 dispensador de aguas frescas"
+                src="/img/concentrados/mix-3.png"
+                alt="Dispensadora MIX3 de aguas frescas"
                 width={700}
                 height={601}
+                quality={85}
+                sizes="(max-width: 768px) 100vw, 50vw"
                 style={{ width: "100%", height: "auto", borderRadius: "16px" }}
               />
             </div>
