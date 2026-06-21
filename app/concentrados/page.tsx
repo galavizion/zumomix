@@ -162,68 +162,83 @@ Hoy las personas cuidan mucho más lo que consumen. Ofrece a tus clientes aguas 
         </div>
       </section>
 
-      {/* ===== Descripción + Pasos ===== */}
-      <section style={{ padding: "72px 0", background: "white" }}>
+
+      {/* ===== Presentaciones ===== */}
+      <section style={{ padding: "72px 0" }}>
         <div style={{ maxWidth: "1180px", margin: "0 auto", padding: "0 28px" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "60px", alignItems: "start" }}>
-            {/* Columna texto */}
-            <div>
-              <h2 style={{ fontSize: "clamp(22px, 3vw, 32px)", fontWeight: "700", color: "rgb(34, 48, 15)", marginBottom: "16px", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-                Más de 30 sabores diferentes para ti
-              </h2>
-              <p style={{ fontSize: "16px", color: "rgb(91, 102, 80)", marginBottom: "8px" }}>
-                Fresa-Kiwi, pepino-limón, mango, maracuyá y muchos más.
-              </p>
-              <p style={{ fontSize: "16px", color: "rgb(91, 102, 80)", lineHeight: 1.7, marginBottom: "24px" }}>
-                Hoy las personas cuidan mucho más lo que consumen. Ofrece a tus clientes <strong>aguas frescas y naturales</strong>. Ideales para <strong>restaurantes, mixología, bares, repostería, hoteles, etc.</strong>
-              </p>
-              <ul style={{ listStyle: "none", padding: 0, margin: "0 0 36px", display: "flex", flexDirection: "column", gap: "14px" }}>
-                {[
-                  { icon: "🍶", text: "Presentación de litro." },
-                  { icon: "📦", text: "Se surten en cajas de 24 litros y pueden ser mezclados los sabores." },
-                  { icon: "🚚", text: "Se envían a toda la república." },
-                  { icon: "🏆", text: "Ofrece calidad premium y sabores exóticos." },
-                ].map((item) => (
-                  <li key={item.text} style={{ display: "flex", gap: "12px", alignItems: "flex-start", fontSize: "15px", color: "rgb(63, 74, 54)" }}>
-                    <span>{item.icon}</span>
-                    <span>{item.text}</span>
-                  </li>
-                ))}
-              </ul>
+          <div style={{ textAlign: "center", marginBottom: "48px" }}>
+            <h2 style={{
+              fontSize: "clamp(26px, 3.5vw, 38px)",
+              fontWeight: "800",
+              color: "rgb(34, 48, 15)",
+              letterSpacing: "-0.015em",
+              marginBottom: "10px",
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+            }}>
+              Presentaciones disponibles
+            </h2>
+            <p style={{ fontSize: "16px", color: "rgb(124, 135, 114)" }}>
+              Elige el tamaño ideal para el volumen de tu negocio
+            </p>
+          </div>
 
-              <div style={{ background: "rgb(247, 252, 239)", borderRadius: "16px", padding: "24px 28px" }}>
-                <h3 style={{ fontSize: "18px", fontWeight: "700", color: "rgb(34, 48, 15)", marginBottom: "16px", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-                  Pasos:
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+            gap: "20px",
+            maxWidth: "720px",
+            margin: "0 auto",
+          }}>
+            {PRESENTACIONES_CONCENTRADOS.map((p) => (
+              <div
+                key={p.title}
+                style={{
+                  background: "white",
+                  border: "1.5px solid rgb(216, 232, 194)",
+                  borderRadius: "20px",
+                  padding: "28px 24px",
+                  transition: "transform 0.2s, box-shadow 0.2s",
+                }}
+                className="product-card-new"
+              >
+                <div style={{
+                  width: "48px",
+                  height: "48px",
+                  borderRadius: "14px",
+                  background: "rgb(232, 245, 216)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: "24px",
+                  marginBottom: "16px",
+                }}>
+                  🧃
+                </div>
+                <h3 style={{ fontSize: "18px", fontWeight: "700", color: "rgb(34, 48, 15)", marginBottom: "8px", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                  {p.title}
                 </h3>
-                <ol style={{ paddingLeft: "20px", margin: 0, display: "flex", flexDirection: "column", gap: "10px" }}>
-                  {[
-                    "Selecciona tus sabores.",
-                    "Envía tu pedido por correo, WhatsApp o por teléfono.",
-                    "Confirmamos tu pedido y datos de envío.",
-                    "Recibe tus cajas y sorprende a tus clientes.",
-                  ].map((step) => (
-                    <li key={step} style={{ fontSize: "15px", color: "rgb(63, 74, 54)", lineHeight: 1.5 }}>
-                      {step}
-                    </li>
-                  ))}
-                </ol>
+                <p style={{ fontSize: "14px", color: "rgb(124, 135, 114)", marginBottom: "16px", lineHeight: 1.5 }}>
+                  {p.description}
+                </p>
+                <span style={{
+                  display: "inline-block",
+                  background: "rgb(232, 245, 216)",
+                  color: "rgb(72, 100, 30)",
+                  fontSize: "12.5px",
+                  fontWeight: "600",
+                  padding: "5px 14px",
+                  borderRadius: "999px",
+                }}>
+                  {p.detail}
+                </span>
               </div>
-            </div>
-
-            {/* Columna imagen */}
-            <div>
-              <Image
-                src="https://www.zumomix.com/wp-content/uploads/2022/10/Diseno-sin-titulo-1-e1664759481881.png"
-                alt="Concentrados de fruta natural Zumomix - sabores"
-                width={700}
-                height={315}
-                style={{ width: "100%", height: "auto", borderRadius: "16px" }}
-              />
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
+
+      
       {/* ===== Dispensadora MIX3 ===== */}
       <section style={{ padding: "72px 0", background: "rgb(247, 252, 239)" }}>
         <div style={{ maxWidth: "1180px", margin: "0 auto", padding: "0 28px" }}>
@@ -358,79 +373,6 @@ Hoy las personas cuidan mucho más lo que consumen. Ofrece a tus clientes aguas 
         </div>
       </section>
 
-      {/* ===== Presentaciones ===== */}
-      <section style={{ padding: "72px 0" }}>
-        <div style={{ maxWidth: "1180px", margin: "0 auto", padding: "0 28px" }}>
-          <div style={{ textAlign: "center", marginBottom: "48px" }}>
-            <h2 style={{
-              fontSize: "clamp(26px, 3.5vw, 38px)",
-              fontWeight: "800",
-              color: "rgb(34, 48, 15)",
-              letterSpacing: "-0.015em",
-              marginBottom: "10px",
-              fontFamily: "'Plus Jakarta Sans', sans-serif",
-            }}>
-              Presentaciones disponibles
-            </h2>
-            <p style={{ fontSize: "16px", color: "rgb(124, 135, 114)" }}>
-              Elige el tamaño ideal para el volumen de tu negocio
-            </p>
-          </div>
-
-          <div style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-            gap: "20px",
-            maxWidth: "720px",
-            margin: "0 auto",
-          }}>
-            {PRESENTACIONES_CONCENTRADOS.map((p) => (
-              <div
-                key={p.title}
-                style={{
-                  background: "white",
-                  border: "1.5px solid rgb(216, 232, 194)",
-                  borderRadius: "20px",
-                  padding: "28px 24px",
-                  transition: "transform 0.2s, box-shadow 0.2s",
-                }}
-                className="product-card-new"
-              >
-                <div style={{
-                  width: "48px",
-                  height: "48px",
-                  borderRadius: "14px",
-                  background: "rgb(232, 245, 216)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: "24px",
-                  marginBottom: "16px",
-                }}>
-                  🧃
-                </div>
-                <h3 style={{ fontSize: "18px", fontWeight: "700", color: "rgb(34, 48, 15)", marginBottom: "8px", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-                  {p.title}
-                </h3>
-                <p style={{ fontSize: "14px", color: "rgb(124, 135, 114)", marginBottom: "16px", lineHeight: 1.5 }}>
-                  {p.description}
-                </p>
-                <span style={{
-                  display: "inline-block",
-                  background: "rgb(232, 245, 216)",
-                  color: "rgb(72, 100, 30)",
-                  fontSize: "12.5px",
-                  fontWeight: "600",
-                  padding: "5px 14px",
-                  borderRadius: "999px",
-                }}>
-                  {p.detail}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* ===== Sabores ===== */}
       <section id="sabores" style={{ padding: "72px 0", background: "rgb(247, 252, 239)" }}>
