@@ -305,18 +305,7 @@ Hoy las personas cuidan mucho más lo que consumen. Ofrece a tus clientes aguas 
         </div>
       </section>
 
-      {/* ===== Foto reciente ===== */}
-      <section style={{ padding: "0 0 72px" }}>
-        <div style={{ maxWidth: "720px", margin: "0 auto", padding: "0 28px" }}>
-          <Image
-            src="https://www.zumomix.com/wp-content/uploads/2026/03/WhatsApp-Image-2026-03-12-at-8.16.14-PM.jpeg"
-            alt="Concentrados Zumomix"
-            width={784}
-            height={1024}
-            style={{ width: "64%", height: "auto", borderRadius: "20px", display: "block", margin: "0 auto" }}
-          />
-        </div>
-      </section>
+    
 
       {/* ===== Creando éxito juntos + Videos ===== */}
       <section style={{ padding: "72px 0", background: "rgb(247, 252, 239)" }}>
@@ -434,7 +423,7 @@ Hoy las personas cuidan mucho más lo que consumen. Ofrece a tus clientes aguas 
         </div>
       </section>
 
-      
+
       {/* ===== Sabores ===== */}
       <section id="sabores" style={{ padding: "72px 0", background: "rgb(247, 252, 239)" }}>
         <div style={{ maxWidth: "1180px", margin: "0 auto", padding: "0 28px" }}>
