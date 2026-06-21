@@ -359,51 +359,11 @@ Hoy las personas cuidan mucho más lo que consumen. Ofrece a tus clientes aguas 
             </div>
           </div>
 
-          {/* Video MIX3 centrado */}
-          <div style={{ maxWidth: "720px", margin: "0 auto", borderRadius: "16px", overflow: "hidden", aspectRatio: "16/9" }}>
-            <iframe
-              src="https://www.youtube.com/embed/QdVqXuLndig"
-              title="MIX3 Distribuidores"
-              frameBorder="0"
-              allowFullScreen
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              style={{ width: "100%", height: "100%" }}
-            />
-          </div>
+       
         </div>
       </section>
 
-
-      {/* ===== Sabores ===== */}
-      <section id="sabores" style={{ padding: "72px 0", background: "rgb(247, 252, 239)" }}>
-        <div style={{ maxWidth: "1180px", margin: "0 auto", padding: "0 28px" }}>
-          <div style={{ textAlign: "center", marginBottom: "48px" }}>
-            <h2 style={{
-              fontSize: "clamp(26px, 3.5vw, 38px)",
-              fontWeight: "800",
-              color: "rgb(34, 48, 15)",
-              letterSpacing: "-0.015em",
-              marginBottom: "10px",
-              fontFamily: "'Plus Jakarta Sans', sans-serif",
-            }}>
-              Sabores disponibles
-            </h2>
-            <p style={{ fontSize: "16px", color: "rgb(124, 135, 114)" }}>
-              Selección premium de más de 30 sabores naturales
-            </p>
-          </div>
-
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "10px", justifyContent: "center", maxWidth: "900px", margin: "0 auto" }}>
-            {CONCENTRADOS_FLAVORS.map((flavor) => (
-              <span key={flavor} className="flavor-pill">
-                {flavor}
-              </span>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ===== CTA final ===== */}
+  {/* ===== CTA final ===== */}
       <section style={{ padding: "80px 0" }}>
         <div style={{ maxWidth: "1180px", margin: "0 auto", padding: "0 28px" }}>
           <div style={{
@@ -473,6 +433,53 @@ Hoy las personas cuidan mucho más lo que consumen. Ofrece a tus clientes aguas 
           </div>
         </div>
       </section>
+
+      
+      {/* ===== Sabores ===== */}
+      <section id="sabores" style={{ padding: "72px 0", background: "rgb(247, 252, 239)" }}>
+        <div style={{ maxWidth: "1180px", margin: "0 auto", padding: "0 28px" }}>
+
+
+             {/* Video MIX3 centrado */}
+          <div style={{ maxWidth: "720px", margin: "0 auto", borderRadius: "16px", overflow: "hidden", aspectRatio: "16/9" }}>
+            <iframe
+              src="https://www.youtube.com/embed/QdVqXuLndig"
+              title="MIX3 Distribuidores"
+              frameBorder="0"
+              allowFullScreen
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              style={{ width: "100%", height: "100%" }}
+            />
+          </div>
+
+
+          <div style={{ textAlign: "center", marginBottom: "48px" }}>
+            <h2 style={{
+              fontSize: "clamp(26px, 3.5vw, 38px)",
+              fontWeight: "800",
+              color: "rgb(34, 48, 15)",
+              letterSpacing: "-0.015em",
+              marginBottom: "10px",
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+            }}>
+              Sabores disponibles
+            </h2>
+            <p style={{ fontSize: "16px", color: "rgb(124, 135, 114)" }}>
+              Selección premium de más de 30 sabores naturales
+            </p>
+          </div>
+
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "10px", justifyContent: "center", maxWidth: "900px", margin: "0 auto" }}>
+            {CONCENTRADOS_FLAVORS.map((flavor) => (
+              <span key={flavor} className="flavor-pill">
+                {flavor}
+              </span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+    
     </div>
   );
 }
