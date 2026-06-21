@@ -51,8 +51,24 @@ export default function ConcentradosPage() {
               </h1>
 
               <p style={{ fontSize: "17px", color: "rgb(91, 102, 80)", lineHeight: 1.65, marginBottom: "32px", maxWidth: "440px" }}>
-                Elaborados con fruta natural seleccionada, sin conservadores artificiales. Calidad premium para tu negocio.
-              </p>
+              Más de 30 sabores diferentes para ti
+Fresa-Kiwi, pepino-limón, mango, maracuyá y muchos más.
+
+Hoy las personas cuidan mucho más lo que consumen. Ofrece a tus clientes aguas frescas y naturales. Ideales para restaurantes, mixología, bares, repostería, hoteles, etc.
+
+<ul style={{ listStyle: "none", padding: 0, margin: "0 0 36px", display: "flex", flexDirection: "column", gap: "14px" }}>
+                {[
+                  { icon: "🍶", text: "Presentación de litro." },
+                  { icon: "📦", text: "Se surten en cajas de 24 litros y pueden ser mezclados los sabores." },
+                  { icon: "🚚", text: "Se envían a toda la república." },
+                  { icon: "🏆", text: "Ofrece calidad premium y sabores exóticos." },
+                ].map((item) => (
+                  <li key={item.text} style={{ display: "flex", gap: "12px", alignItems: "flex-start", fontSize: "15px", color: "rgb(63, 74, 54)" }}>
+                    <span>{item.icon}</span>
+                    <span>{item.text}</span>
+                  </li>
+                ))}
+              </ul></p>
 
               <div style={{ display: "flex", gap: "14px", flexWrap: "wrap" }}>
                 <a

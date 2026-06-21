@@ -5,21 +5,34 @@ import Link from "next/link";
 import { CONTACT } from "@/lib/constants";
 import { formatPrice } from "@/lib/utils";
 import { useCart } from "@/hooks/useCart";
-import type { Product } from "@/types";
+import type { Product, ProductVariant } from "@/types";
 
 export default function ProductDetail({ product }: { product: Product }) {
   const { addItem } = useCart();
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
+  const [selectedVariant, setSelectedVariant] = useState<ProductVariant | null>(
+    product.variants?.[0] ?? null
+  );
+
+  const activePrice = selectedVariant?.price ?? product.salePrice ?? product.price;
+  const activeSalePrice = selectedVariant ? undefined : product.salePrice;
+  const activeOriginalPrice = selectedVariant ? selectedVariant.price : product.price;
+  const activeName = selectedVariant
+    ? `${product.name} ${selectedVariant.label.split("—")[0].trim()}`
+    : product.name;
 
   const handleAdd = () => {
-    addItem(product, qty);
+    const productToAdd = selectedVariant
+      ? { ...product, name: activeName, price: activePrice, salePrice: undefined, sku: selectedVariant.sku }
+      : product;
+    addItem(productToAdd, qty);
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
   };
 
   const waMessage = encodeURIComponent(
-    `Hola, me interesa el producto: ${product.name}. ¿Podrían darme más información?`
+    `Hola, me interesa el producto: ${activeName}. ¿Podrían darme más información?`
   );
 
   const categoryLabels: Record<string, string> = {
@@ -110,7 +123,7 @@ export default function ProductDetail({ product }: { product: Product }) {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "rgb(245, 248, 238)",
+          background: "#ffffff",
           boxShadow: "rgba(40, 60, 20, 0.12) 0px 16px 30px",
         }}
       >
@@ -161,7 +174,7 @@ export default function ProductDetail({ product }: { product: Product }) {
               lineHeight: "1.1",
             }}
           >
-            {product.name}
+            {activeName}
           </h1>
           <p
             style={{
@@ -174,7 +187,41 @@ export default function ProductDetail({ product }: { product: Product }) {
           </p>
         </div>
 
-        {product.price > 0 && (
+        {/* Select de variantes */}
+        {product.variants && product.variants.length > 0 && (
+          <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+            <span style={{ fontSize: "13px", fontWeight: "700", color: "rgb(154, 167, 138)", textTransform: "uppercase", letterSpacing: "0.08em" }}>
+              Modelo
+            </span>
+            <select
+              value={selectedVariant?.sku ?? ""}
+              onChange={(e) => {
+                const v = product.variants!.find((v) => v.sku === e.target.value) ?? null;
+                setSelectedVariant(v);
+              }}
+              style={{
+                padding: "12px 16px",
+                borderRadius: "13px",
+                border: "1.5px solid rgb(216, 232, 194)",
+                fontSize: "15px",
+                fontWeight: "600",
+                color: "rgb(34, 48, 15)",
+                background: "white",
+                cursor: "pointer",
+                appearance: "auto",
+                maxWidth: "320px",
+              }}
+            >
+              {product.variants.map((v) => (
+                <option key={v.sku} value={v.sku}>
+                  {v.label}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
+
+        {activePrice > 0 && (
           <div
             style={{
               display: "flex",
@@ -191,9 +238,9 @@ export default function ProductDetail({ product }: { product: Product }) {
                 color: "rgb(122, 181, 54)",
               }}
             >
-              {formatPrice(product.salePrice ?? product.price)}
+              {formatPrice(activePrice)}
             </span>
-            {product.salePrice && (
+            {activeSalePrice && (
               <span
                 style={{
                   fontSize: "18px",
@@ -201,7 +248,7 @@ export default function ProductDetail({ product }: { product: Product }) {
                   textDecoration: "line-through",
                 }}
               >
-                {formatPrice(product.price)}
+                {formatPrice(activeOriginalPrice)}
               </span>
             )}
           </div>

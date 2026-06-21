@@ -105,12 +105,12 @@ export const PRODUCTS: Product[] = [
   {
     id: "5",
     slug: "dispensadora-mix2-mix3",
-    name: "Dispensadora MIX2 y MIX3",
+    name: "Dispensadora MIX",
     shortDescription: "Dispensadoras de aguas frescas",
     description:
       "Las Dispensadoras MIX2 y MIX3 son la solución perfecta para negocios que quieren ofrecer aguas frescas naturales de forma automatizada. Con capacidad para 2 o 3 sabores simultáneos, estas máquinas son ideales para restaurantes, cafeterías y eventos. Compatible con nuestros concentrados naturales.",
-    price: 28500,
-    sku: "MIX-2-3",
+    price: 13722.80,
+    sku: "MIX-2",
     category: "dispensadoras",
     images: [
       "https://www.zumomix.com/wp-content/uploads/2024/11/BEST-SALE-e1730917860851-735x1024.png",
@@ -124,6 +124,10 @@ export const PRODUCTS: Product[] = [
     ],
     stock: 10,
     status: "active",
+    variants: [
+      { label: "MIX2 — 2 sabores", sku: "MIX-2", price: 13722.80 },
+      { label: "MIX3 — 3 sabores", sku: "MIX-3", price: 18362.80 },
+    ],
   },
   {
     id: "6",

@@ -1,3 +1,10 @@
+export interface ProductVariant {
+  label: string;
+  sku: string;
+  price: number;
+  salePrice?: number;
+}
+
 export interface Product {
   id: string;
   slug: string;
@@ -13,6 +20,7 @@ export interface Product {
   stock: number;
   status: "active" | "draft";
   related?: string[];
+  variants?: ProductVariant[];
 }
 
 export type ProductCategory =
