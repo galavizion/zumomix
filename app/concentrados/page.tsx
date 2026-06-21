@@ -57,7 +57,7 @@ Fresa-Kiwi, pepino-limón, mango, maracuyá y muchos más.
 
 Hoy las personas cuidan mucho más lo que consumen. Ofrece a tus clientes aguas frescas y naturales. Ideales para restaurantes, mixología, bares, repostería, hoteles, etc.
 
-<ul style={{ listStyle: "none", padding: 0, margin: "0 0 36px", display: "flex", flexDirection: "column", gap: "14px" }}>
+<ul style={{ listStyle: "none", padding: 0, margin: "0 0 36px", display: "flex", flexDirection: "column", gap: "4px" }}>
                 {[
                   { icon: "🍶", text: "Presentación de litro." },
                   { icon: "📦", text: "Se surten en cajas de 24 litros y pueden ser mezclados los sabores." },
@@ -142,7 +142,7 @@ Hoy las personas cuidan mucho más lo que consumen. Ofrece a tus clientes aguas 
               }} />
               <div style={{ position: "relative", textAlign: "center", padding: "16px" }}>
                 <Image
-                  src="https://www.zumomix.com/wp-content/uploads/2023/01/jugos-zumomix-967x1024.jpg"
+                  src="/img/concentrados/concentrados-hielo.jpg"
                   alt="Concentrados naturales Zumomix"
                   width={420}
                   height={420}
