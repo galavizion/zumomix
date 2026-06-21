@@ -17,7 +17,7 @@ export default function ProductCard({ product, showAddToCart = false }: ProductC
 
   return (
     <article className="bg-white rounded-card border border-neutral-200 overflow-hidden shadow-card hover:shadow-card-hover transition-shadow duration-300 group flex flex-col">
-      <Link href={`/productos/${product.slug}`} className="block overflow-hidden bg-neutral-50 aspect-[4/3]">
+      <Link href={`/productos/${product.slug}`} className="block overflow-hidden bg-white aspect-4/3">
         <Image
           src={product.images[0]}
           alt={product.name}

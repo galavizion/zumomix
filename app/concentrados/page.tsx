@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { CONCENTRADOS_FLAVORS, CONTACT, PRESENTACIONES_CONCENTRADOS } from "@/lib/constants";
+import SaboresAcordeon from "@/components/concentrados/SaboresAcordeon";
 
 export const metadata: Metadata = {
   title: "Concentrados naturales",
@@ -276,7 +277,7 @@ Hoy las personas cuidan mucho más lo que consumen. Ofrece a tus clientes aguas 
         </div>
       </section>
 
-      {/* ===== Catálogo de sabores (imágenes) ===== */}
+      {/* ===== Catálogo de sabores (acordeón) ===== */}
       <section style={{ padding: "72px 0", background: "white" }}>
         <div style={{ maxWidth: "1180px", margin: "0 auto", padding: "0 28px" }}>
           <h2 style={{ fontSize: "clamp(22px, 3vw, 32px)", fontWeight: "700", color: "rgb(34, 48, 15)", marginBottom: "12px", textAlign: "center", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
@@ -285,28 +286,7 @@ Hoy las personas cuidan mucho más lo que consumen. Ofrece a tus clientes aguas 
           <p style={{ fontSize: "16px", color: "rgb(124, 135, 114)", textAlign: "center", marginBottom: "40px" }}>
             Consulta nuestro catálogo completo de sabores
           </p>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "24px" }}>
-            <div>
-              <p style={{ fontWeight: "600", color: "rgb(34, 48, 15)", marginBottom: "12px", fontSize: "15px" }}>Sabores sencillos</p>
-              <Image
-                src="https://www.zumomix.com/wp-content/uploads/2022/10/sabores-sencillos.jpg"
-                alt="Lista de sabores sencillos Zumomix"
-                width={787}
-                height={1306}
-                style={{ width: "100%", height: "auto", borderRadius: "16px" }}
-              />
-            </div>
-            <div>
-              <p style={{ fontWeight: "600", color: "rgb(34, 48, 15)", marginBottom: "12px", fontSize: "15px" }}>Sabores mezclados</p>
-              <Image
-                src="https://www.zumomix.com/wp-content/uploads/2022/10/sabores-mezclados.jpg"
-                alt="Lista de sabores mezclados Zumomix"
-                width={918}
-                height={660}
-                style={{ width: "100%", height: "auto", borderRadius: "16px" }}
-              />
-            </div>
-          </div>
+          <SaboresAcordeon />
         </div>
       </section>
 
