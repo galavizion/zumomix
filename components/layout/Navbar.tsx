@@ -103,8 +103,8 @@ export default function Navbar({ logoUrl, logoText }: NavbarProps) {
                 src={logoUrl}
                 alt={logoText || "Zumomix"}
                 width={140}
-                height={40}
-                style={{ height: "36px", width: "auto", objectFit: "contain" }}
+                height={60}
+                style={{ height: "60px", width: "auto", objectFit: "contain" }}
                 priority
               />
             ) : (

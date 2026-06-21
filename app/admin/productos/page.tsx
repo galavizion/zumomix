@@ -33,7 +33,7 @@ export default function AdminProductosPage() {
                 <tr key={p.id} className="border-b border-neutral-100 last:border-0 hover:bg-neutral-50 transition-colors">
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-neutral-100 rounded-card overflow-hidden flex-shrink-0">
+                      <div className="w-10 h-10 bg-neutral-100 rounded-card overflow-hidden shrink-0">
                         <Image src={p.images[0]} alt={p.name} width={40} height={40} className="w-full h-full object-contain p-1" />
                       </div>
                       <span className="font-medium text-neutral-900 leading-tight">{p.name}</span>

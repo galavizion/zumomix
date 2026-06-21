@@ -145,6 +145,223 @@ export default function ConcentradosPage() {
         </div>
       </section>
 
+      {/* ===== Descripción + Pasos ===== */}
+      <section style={{ padding: "72px 0", background: "white" }}>
+        <div style={{ maxWidth: "1180px", margin: "0 auto", padding: "0 28px" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "60px", alignItems: "start" }}>
+            {/* Columna texto */}
+            <div>
+              <h2 style={{ fontSize: "clamp(22px, 3vw, 32px)", fontWeight: "700", color: "rgb(34, 48, 15)", marginBottom: "16px", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                Más de 30 sabores diferentes para ti
+              </h2>
+              <p style={{ fontSize: "16px", color: "rgb(91, 102, 80)", marginBottom: "8px" }}>
+                Fresa-Kiwi, pepino-limón, mango, maracuyá y muchos más.
+              </p>
+              <p style={{ fontSize: "16px", color: "rgb(91, 102, 80)", lineHeight: 1.7, marginBottom: "24px" }}>
+                Hoy las personas cuidan mucho más lo que consumen. Ofrece a tus clientes <strong>aguas frescas y naturales</strong>. Ideales para <strong>restaurantes, mixología, bares, repostería, hoteles, etc.</strong>
+              </p>
+              <ul style={{ listStyle: "none", padding: 0, margin: "0 0 36px", display: "flex", flexDirection: "column", gap: "14px" }}>
+                {[
+                  { icon: "🍶", text: "Presentación de litro." },
+                  { icon: "📦", text: "Se surten en cajas de 24 litros y pueden ser mezclados los sabores." },
+                  { icon: "🚚", text: "Se envían a toda la república." },
+                  { icon: "🏆", text: "Ofrece calidad premium y sabores exóticos." },
+                ].map((item) => (
+                  <li key={item.text} style={{ display: "flex", gap: "12px", alignItems: "flex-start", fontSize: "15px", color: "rgb(63, 74, 54)" }}>
+                    <span>{item.icon}</span>
+                    <span>{item.text}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <div style={{ background: "rgb(247, 252, 239)", borderRadius: "16px", padding: "24px 28px" }}>
+                <h3 style={{ fontSize: "18px", fontWeight: "700", color: "rgb(34, 48, 15)", marginBottom: "16px", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                  Pasos:
+                </h3>
+                <ol style={{ paddingLeft: "20px", margin: 0, display: "flex", flexDirection: "column", gap: "10px" }}>
+                  {[
+                    "Selecciona tus sabores.",
+                    "Envía tu pedido por correo, WhatsApp o por teléfono.",
+                    "Confirmamos tu pedido y datos de envío.",
+                    "Recibe tus cajas y sorprende a tus clientes.",
+                  ].map((step) => (
+                    <li key={step} style={{ fontSize: "15px", color: "rgb(63, 74, 54)", lineHeight: 1.5 }}>
+                      {step}
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            </div>
+
+            {/* Columna imagen */}
+            <div>
+              <Image
+                src="https://www.zumomix.com/wp-content/uploads/2022/10/Diseno-sin-titulo-1-e1664759481881.png"
+                alt="Concentrados de fruta natural Zumomix - sabores"
+                width={700}
+                height={315}
+                style={{ width: "100%", height: "auto", borderRadius: "16px" }}
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== Dispensadora MIX3 ===== */}
+      <section style={{ padding: "72px 0", background: "rgb(247, 252, 239)" }}>
+        <div style={{ maxWidth: "1180px", margin: "0 auto", padding: "0 28px" }}>
+          <h2 style={{ fontSize: "clamp(20px, 2.5vw, 28px)", fontWeight: "700", color: "rgb(34, 48, 15)", marginBottom: "40px", textTransform: "uppercase", letterSpacing: "0.05em", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+            Dispensadora de aguas frescas MIX3 y concentrados de fruta natural
+          </h2>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "60px", alignItems: "center" }}>
+            <div>
+              <ul style={{ listStyle: "none", padding: 0, margin: "0 0 32px", display: "flex", flexDirection: "column", gap: "16px" }}>
+                {[
+                  { icon: "🧃", text: "Tanques de 18 lts para 3 sabores distintos." },
+                  { icon: "❄️", text: "Enfría tus bebidas entre 7 a 12 grados centígrados." },
+                  { icon: "🔄", text: "Sistema giratorio para mantener tus aguas frescas." },
+                ].map((item) => (
+                  <li key={item.text} style={{ display: "flex", gap: "12px", alignItems: "flex-start", fontSize: "16px", color: "rgb(63, 74, 54)" }}>
+                    <span>{item.icon}</span>
+                    <span>{item.text}</span>
+                  </li>
+                ))}
+              </ul>
+              <a
+                href="https://www.zumomix.com/dispensadora-de-aguas-frescas-mix-3/"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  background: "rgb(200, 30, 30)",
+                  color: "white",
+                  textDecoration: "none",
+                  fontWeight: "700",
+                  fontSize: "15px",
+                  padding: "14px 28px",
+                  borderRadius: "12px",
+                }}
+              >
+                Conoce más de la Dispensadora →
+              </a>
+            </div>
+            <div>
+              <Image
+                src="https://www.zumomix.com/wp-content/uploads/2022/10/Diseno-sin-titulo-e1664756961677.png"
+                alt="MIXER 3 dispensador de aguas frescas"
+                width={700}
+                height={601}
+                style={{ width: "100%", height: "auto", borderRadius: "16px" }}
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== Catálogo de sabores (imágenes) ===== */}
+      <section style={{ padding: "72px 0", background: "white" }}>
+        <div style={{ maxWidth: "1180px", margin: "0 auto", padding: "0 28px" }}>
+          <h2 style={{ fontSize: "clamp(22px, 3vw, 32px)", fontWeight: "700", color: "rgb(34, 48, 15)", marginBottom: "12px", textAlign: "center", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+            Aquí empieza la magia de los sabores
+          </h2>
+          <p style={{ fontSize: "16px", color: "rgb(124, 135, 114)", textAlign: "center", marginBottom: "40px" }}>
+            Consulta nuestro catálogo completo de sabores
+          </p>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "24px" }}>
+            <div>
+              <p style={{ fontWeight: "600", color: "rgb(34, 48, 15)", marginBottom: "12px", fontSize: "15px" }}>Sabores sencillos</p>
+              <Image
+                src="https://www.zumomix.com/wp-content/uploads/2022/10/sabores-sencillos.jpg"
+                alt="Lista de sabores sencillos Zumomix"
+                width={787}
+                height={1306}
+                style={{ width: "100%", height: "auto", borderRadius: "16px" }}
+              />
+            </div>
+            <div>
+              <p style={{ fontWeight: "600", color: "rgb(34, 48, 15)", marginBottom: "12px", fontSize: "15px" }}>Sabores mezclados</p>
+              <Image
+                src="https://www.zumomix.com/wp-content/uploads/2022/10/sabores-mezclados.jpg"
+                alt="Lista de sabores mezclados Zumomix"
+                width={918}
+                height={660}
+                style={{ width: "100%", height: "auto", borderRadius: "16px" }}
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== Foto reciente ===== */}
+      <section style={{ padding: "0 0 72px" }}>
+        <div style={{ maxWidth: "720px", margin: "0 auto", padding: "0 28px" }}>
+          <Image
+            src="https://www.zumomix.com/wp-content/uploads/2026/03/WhatsApp-Image-2026-03-12-at-8.16.14-PM.jpeg"
+            alt="Concentrados Zumomix"
+            width={784}
+            height={1024}
+            style={{ width: "64%", height: "auto", borderRadius: "20px", display: "block", margin: "0 auto" }}
+          />
+        </div>
+      </section>
+
+      {/* ===== Creando éxito juntos + Videos ===== */}
+      <section style={{ padding: "72px 0", background: "rgb(247, 252, 239)" }}>
+        <div style={{ maxWidth: "1180px", margin: "0 auto", padding: "0 28px" }}>
+          <h2 style={{ fontSize: "clamp(22px, 3vw, 32px)", fontWeight: "700", color: "rgb(34, 48, 15)", marginBottom: "12px", textAlign: "center", textTransform: "uppercase", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+            Creando éxito juntos
+          </h2>
+          <p style={{ fontSize: "16px", color: "rgb(124, 135, 114)", textAlign: "center", marginBottom: "40px" }}>
+            Algunos de nuestros clientes satisfechos
+          </p>
+
+          {/* Galería + Videos */}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "20px", marginBottom: "40px" }}>
+            <Image
+              src="https://www.zumomix.com/wp-content/uploads/2022/09/296448978_386818933561677_6311962382191161284_n.webp"
+              alt="Fácil de utilizar y muy atractiva"
+              width={600}
+              height={799}
+              style={{ width: "100%", height: "300px", objectFit: "cover", borderRadius: "16px" }}
+            />
+            <div style={{ borderRadius: "16px", overflow: "hidden", height: "300px" }}>
+              <iframe
+                src="https://www.youtube.com/embed/_6D6MDe7WuA"
+                title="Aguas frescas la tostada"
+                frameBorder="0"
+                allowFullScreen
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                style={{ width: "100%", height: "100%" }}
+              />
+            </div>
+            <div style={{ borderRadius: "16px", overflow: "hidden", height: "300px" }}>
+              <iframe
+                src="https://www.youtube.com/embed/pOOCuhL-dXI"
+                title="Concentrados de aguas frescas"
+                frameBorder="0"
+                allowFullScreen
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                style={{ width: "100%", height: "100%" }}
+              />
+            </div>
+          </div>
+
+          {/* Video MIX3 centrado */}
+          <div style={{ maxWidth: "720px", margin: "0 auto", borderRadius: "16px", overflow: "hidden", aspectRatio: "16/9" }}>
+            <iframe
+              src="https://www.youtube.com/embed/QdVqXuLndig"
+              title="MIX3 Distribuidores"
+              frameBorder="0"
+              allowFullScreen
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              style={{ width: "100%", height: "100%" }}
+            />
+          </div>
+        </div>
+      </section>
+
       {/* ===== Presentaciones ===== */}
       <section style={{ padding: "72px 0" }}>
         <div style={{ maxWidth: "1180px", margin: "0 auto", padding: "0 28px" }}>
