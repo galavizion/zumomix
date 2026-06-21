@@ -33,6 +33,39 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 function ProductJsonLd({ product }: { product: (typeof PRODUCTS)[number] }) {
+  const availability = product.stock > 0
+    ? "https://schema.org/InStock"
+    : "https://schema.org/OutOfStock";
+
+  const offers = product.variants && product.variants.length > 0
+    ? {
+        "@type": "AggregateOffer",
+        priceCurrency: "MXN",
+        lowPrice: Math.min(...product.variants.map((v) => v.price)),
+        highPrice: Math.max(...product.variants.map((v) => v.price)),
+        offerCount: product.variants.length,
+        offers: product.variants.map((v) => ({
+          "@type": "Offer",
+          url: `${BASE_URL}/productos/${product.slug}`,
+          priceCurrency: "MXN",
+          price: v.price,
+          sku: v.sku,
+          name: `${product.name} ${v.label}`,
+          availability,
+          itemCondition: "https://schema.org/NewCondition",
+          seller: { "@type": "Organization", name: "Zumomix" },
+        })),
+      }
+    : {
+        "@type": "Offer",
+        url: `${BASE_URL}/productos/${product.slug}`,
+        priceCurrency: "MXN",
+        price: product.salePrice ?? product.price,
+        availability,
+        itemCondition: "https://schema.org/NewCondition",
+        seller: { "@type": "Organization", name: "Zumomix" },
+      };
+
   const schema = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -41,19 +74,9 @@ function ProductJsonLd({ product }: { product: (typeof PRODUCTS)[number] }) {
     sku: product.sku,
     image: product.images,
     brand: { "@type": "Brand", name: "Zumomix" },
-    offers: {
-      "@type": "Offer",
-      url: `${BASE_URL}/productos/${product.slug}`,
-      priceCurrency: "MXN",
-      price: product.salePrice ?? product.price,
-      availability:
-        product.stock > 0
-          ? "https://schema.org/InStock"
-          : "https://schema.org/OutOfStock",
-      itemCondition: "https://schema.org/NewCondition",
-      seller: { "@type": "Organization", name: "Zumomix" },
-    },
+    offers,
   };
+
   return (
     <script
       type="application/ld+json"

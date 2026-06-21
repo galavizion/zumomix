@@ -147,7 +147,7 @@ Hoy las personas cuidan mucho más lo que consumen. Ofrece a tus clientes aguas 
                   width={420}
                   height={420}
                   style={{
-                    width: "55%",
+                    width: "100%",
                     height: "auto",
                     display: "inline-block",
                     borderRadius: "20px",
@@ -287,7 +287,7 @@ Hoy las personas cuidan mucho más lo que consumen. Ofrece a tus clientes aguas 
                 height={601}
                 quality={85}
                 sizes="(max-width: 768px) 100vw, 50vw"
-                style={{ width: "100%", height: "auto", borderRadius: "16px" }}
+                style={{ width: "65%", height: "auto", borderRadius: "16px", display: "block", margin: "0 auto" }}
               />
             </div>
           </div>

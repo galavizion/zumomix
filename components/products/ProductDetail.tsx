@@ -24,7 +24,7 @@ export default function ProductDetail({ product }: { product: Product }) {
 
   const handleAdd = () => {
     const productToAdd = selectedVariant
-      ? { ...product, name: activeName, price: activePrice, salePrice: undefined, sku: selectedVariant.sku }
+      ? { ...product, id: `${product.id}-${selectedVariant.sku}`, name: activeName, price: activePrice, salePrice: undefined, sku: selectedVariant.sku }
       : product;
     addItem(productToAdd, qty);
     setAdded(true);

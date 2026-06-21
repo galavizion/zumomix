@@ -21,7 +21,7 @@ function ProductCard({ product }: { product: Product }) {
   return (
     <article className="product-card-new">
       {/* Imagen */}
-      <Link href={`/productos/${product.slug}`} style={{ display: "block", position: "relative", background: "rgb(247, 252, 239)", overflow: "hidden" }}>
+      <Link href={`/productos/${product.slug}`} style={{ display: "block", position: "relative", background: "#ffffff", overflow: "hidden" }}>
         <div style={{ position: "relative", aspectRatio: "4/3" }}>
           <Image
             src={product.images[0]}
