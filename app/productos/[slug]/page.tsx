@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import Container from "@/components/ui/Container";
 import ProductDetail from "@/components/products/ProductDetail";
 import ProductCard from "@/components/products/ProductCard";
+import ProductExtras from "@/components/products/ProductExtras";
+import productExtras from "@/lib/productExtras";
 import { PRODUCTS } from "@/lib/constants";
 
 const BASE_URL = "https://www.zumomix.com";
@@ -86,6 +88,8 @@ export default async function ProductoPage({ params }: Props) {
         </nav>
 
         <ProductDetail product={product} />
+
+        {productExtras[product.slug] && <ProductExtras extra={productExtras[product.slug]} />}
 
         {related.length > 0 && (
           <div className="mt-20">

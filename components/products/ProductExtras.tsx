@@ -1,0 +1,200 @@
+"use client";
+import { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import type { ProductExtra } from "@/lib/productExtras";
+
+const green = "rgb(122, 181, 54)";
+const dark = "rgb(34, 48, 15)";
+const muted = "rgb(91, 102, 80)";
+const border = "rgb(216, 232, 194)";
+const light = "rgb(247, 252, 239)";
+
+export default function ProductExtras({ extra }: { extra: ProductExtra }) {
+  const [tab, setTab] = useState(0);
+
+  return (
+    <div style={{ marginTop: "72px", display: "flex", flexDirection: "column", gap: "64px" }}>
+
+      {/* ===== Promo cross-sell ===== */}
+      {extra.promo && (
+        <section style={{ background: light, borderRadius: "24px", padding: "40px", display: "grid", gridTemplateColumns: "1fr auto", gap: "40px", alignItems: "center" }}>
+          <div>
+            {extra.promo.badge && (
+              <span style={{ fontSize: "12px", fontWeight: "700", letterSpacing: "0.1em", textTransform: "uppercase" as const, color: green, display: "block", marginBottom: "10px" }}>
+                {extra.promo.badge}
+              </span>
+            )}
+            <h2 style={{ fontSize: "clamp(18px, 2.2vw, 26px)", fontWeight: "800", color: dark, marginBottom: "12px", fontFamily: "'Plus Jakarta Sans', sans-serif", lineHeight: 1.2 }}>
+              {extra.promo.title}
+            </h2>
+            <ul style={{ listStyle: "none", padding: 0, margin: "12px 0 24px", display: "flex", flexDirection: "column", gap: "8px" }}>
+              {extra.promo.bullets.map((b) => (
+                <li key={b} style={{ display: "flex", gap: "10px", fontSize: "14px", color: "rgb(63, 74, 54)" }}>
+                  <span style={{ color: green, fontWeight: "700", flexShrink: 0 }}>✓</span>
+                  {b}
+                </li>
+              ))}
+            </ul>
+            <Link href={extra.promo.linkHref} style={{ display: "inline-flex", alignItems: "center", gap: "8px", background: dark, color: "white", textDecoration: "none", fontWeight: "700", fontSize: "14px", padding: "12px 24px", borderRadius: "12px" }}>
+              {extra.promo.linkLabel} →
+            </Link>
+          </div>
+          {extra.promo.image && (
+            <Image src={extra.promo.image} alt={extra.promo.title} width={180} height={180} style={{ width: "160px", height: "auto", borderRadius: "16px", flexShrink: 0 }} />
+          )}
+        </section>
+      )}
+
+      {/* ===== ¿Por qué somos mejores? ===== */}
+      {extra.whyBetterTitle && (
+        <div>
+          <h2 style={{ fontSize: "clamp(20px, 2.5vw, 28px)", fontWeight: "800", color: dark, marginBottom: "32px", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+            {extra.whyBetterTitle}
+          </h2>
+          <p style={{ fontSize: "15px", color: muted, marginBottom: "32px" }}>
+            La máquina B1 Plus es muy superior a los otros equipos en el mercado. Se ven iguales pero no lo son.
+          </p>
+        </div>
+      )}
+
+      {/* ===== Highlights ===== */}
+      {extra.highlights && extra.highlights.length > 0 && (
+        <section>
+          {!extra.whyBetterTitle && (
+            <h2 style={{ fontSize: "clamp(20px, 2.5vw, 26px)", fontWeight: "800", color: dark, marginBottom: "32px", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+              Características
+            </h2>
+          )}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "20px" }}>
+            {extra.highlights.map((h) => (
+              <div key={h.title} style={{ background: "white", border: `1.5px solid ${border}`, borderRadius: "18px", overflow: "hidden" }}>
+                {h.image && (
+                  <div style={{ background: light, aspectRatio: "16/9", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
+                    <Image
+                      src={h.image}
+                      alt={h.title}
+                      width={h.imageWidth ?? 600}
+                      height={h.imageHeight ?? 400}
+                      style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                      onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
+                    />
+                  </div>
+                )}
+                {!h.image && (
+                  <div style={{ background: light, padding: "20px 20px 0", fontSize: "32px" }}>{h.icon}</div>
+                )}
+                <div style={{ padding: "20px" }}>
+                  {h.image && <div style={{ fontSize: "24px", marginBottom: "8px" }}>{h.icon}</div>}
+                  <h3 style={{ fontSize: "15px", fontWeight: "700", color: dark, marginBottom: "8px", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                    {h.title}
+                  </h3>
+                  <p style={{ fontSize: "13.5px", color: muted, lineHeight: 1.6 }}>{h.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* ===== Texto extra ===== */}
+      {extra.extraTexts && extra.extraTexts.length > 0 && (
+        <section style={{ background: light, borderRadius: "20px", padding: "36px 40px", display: "flex", flexDirection: "column", gap: "12px" }}>
+          {extra.extraTexts.map((t) => (
+            <p key={t} style={{ fontSize: "15px", color: muted, lineHeight: 1.7 }}>{t}</p>
+          ))}
+        </section>
+      )}
+
+      {/* ===== Testimoniales ===== */}
+      {extra.showTestimonials && (
+        <section style={{ textAlign: "center" }}>
+          <h2 style={{ fontSize: "clamp(20px, 2.5vw, 26px)", fontWeight: "800", color: dark, marginBottom: "8px", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+            Creando éxito juntos
+          </h2>
+          <p style={{ fontSize: "15px", color: muted, marginBottom: "32px" }}>Algunos de nuestros clientes satisfechos</p>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px", maxWidth: "700px", margin: "0 auto" }}>
+            {[
+              { src: "https://www.zumomix.com/wp-content/uploads/2022/09/296448978_386818933561677_6311962382191161284_n.webp", caption: "Fácil de utilizar y muy atractiva" },
+              { src: "https://www.zumomix.com/wp-content/uploads/2022/09/295063155_383948473848723_5212012474698761196_n.webp", caption: "Aguas frescas 100% naturales" },
+            ].map((img) => (
+              <div key={img.src}>
+                <Image src={img.src} alt={img.caption} width={400} height={400} style={{ width: "100%", height: "240px", objectFit: "cover", borderRadius: "16px" }} />
+                <p style={{ fontSize: "13px", color: muted, marginTop: "10px", fontStyle: "italic" }}>"{img.caption}"</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* ===== Refacciones ===== */}
+      {extra.showRefacciones && (
+        <section style={{ background: dark, borderRadius: "20px", padding: "36px 40px", color: "white" }}>
+          <h3 style={{ fontSize: "18px", fontWeight: "800", marginBottom: "12px", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+            Contamos con refacciones y taller especializado
+          </h3>
+          <p style={{ fontSize: "15px", color: "rgba(255,255,255,0.75)", lineHeight: 1.7, marginBottom: "8px" }}>
+            A diferencia de otras marcas, nosotros sí tenemos refacciones para nuestras máquinas. Además contamos con un taller especializado para brindarte apoyo ante cualquier problema.
+          </p>
+          <p style={{ fontSize: "15px", color: green, fontWeight: "700" }}>Siempre contarás con el soporte de Zumomix.</p>
+        </section>
+      )}
+
+      {/* ===== Ficha técnica ===== */}
+      {(extra.specs || extra.specTabs) && (
+        <section>
+          {extra.specTitle && (
+            <h2 style={{ fontSize: "clamp(20px, 2.5vw, 26px)", fontWeight: "800", color: dark, marginBottom: "24px", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+              {extra.specTitle}
+            </h2>
+          )}
+
+          {/* Tabs (múltiples variantes) */}
+          {extra.specTabs && (
+            <>
+              <div style={{ display: "flex", gap: "8px", marginBottom: "20px" }}>
+                {extra.specTabs.map((t, i) => (
+                  <button
+                    key={t.label}
+                    onClick={() => setTab(i)}
+                    style={{
+                      padding: "10px 24px", borderRadius: "10px", border: "1.5px solid",
+                      borderColor: tab === i ? green : border,
+                      background: tab === i ? green : "white",
+                      color: tab === i ? "white" : "rgb(63, 74, 54)",
+                      fontWeight: "700", fontSize: "14px", cursor: "pointer", transition: "all 0.2s",
+                    }}
+                  >
+                    {t.label}
+                  </button>
+                ))}
+              </div>
+              <SpecTable rows={extra.specTabs[tab].rows} />
+            </>
+          )}
+
+          {/* Tabla simple */}
+          {extra.specs && <SpecTable rows={extra.specs} />}
+        </section>
+      )}
+
+    </div>
+  );
+}
+
+function SpecTable({ rows }: { rows: { label: string; value: string }[] }) {
+  return (
+    <div style={{ border: `1.5px solid rgb(216, 232, 194)`, borderRadius: "16px", overflow: "hidden" }}>
+      <table style={{ width: "100%", borderCollapse: "collapse" }}>
+        <tbody>
+          {rows.map((row, i) => (
+            <tr key={row.label} style={{ background: i % 2 === 0 ? "white" : "rgb(247, 252, 239)" }}>
+              <td style={{ padding: "14px 20px", fontSize: "14px", fontWeight: "700", color: "rgb(63, 74, 54)", width: "40%" }}>{row.label}</td>
+              <td style={{ padding: "14px 20px", fontSize: "14px", color: "rgb(91, 102, 80)" }}>{row.value}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
