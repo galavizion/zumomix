@@ -242,7 +242,7 @@ Hoy las personas cuidan mucho más lo que consumen. Ofrece a tus clientes aguas 
       {/* ===== Dispensadora MIX3 ===== */}
       <section style={{ padding: "72px 0", background: "rgb(247, 252, 239)" }}>
         <div style={{ maxWidth: "1180px", margin: "0 auto", padding: "0 28px" }}>
-          <h2 style={{ fontSize: "clamp(20px, 2.5vw, 28px)", fontWeight: "700", color: "rgb(34, 48, 15)", marginBottom: "20px", textTransform: "uppercase", letterSpacing: "0.05em", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+          <h2 style={{ fontSize: "clamp(20px, 2.5vw, 28px)", fontWeight: "700", color: "rgb(34, 48, 15)", marginBottom: "2git add .0px", textTransform: "uppercase", letterSpacing: "0.05em", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
             Dispensadora de aguas frescas MIX3 y concentrados de fruta natural
           </h2>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "60px", alignItems: "center" }}>
