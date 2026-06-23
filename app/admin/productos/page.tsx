@@ -5,12 +5,26 @@ import Button from "@/components/ui/Button";
 import { PRODUCTS } from "@/lib/constants";
 import { formatPrice } from "@/lib/utils";
 import Badge from "@/components/ui/Badge";
+import { supabase } from "@/lib/supabase";
+import type { Product } from "@/types";
 
-export default function AdminProductosPage() {
+async function getProducts(): Promise<Product[]> {
+  const { data } = await supabase
+    .from("products")
+    .select("data")
+    .order("updated_at", { ascending: false });
+
+  if (data && data.length > 0) return data.map((r) => r.data as Product);
+  return PRODUCTS;
+}
+
+export default async function AdminProductosPage() {
+  const products = await getProducts();
+
   return (
     <div className="flex flex-col gap-6">
       <div className="flex items-center justify-between">
-        <p className="text-sm text-neutral-500">{PRODUCTS.length} productos en total</p>
+        <p className="text-sm text-neutral-500">{products.length} productos en total</p>
         <Link href="/admin/productos/nuevo">
           <Button size="sm" className="gap-2">
             <Plus size={16} /> Agregar producto
@@ -29,7 +43,7 @@ export default function AdminProductosPage() {
               </tr>
             </thead>
             <tbody>
-              {PRODUCTS.map((p) => (
+              {products.map((p) => (
                 <tr key={p.id} className="border-b border-neutral-100 last:border-0 hover:bg-neutral-50 transition-colors">
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-3">
@@ -52,11 +66,9 @@ export default function AdminProductosPage() {
                     </Badge>
                   </td>
                   <td className="px-4 py-3">
-                    <div className="flex gap-2">
-                      <Link href={`/admin/productos/${p.id}`}>
-                        <Button variant="ghost" size="sm">Editar</Button>
-                      </Link>
-                    </div>
+                    <Link href={`/admin/productos/${p.id}`}>
+                      <Button variant="ghost" size="sm">Editar</Button>
+                    </Link>
                   </td>
                 </tr>
               ))}

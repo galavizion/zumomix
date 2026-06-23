@@ -4,8 +4,18 @@ import Image from "next/image";
 import { ShoppingCart } from "lucide-react";
 import { PRODUCTS } from "@/lib/constants";
 import { formatPrice } from "@/lib/utils";
-import type { ProductCategory } from "@/types";
+import type { Product, ProductCategory } from "@/types";
+import { supabase } from "@/lib/supabase";
 import ProductosGrid from "./ProductosGrid";
+
+async function getProducts(): Promise<Product[]> {
+  const { data } = await supabase
+    .from("products")
+    .select("data")
+    .order("updated_at", { ascending: false });
+  if (data && data.length > 0) return data.map((r) => r.data as Product).filter((p) => p.status === "active");
+  return PRODUCTS.filter((p) => p.status === "active");
+}
 
 export const metadata: Metadata = {
   title: "Productos",
@@ -27,10 +37,11 @@ export default async function ProductosPage({
 }) {
   const params = await searchParams;
   const categoria = params.categoria ?? "todos";
+  const allProducts = await getProducts();
   const filtered =
     categoria === "todos"
-      ? PRODUCTS
-      : PRODUCTS.filter((p) => p.category === categoria);
+      ? allProducts
+      : allProducts.filter((p) => p.category === categoria);
 
   return (
     <div style={{ background: "white", minHeight: "100vh" }}>

@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import ConfirmDialog from "@/components/admin/ConfirmDialog";
@@ -15,7 +16,11 @@ interface Props {
 export default function ProductoFormClient({ product, isNew }: Props) {
   const router = useRouter();
   const [showDelete, setShowDelete] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
   const [form, setForm] = useState({
     name: product?.name ?? "",
     sku: product?.sku ?? "",
@@ -33,10 +38,67 @@ export default function ProductoFormClient({ product, isNew }: Props) {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => setForm((f) => ({ ...f, [key]: e.target.value }));
 
-  const handleSave = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2000);
+  const buildProduct = (): Product => ({
+    ...(product ?? {}),
+    id: product?.id ?? crypto.randomUUID(),
+    slug: product?.slug ?? form.name.toLowerCase().replace(/\s+/g, "-"),
+    name: form.name,
+    sku: form.sku,
+    shortDescription: form.shortDescription,
+    description: form.description,
+    price: Number(form.price) || 0,
+    salePrice: form.salePrice ? Number(form.salePrice) : undefined,
+    category: form.category as Product["category"],
+    stock: Number(form.stock) || 0,
+    status: form.status as Product["status"],
+    images: [form.imageUrl].filter(Boolean),
+    features: product?.features ?? [],
+    variants: product?.variants,
+  });
+
+  const handleSave = async (e?: React.FormEvent) => {
+    e?.preventDefault();
+    setSaving(true);
+    setError(null);
+    try {
+      const payload = buildProduct();
+      const method = isNew ? "POST" : "PUT";
+      const url = isNew
+        ? "/api/admin/products"
+        : `/api/admin/products/${product!.id}`;
+
+      const res = await fetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) throw new Error((await res.json()).error ?? "Error al guardar");
+
+      setSaved(true);
+      setTimeout(() => setSaved(false), 2500);
+      if (isNew) router.push("/admin/productos");
+      else router.refresh();
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Error desconocido");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!product) return;
+    setDeleting(true);
+    try {
+      const res = await fetch(`/api/admin/products/${product.id}`, { method: "DELETE" });
+      if (!res.ok) throw new Error((await res.json()).error ?? "Error al eliminar");
+      router.push("/admin/productos");
+      router.refresh();
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Error al eliminar");
+      setDeleting(false);
+      setShowDelete(false);
+    }
   };
 
   return (
@@ -47,15 +109,26 @@ export default function ProductoFormClient({ product, isNew }: Props) {
         </Button>
         <div className="flex gap-2">
           {!isNew && (
-            <Button variant="danger" size="sm" onClick={() => setShowDelete(true)}>
-              Eliminar
-            </Button>
+            <>
+              <Link href={`/admin/productos/${product?.id}/extras`}>
+                <Button variant="ghost" size="sm">Contenido extra</Button>
+              </Link>
+              <Button variant="danger" size="sm" onClick={() => setShowDelete(true)}>
+                Eliminar
+              </Button>
+            </>
           )}
-          <Button size="sm" onClick={handleSave}>
-            {saved ? "Guardado" : "Guardar cambios"}
+          <Button size="sm" onClick={() => handleSave()} disabled={saving}>
+            {saving ? "Guardando…" : saved ? "✓ Guardado" : "Guardar cambios"}
           </Button>
         </div>
       </div>
+
+      {error && (
+        <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">
+          {error}
+        </div>
+      )}
 
       <form onSubmit={handleSave} className="flex flex-col gap-6">
         <div className="bg-white rounded-card border border-neutral-200 p-6 shadow-card flex flex-col gap-5">
@@ -102,7 +175,7 @@ export default function ProductoFormClient({ product, isNew }: Props) {
 
         <div className="bg-white rounded-card border border-neutral-200 p-6 shadow-card flex flex-col gap-5">
           <h2 className="font-display font-bold text-neutral-900">Imagen</h2>
-          <Input label="URL de imagen" value={form.imageUrl} onChange={update("imageUrl")} placeholder="https://..." />
+          <Input label="URL de imagen" value={form.imageUrl} onChange={update("imageUrl")} placeholder="/img/bplus1/b1dplus.png.webp" />
           {form.imageUrl && (
             <div className="w-40 h-40 bg-neutral-50 rounded-card overflow-hidden border border-neutral-200">
               <Image src={form.imageUrl} alt="Preview" width={160} height={160} className="w-full h-full object-contain p-2" />
@@ -114,10 +187,16 @@ export default function ProductoFormClient({ product, isNew }: Props) {
       {showDelete && (
         <ConfirmDialog
           title="Eliminar producto"
-          message="Esta acción no se puede deshacer. El producto será eliminado permanentemente."
-          onConfirm={() => router.push("/admin/productos")}
+          message={`¿Eliminar "${product?.name}"? Esta acción no se puede deshacer.`}
+          onConfirm={handleDelete}
           onCancel={() => setShowDelete(false)}
         />
+      )}
+
+      {deleting && (
+        <div className="fixed inset-0 bg-black/20 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl p-6 text-sm font-medium text-neutral-700">Eliminando…</div>
+        </div>
       )}
     </div>
   );

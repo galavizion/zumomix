@@ -5,7 +5,18 @@ import ProductDetail from "@/components/products/ProductDetail";
 import ProductCard from "@/components/products/ProductCard";
 import ProductExtras from "@/components/products/ProductExtras";
 import productExtras from "@/lib/productExtras";
+import type { ProductExtra } from "@/lib/productExtras";
 import { PRODUCTS } from "@/lib/constants";
+import { supabase } from "@/lib/supabase";
+
+async function getExtras(slug: string): Promise<ProductExtra | null> {
+  const { data } = await supabase
+    .from("product_extras")
+    .select("data")
+    .eq("slug", slug)
+    .single();
+  return data?.data ?? productExtras[slug] ?? null;
+}
 
 const BASE_URL = "https://www.zumomix.com";
 
@@ -98,6 +109,8 @@ export default async function ProductoPage({ params }: Props) {
     (p) => p.id !== product.id && p.category === product.category
   ).slice(0, 3);
 
+  const extra = await getExtras(product.slug);
+
   return (
     <div className="py-12 bg-white min-h-screen">
       <ProductJsonLd product={product} />
@@ -112,7 +125,7 @@ export default async function ProductoPage({ params }: Props) {
 
         <ProductDetail product={product} />
 
-        {productExtras[product.slug] && <ProductExtras extra={productExtras[product.slug]} />}
+        {extra && <ProductExtras extra={extra} />}
 
         {related.length > 0 && (
           <div className="mt-20">
