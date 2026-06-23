@@ -46,6 +46,28 @@ export default function ProductExtras({ extra }: { extra: ProductExtra }) {
         </section>
       )}
 
+      {/* ===== Benefits grid (iconos/infografías) ===== */}
+      {extra.benefits && extra.benefits.length > 0 && (
+        <section>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: "16px" }}>
+            {extra.benefits.map((b) => (
+              <div key={b.title} style={{ background: light, border: `1.5px solid ${border}`, borderRadius: "16px", padding: "20px 16px", display: "flex", flexDirection: "column", alignItems: "center", gap: "12px", textAlign: "center" }}>
+                {b.image && (
+                  <Image
+                    src={b.image}
+                    alt={b.title}
+                    width={b.imageWidth ?? 120}
+                    height={b.imageHeight ?? 120}
+                    style={{ width: "80px", height: "80px", objectFit: "contain" }}
+                  />
+                )}
+                <p style={{ fontSize: "13px", fontWeight: "700", color: dark, lineHeight: 1.4 }}>{b.title}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
       {/* ===== ¿Por qué somos mejores? ===== */}
       {extra.whyBetterTitle && (
         <div>
@@ -114,10 +136,10 @@ export default function ProductExtras({ extra }: { extra: ProductExtra }) {
           </h2>
           <p style={{ fontSize: "15px", color: muted, marginBottom: "32px" }}>Algunos de nuestros clientes satisfechos</p>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px", maxWidth: "700px", margin: "0 auto" }}>
-            {[
+            {(extra.testimonials ?? [
               { src: "https://www.zumomix.com/wp-content/uploads/2022/09/296448978_386818933561677_6311962382191161284_n.webp", caption: "Fácil de utilizar y muy atractiva" },
               { src: "https://www.zumomix.com/wp-content/uploads/2022/09/295063155_383948473848723_5212012474698761196_n.webp", caption: "Aguas frescas 100% naturales" },
-            ].map((img) => (
+            ]).map((img) => (
               <div key={img.src}>
                 <Image src={img.src} alt={img.caption} width={400} height={400} style={{ width: "100%", height: "240px", objectFit: "cover", borderRadius: "16px" }} />
                 <p style={{ fontSize: "13px", color: muted, marginTop: "10px", fontStyle: "italic" }}>"{img.caption}"</p>
@@ -137,6 +159,28 @@ export default function ProductExtras({ extra }: { extra: ProductExtra }) {
             A diferencia de otras marcas, nosotros sí tenemos refacciones para nuestras máquinas. Además contamos con un taller especializado para brindarte apoyo ante cualquier problema.
           </p>
           <p style={{ fontSize: "15px", color: green, fontWeight: "700" }}>Siempre contarás con el soporte de Zumomix.</p>
+        </section>
+      )}
+
+      {/* ===== Videos / Shorts ===== */}
+      {extra.videos && extra.videos.length > 0 && (
+        <section>
+          <h2 style={{ fontSize: "clamp(20px, 2.5vw, 26px)", fontWeight: "800", color: dark, marginBottom: "24px", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+            Mírala en acción
+          </h2>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "16px" }}>
+            {extra.videos.map((v) => (
+              <div key={v.videoId} style={{ borderRadius: "16px", overflow: "hidden", background: "#000", aspectRatio: "16/9" }}>
+                <iframe
+                  src={`https://www.youtube.com/embed/${v.videoId}?controls=1&rel=0`}
+                  title={v.title}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  style={{ width: "100%", height: "100%", border: "none", display: "block" }}
+                />
+              </div>
+            ))}
+          </div>
         </section>
       )}
 
@@ -175,6 +219,19 @@ export default function ProductExtras({ extra }: { extra: ProductExtra }) {
 
           {/* Tabla simple */}
           {extra.specs && <SpecTable rows={extra.specs} />}
+
+          {/* Imagen ficha técnica */}
+          {extra.specImage && (
+            <div style={{ marginTop: "28px" }}>
+              <Image
+                src={extra.specImage}
+                alt="Ficha técnica"
+                width={900}
+                height={600}
+                style={{ width: "100%", height: "auto", borderRadius: "16px", border: `1.5px solid ${border}` }}
+              />
+            </div>
+          )}
         </section>
       )}
 
