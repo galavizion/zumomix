@@ -29,12 +29,20 @@ export default function ProductoFormClient({ product, isNew }: Props) {
     category: product?.category ?? "exprimidores",
     stock: product?.stock?.toString() ?? "",
     status: product?.status ?? "active",
-    imageUrl: product?.images[0] ?? "",
+    images: product?.images ?? [""],
   });
 
-  const update = (key: keyof typeof form) => (
+  const update = (key: keyof Omit<typeof form, "images">) => (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => setForm((f) => ({ ...f, [key]: e.target.value }));
+
+  const setImage = (idx: number, url: string) =>
+    setForm((f) => { const imgs = [...f.images]; imgs[idx] = url; return { ...f, images: imgs }; });
+
+  const addImage = () => setForm((f) => ({ ...f, images: [...f.images, ""] }));
+
+  const removeImage = (idx: number) =>
+    setForm((f) => ({ ...f, images: f.images.filter((_, i) => i !== idx) }));
 
   const buildProduct = (): Product => ({
     ...(product ?? {}),
@@ -49,7 +57,7 @@ export default function ProductoFormClient({ product, isNew }: Props) {
     category: form.category as Product["category"],
     stock: Number(form.stock) || 0,
     status: form.status as Product["status"],
-    images: [form.imageUrl].filter(Boolean),
+    images: form.images.filter(Boolean),
     features: product?.features ?? [],
     variants: product?.variants,
   });
@@ -171,12 +179,39 @@ export default function ProductoFormClient({ product, isNew }: Props) {
         </div>
 
         <div className="bg-white rounded-card border border-neutral-200 p-6 shadow-card flex flex-col gap-5">
-          <h2 className="font-display font-bold text-neutral-900">Imagen</h2>
-          <ImagePicker
-            label="Imagen principal"
-            value={form.imageUrl}
-            onChange={(url) => setForm((f) => ({ ...f, imageUrl: url }))}
-          />
+          <div className="flex items-center justify-between">
+            <h2 className="font-display font-bold text-neutral-900">Imágenes</h2>
+            <button
+              type="button"
+              onClick={addImage}
+              className="text-xs font-semibold text-brand-green hover:underline"
+            >
+              + Agregar imagen
+            </button>
+          </div>
+          <p className="text-xs text-neutral-400 -mt-3">La primera imagen es la principal.</p>
+          {form.images.map((img, idx) => (
+            <div key={idx} className="flex flex-col gap-2">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-semibold text-neutral-500">
+                  {idx === 0 ? "Principal" : `Imagen ${idx + 1}`}
+                </span>
+                {form.images.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => removeImage(idx)}
+                    className="text-xs text-red-400 hover:text-red-600"
+                  >
+                    Quitar
+                  </button>
+                )}
+              </div>
+              <ImagePicker
+                value={img}
+                onChange={(url) => setImage(idx, url)}
+              />
+            </div>
+          ))}
         </div>
       </form>
 
