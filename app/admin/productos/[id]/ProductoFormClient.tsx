@@ -1,10 +1,10 @@
 "use client";
 import { useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import ConfirmDialog from "@/components/admin/ConfirmDialog";
+import ImagePicker from "@/components/admin/ImagePicker";
 import type { Product } from "@/types";
 
 interface Props {
@@ -172,12 +172,11 @@ export default function ProductoFormClient({ product, isNew }: Props) {
 
         <div className="bg-white rounded-card border border-neutral-200 p-6 shadow-card flex flex-col gap-5">
           <h2 className="font-display font-bold text-neutral-900">Imagen</h2>
-          <Input label="URL de imagen" value={form.imageUrl} onChange={update("imageUrl")} placeholder="/img/bplus1/b1dplus.png.webp" />
-          {form.imageUrl && (
-            <div className="w-40 h-40 bg-neutral-50 rounded-card overflow-hidden border border-neutral-200">
-              <Image src={form.imageUrl} alt="Preview" width={160} height={160} className="w-full h-full object-contain p-2" />
-            </div>
-          )}
+          <ImagePicker
+            label="Imagen principal"
+            value={form.imageUrl}
+            onChange={(url) => setForm((f) => ({ ...f, imageUrl: url }))}
+          />
         </div>
       </form>
 
