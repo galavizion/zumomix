@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import Input from "@/components/ui/Input";
@@ -14,7 +13,6 @@ interface Props {
 }
 
 export default function ProductoFormClient({ product, isNew }: Props) {
-  const router = useRouter();
   const [showDelete, setShowDelete] = useState(false);
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
@@ -76,9 +74,9 @@ export default function ProductoFormClient({ product, isNew }: Props) {
       if (!res.ok) throw new Error((await res.json()).error ?? "Error al guardar");
 
       setSaved(true);
-      setTimeout(() => setSaved(false), 2500);
-      if (isNew) router.push("/admin/productos");
-      else router.refresh();
+      setTimeout(() => {
+        window.location.href = isNew ? "/admin/productos" : window.location.href.split("?")[0];
+      }, 800);
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Error desconocido");
     } finally {
@@ -92,8 +90,7 @@ export default function ProductoFormClient({ product, isNew }: Props) {
     try {
       const res = await fetch(`/api/admin/products/${product.id}`, { method: "DELETE" });
       if (!res.ok) throw new Error((await res.json()).error ?? "Error al eliminar");
-      router.push("/admin/productos");
-      router.refresh();
+      window.location.href = "/admin/productos";
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Error al eliminar");
       setDeleting(false);
@@ -104,7 +101,7 @@ export default function ProductoFormClient({ product, isNew }: Props) {
   return (
     <div className="max-w-3xl">
       <div className="flex items-center justify-between mb-6">
-        <Button variant="ghost" size="sm" onClick={() => router.back()}>
+        <Button variant="ghost" size="sm" onClick={() => window.history.back()}>
           Volver
         </Button>
         <div className="flex gap-2">

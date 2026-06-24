@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import ProductoFormClient from "./ProductoFormClient";
 import { PRODUCTS } from "@/lib/constants";
 import { supabase } from "@/lib/supabase";
