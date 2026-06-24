@@ -128,8 +128,8 @@ export const PRODUCTS: Product[] = [
     stock: 10,
     status: "active",
     variants: [
-      { label: "MIX2 — 2 sabores", sku: "MIX-2", price: 13722.80 },
-      { label: "MIX3 — 3 sabores", sku: "MIX-3", price: 18362.80 },
+      { label: "Mix 2 tanques — 2 sabores simultáneos", sku: "MIX-2", price: 13722.80 },
+      { label: "Mix 3 tanques — 3 sabores simultáneos", sku: "MIX-3", price: 18362.80 },
     ],
   },
   {
