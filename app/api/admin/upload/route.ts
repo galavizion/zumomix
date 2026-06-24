@@ -12,13 +12,13 @@ export async function POST(req: NextRequest) {
   const buffer = await file.arrayBuffer();
 
   const { data, error } = await supabase.storage
-    .from("product-images")
+    .from("archivos")
     .upload(filename, buffer, { contentType: file.type, upsert: false });
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
   const { data: { publicUrl } } = supabase.storage
-    .from("product-images")
+    .from("archivos")
     .getPublicUrl(data.path);
 
   return NextResponse.json({ url: publicUrl });
