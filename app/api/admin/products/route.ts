@@ -10,8 +10,16 @@ export async function GET() {
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
-  // If table is empty fall back to constants
+  // Auto-seed on first run
   if (!data || data.length === 0) {
+    const rows = PRODUCTS.map((p) => ({
+      id: p.id,
+      slug: p.slug,
+      status: p.status,
+      data: p,
+      updated_at: new Date().toISOString(),
+    }));
+    await supabase.from("products").upsert(rows, { onConflict: "id" });
     return NextResponse.json(PRODUCTS);
   }
 
@@ -23,7 +31,13 @@ export async function POST(req: Request) {
 
   const { data, error } = await supabase
     .from("products")
-    .insert({ id: product.id, slug: product.slug, status: product.status, data: product, updated_at: new Date().toISOString() })
+    .insert({
+      id: product.id,
+      slug: product.slug,
+      status: product.status,
+      data: product,
+      updated_at: new Date().toISOString(),
+    })
     .select()
     .single();
 

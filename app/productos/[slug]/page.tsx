@@ -15,7 +15,7 @@ async function getExtras(slug: string): Promise<ProductExtra | null> {
     .select("data")
     .eq("slug", slug)
     .single();
-  return data?.data ?? productExtras[slug] ?? null;
+  return (data?.data as ProductExtra | null) ?? productExtras[slug] ?? null;
 }
 
 const BASE_URL = "https://www.zumomix.com";

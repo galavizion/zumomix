@@ -9,13 +9,27 @@ import { supabase } from "@/lib/supabase";
 import type { Product } from "@/types";
 
 async function getProducts(): Promise<Product[]> {
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from("products")
     .select("data")
     .order("updated_at", { ascending: false });
 
-  if (data && data.length > 0) return data.map((r) => r.data as Product);
-  return PRODUCTS;
+  if (error) return PRODUCTS;
+
+  // Auto-seed on first run
+  if (!data || data.length === 0) {
+    const rows = PRODUCTS.map((p) => ({
+      id: p.id,
+      slug: p.slug,
+      status: p.status,
+      data: p,
+      updated_at: new Date().toISOString(),
+    }));
+    await supabase.from("products").upsert(rows, { onConflict: "id" });
+    return PRODUCTS;
+  }
+
+  return data.map((r) => r.data as Product);
 }
 
 export default async function AdminProductosPage() {

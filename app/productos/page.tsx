@@ -9,12 +9,12 @@ import { supabase } from "@/lib/supabase";
 import ProductosGrid from "./ProductosGrid";
 
 async function getProducts(): Promise<Product[]> {
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from("products")
     .select("data")
     .order("updated_at", { ascending: false });
-  if (data && data.length > 0) return data.map((r) => r.data as Product).filter((p) => p.status === "active");
-  return PRODUCTS.filter((p) => p.status === "active");
+  if (error || !data || data.length === 0) return PRODUCTS.filter((p) => p.status === "active");
+  return data.map((r) => r.data as Product).filter((p) => p.status === "active");
 }
 
 export const metadata: Metadata = {
