@@ -25,7 +25,7 @@ export default function RichEditor({ value, onChange }: Props) {
 
   useEffect(() => {
     if (editor && value !== editor.getHTML()) {
-      editor.commands.setContent(value, false);
+      editor.commands.setContent(value, { emitUpdate: false });
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
