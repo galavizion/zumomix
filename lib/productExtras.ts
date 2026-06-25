@@ -53,6 +53,7 @@ export interface ProductExtra {
   showTestimonials?: boolean;
   testimonials?: Testimonial[];
   showRefacciones?: boolean;
+  refaccionesImages?: string[];
   videos?: VideoItem[];
   specTitle?: string;
   specTabs?: SpecTable[];

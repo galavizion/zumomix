@@ -231,14 +231,48 @@ export default function ProductExtras({ extra }: { extra: ProductExtra }) {
 
       {/* ===== Refacciones ===== */}
       {extra.showRefacciones && (
-        <section style={{ background: dark, borderRadius: "20px", padding: "36px 40px", color: "white" }}>
-          <h3 style={{ fontSize: "18px", fontWeight: "800", marginBottom: "12px", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-            Contamos con refacciones y taller especializado
-          </h3>
-          <p style={{ fontSize: "15px", color: "rgba(255,255,255,0.75)", lineHeight: 1.7, marginBottom: "8px" }}>
-            A diferencia de otras marcas, nosotros sí tenemos refacciones para nuestras máquinas. Además contamos con un taller especializado para brindarte apoyo ante cualquier problema.
-          </p>
-          <p style={{ fontSize: "15px", color: green, fontWeight: "700" }}>Siempre contarás con el soporte de Zumomix.</p>
+        <section style={{ background: dark, borderRadius: "24px", overflow: "hidden", display: "grid", gridTemplateColumns: "1fr 1fr", minHeight: "280px" }}>
+          {/* Texto — 50% */}
+          <div style={{ padding: "48px 44px", display: "flex", flexDirection: "column", justifyContent: "center", gap: "16px" }}>
+            <span style={{ fontSize: "11px", fontWeight: "700", letterSpacing: "0.14em", textTransform: "uppercase", color: green }}>
+              Soporte Zumomix
+            </span>
+            <h3 style={{ fontSize: "clamp(20px, 2vw, 26px)", fontWeight: "800", color: "white", lineHeight: 1.25, fontFamily: "'Plus Jakarta Sans', sans-serif", margin: 0 }}>
+              Refacciones y taller especializado
+            </h3>
+            <p style={{ fontSize: "15px", color: "rgba(255,255,255,0.72)", lineHeight: 1.7, margin: 0 }}>
+              A diferencia de otras marcas, nosotros sí tenemos refacciones para nuestras máquinas. Contamos con un taller especializado para brindarte apoyo ante cualquier problema.
+            </p>
+            <p style={{ fontSize: "14px", color: green, fontWeight: "700", margin: 0 }}>
+              ✓ Siempre contarás con el soporte de Zumomix.
+            </p>
+          </div>
+
+          {/* Imágenes — 50% */}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0" }}>
+            {(extra.refaccionesImages ?? []).slice(0, 2).map((src, i) => (
+              <div key={i} style={{ position: "relative", overflow: "hidden" }}>
+                <Image
+                  src={src}
+                  alt={`Refacciones ${i + 1}`}
+                  fill
+                  style={{ objectFit: "cover" }}
+                  sizes="25vw"
+                />
+              </div>
+            ))}
+            {/* Placeholders si no hay imágenes */}
+            {(extra.refaccionesImages ?? []).length === 0 && [0, 1].map((i) => (
+              <div key={i} style={{ background: "rgba(255,255,255,0.06)", display: "flex", alignItems: "center", justifyContent: "center", minHeight: "280px" }}>
+                <span style={{ fontSize: "32px", opacity: 0.3 }}>🔧</span>
+              </div>
+            ))}
+            {(extra.refaccionesImages ?? []).length === 1 && (
+              <div style={{ background: "rgba(255,255,255,0.06)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <span style={{ fontSize: "32px", opacity: 0.3 }}>🔧</span>
+              </div>
+            )}
+          </div>
         </section>
       )}
 
