@@ -1,5 +1,17 @@
 import Link from "next/link";
 import { PRODUCTS } from "@/lib/constants";
+import { supabase } from "@/lib/supabase";
+import type { Product } from "@/types";
+
+async function getProducts(): Promise<Product[]> {
+  const { data, error } = await supabase
+    .from("products")
+    .select("data")
+    .order("updated_at", { ascending: false });
+  if (error || !data || data.length === 0)
+    return PRODUCTS.filter((p) => p.status === "active");
+  return data.map((r) => r.data as Product).filter((p) => p.status === "active");
+}
 
 const badgeConfig: Record<string, { label: string; bgColor: string; textColor: string }> = {
   1: { label: "Más vendido", bgColor: "rgb(122, 181, 54)", textColor: "rgb(255, 255, 255)" },
@@ -14,7 +26,8 @@ const categoryLabels: Record<string, string> = {
   maquinas: "Bebidas frías",
 };
 
-export default function ProductGrid() {
+export default async function ProductGrid() {
+  const products = await getProducts();
   const delays = [0, 80, 160];
 
   return (
@@ -87,7 +100,7 @@ export default function ProductGrid() {
         data-dc-tpl="74"
         className="products-grid"
       >
-        {PRODUCTS.map((product, index) => {
+        {products.map((product, index) => {
           const delay = delays[index % 3];
           const badge = badgeConfig[product.id];
           const categoryLabel = categoryLabels[product.category] || "Producto";

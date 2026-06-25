@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import type { Metadata } from "next";
 import Hero from "@/components/home/Hero";
 import ProductGrid from "@/components/home/ProductGrid";
