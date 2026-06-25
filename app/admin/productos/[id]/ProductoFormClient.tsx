@@ -34,6 +34,7 @@ export default function ProductoFormClient({ product, isNew }: Props) {
     status: product?.status ?? "active",
     images: product?.images ?? [""],
     slug: product?.slug ?? "",
+    variants: product?.variants ?? [],
   });
 
   const update = (key: keyof Omit<typeof form, "images">) => (
@@ -63,7 +64,7 @@ export default function ProductoFormClient({ product, isNew }: Props) {
     status: form.status as Product["status"],
     images: form.images.filter(Boolean),
     features: product?.features ?? [],
-    variants: product?.variants,
+    variants: form.variants.length > 0 ? form.variants : undefined,
   });
 
   const handleSave = async (e?: React.FormEvent) => {
@@ -221,6 +222,84 @@ export default function ProductoFormClient({ product, isNew }: Props) {
                 value={img}
                 onChange={(url) => setImage(idx, url)}
               />
+            </div>
+          ))}
+        </div>
+
+        {/* Variantes / versiones */}
+        <div className="bg-white rounded-card border border-neutral-200 p-6 shadow-card flex flex-col gap-5">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="font-display font-bold text-neutral-900">Versiones / Variantes</h2>
+              <p className="text-xs text-neutral-400 mt-0.5">Si el producto tiene distintos modelos con diferente precio (ej. MIX 2 y MIX 3).</p>
+            </div>
+            <button
+              type="button"
+              onClick={() => setForm((f) => ({ ...f, variants: [...f.variants, { label: "", sku: "", price: 0 }] }))}
+              className="text-xs font-semibold text-brand-green hover:underline whitespace-nowrap"
+            >
+              + Agregar versión
+            </button>
+          </div>
+
+          {form.variants.length === 0 && (
+            <p className="text-xs text-neutral-400">Sin variantes — el producto tiene un precio único.</p>
+          )}
+
+          {form.variants.map((v, i) => (
+            <div key={i} className="border border-neutral-200 rounded-lg p-4 flex flex-col gap-3 bg-neutral-50">
+              <div className="flex justify-between items-center">
+                <span className="text-xs font-semibold text-neutral-500">Versión {i + 1}</span>
+                <button
+                  type="button"
+                  onClick={() => setForm((f) => ({ ...f, variants: f.variants.filter((_, j) => j !== i) }))}
+                  className="text-xs text-red-400 hover:text-red-600"
+                >
+                  Quitar
+                </button>
+              </div>
+              <div className="grid grid-cols-3 gap-3">
+                <div className="col-span-2 flex flex-col gap-1">
+                  <label className="text-xs font-semibold text-neutral-500 uppercase tracking-wide">Nombre / etiqueta</label>
+                  <input
+                    value={v.label}
+                    placeholder="Mix 2 tanques — 2 sabores"
+                    onChange={(e) => {
+                      const vars = [...form.variants];
+                      vars[i] = { ...vars[i], label: e.target.value };
+                      setForm((f) => ({ ...f, variants: vars }));
+                    }}
+                    className="px-3 py-2 text-sm border border-neutral-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-green bg-white"
+                  />
+                </div>
+                <div className="flex flex-col gap-1">
+                  <label className="text-xs font-semibold text-neutral-500 uppercase tracking-wide">SKU</label>
+                  <input
+                    value={v.sku}
+                    placeholder="MIX-2"
+                    onChange={(e) => {
+                      const vars = [...form.variants];
+                      vars[i] = { ...vars[i], sku: e.target.value };
+                      setForm((f) => ({ ...f, variants: vars }));
+                    }}
+                    className="px-3 py-2 text-sm border border-neutral-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-green bg-white"
+                  />
+                </div>
+              </div>
+              <div className="flex flex-col gap-1">
+                <label className="text-xs font-semibold text-neutral-500 uppercase tracking-wide">Precio (MXN)</label>
+                <input
+                  type="number"
+                  value={v.price || ""}
+                  placeholder="13722.80"
+                  onChange={(e) => {
+                    const vars = [...form.variants];
+                    vars[i] = { ...vars[i], price: Number(e.target.value) || 0 };
+                    setForm((f) => ({ ...f, variants: vars }));
+                  }}
+                  className="px-3 py-2 text-sm border border-neutral-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-green bg-white max-w-50"
+                />
+              </div>
             </div>
           ))}
         </div>
