@@ -1,6 +1,9 @@
 "use client";
 import { useState } from "react";
+import dynamic from "next/dynamic";
 import type { ProductExtra, Highlight, Benefit, VideoItem, SpecRow, Testimonial } from "@/lib/productExtras";
+
+const ImagePicker = dynamic(() => import("@/components/admin/ImagePicker"), { ssr: false });
 
 /* ── helpers ─────────────────────────────────────── */
 const green = "rgb(122, 181, 54)";
@@ -21,6 +24,15 @@ function Field({ label, value, onChange, multiline, placeholder }: {
             className={inputCls + " resize-none"} />
         : <input value={value} onChange={(e) => onChange(e.target.value)}
             placeholder={placeholder} className={inputCls} />}
+    </div>
+  );
+}
+
+function ImageField({ label, value, onChange }: { label: string; value: string; onChange: (v: string) => void }) {
+  return (
+    <div>
+      <label className={labelCls}>{label}</label>
+      <ImagePicker value={value} onChange={onChange} />
     </div>
   );
 }
@@ -74,7 +86,6 @@ function RemoveBtn({ onClick }: { onClick: () => void }) {
   );
 }
 
-/* ── item card wrapper ───────────────────────────── */
 function ItemCard({ children, onRemove }: { children: React.ReactNode; onRemove: () => void }) {
   return (
     <div className="border border-neutral-200 rounded-lg p-4 flex flex-col gap-3 bg-neutral-50">
@@ -98,7 +109,6 @@ export default function ExtrasFormClient({ slug, initial }: Props) {
   const set = <K extends keyof ProductExtra>(key: K, value: ProductExtra[K]) =>
     setData((d) => ({ ...d, [key]: value }));
 
-  /* list helpers */
   function listSet<T>(key: keyof ProductExtra, index: number, patch: Partial<T>) {
     setData((d) => {
       const arr = [...((d[key] as T[]) ?? [])] as T[];
@@ -154,18 +164,11 @@ export default function ExtrasFormClient({ slug, initial }: Props) {
       <Section title="Benefits — iconos/infografías">
         {(data.benefits ?? []).map((b, i) => (
           <ItemCard key={i} onRemove={() => listRemove("benefits", i)}>
-            <div className="grid grid-cols-2 gap-3">
-              <Field label="Imagen (URL)" value={b.image ?? ""}
-                onChange={(v) => listSet<Benefit>("benefits", i, { image: v || undefined })} />
-              <Field label="Título" value={b.title}
-                onChange={(v) => listSet<Benefit>("benefits", i, { title: v })} />
-            </div>
-            <div className="grid grid-cols-2 gap-3">
-              <Field label="Ancho imagen" value={String(b.imageWidth ?? "")}
-                onChange={(v) => listSet<Benefit>("benefits", i, { imageWidth: v ? Number(v) : undefined })} />
-              <Field label="Alto imagen" value={String(b.imageHeight ?? "")}
-                onChange={(v) => listSet<Benefit>("benefits", i, { imageHeight: v ? Number(v) : undefined })} />
-            </div>
+            <Field label="Título" value={b.title}
+              onChange={(v) => listSet<Benefit>("benefits", i, { title: v })} />
+            <ImageField label="Imagen"
+              value={b.image ?? ""}
+              onChange={(v) => listSet<Benefit>("benefits", i, { image: v || undefined })} />
           </ItemCard>
         ))}
         <AddBtn label="Agregar benefit" onClick={() =>
@@ -179,17 +182,12 @@ export default function ExtrasFormClient({ slug, initial }: Props) {
             <div className="grid grid-cols-2 gap-3">
               <Field label="Ícono (emoji)" value={h.icon ?? ""}
                 onChange={(v) => listSet<Highlight>("highlights", i, { icon: v || undefined })} placeholder="🔩" />
-              <Field label="Imagen (URL)" value={h.image ?? ""}
-                onChange={(v) => listSet<Highlight>("highlights", i, { image: v || undefined })} />
+              <Field label="Título" value={h.title}
+                onChange={(v) => listSet<Highlight>("highlights", i, { title: v })} />
             </div>
-            <div className="grid grid-cols-2 gap-3">
-              <Field label="Ancho imagen" value={String(h.imageWidth ?? "")}
-                onChange={(v) => listSet<Highlight>("highlights", i, { imageWidth: v ? Number(v) : undefined })} />
-              <Field label="Alto imagen" value={String(h.imageHeight ?? "")}
-                onChange={(v) => listSet<Highlight>("highlights", i, { imageHeight: v ? Number(v) : undefined })} />
-            </div>
-            <Field label="Título" value={h.title}
-              onChange={(v) => listSet<Highlight>("highlights", i, { title: v })} />
+            <ImageField label="Imagen"
+              value={h.image ?? ""}
+              onChange={(v) => listSet<Highlight>("highlights", i, { image: v || undefined })} />
             <Field label="Descripción" value={h.desc} multiline
               onChange={(v) => listSet<Highlight>("highlights", i, { desc: v })} />
           </ItemCard>
@@ -224,11 +222,12 @@ export default function ExtrasFormClient({ slug, initial }: Props) {
             <div className="grid grid-cols-2 gap-3">
               <Field label="Badge (etiqueta)" value={data.promo.badge ?? ""}
                 onChange={(v) => set("promo", { ...data.promo!, badge: v || undefined })} />
-              <Field label="Imagen URL" value={data.promo.image ?? ""}
-                onChange={(v) => set("promo", { ...data.promo!, image: v || undefined })} />
+              <Field label="Título" value={data.promo.title}
+                onChange={(v) => set("promo", { ...data.promo!, title: v })} />
             </div>
-            <Field label="Título" value={data.promo.title}
-              onChange={(v) => set("promo", { ...data.promo!, title: v })} />
+            <ImageField label="Imagen promo"
+              value={data.promo.image ?? ""}
+              onChange={(v) => set("promo", { ...data.promo!, image: v || undefined })} />
             <div className="flex flex-col gap-2">
               <label className={labelCls}>Bullets</label>
               {(data.promo.bullets ?? []).map((b, i) => (
@@ -259,7 +258,7 @@ export default function ExtrasFormClient({ slug, initial }: Props) {
       </Section>
 
       {/* ─── 6. Testimoniales ───────────────────────── */}
-      <Section title="Testimoniales">
+      <Section title="Testimoniales — casos de éxito">
         <Toggle label="Mostrar sección de testimoniales"
           checked={!!data.showTestimonials}
           onChange={(v) => set("showTestimonials", v || undefined)} />
@@ -267,7 +266,8 @@ export default function ExtrasFormClient({ slug, initial }: Props) {
           <>
             {(data.testimonials ?? []).map((t, i) => (
               <ItemCard key={i} onRemove={() => listRemove("testimonials", i)}>
-                <Field label="Imagen URL" value={t.src}
+                <ImageField label="Imagen"
+                  value={t.src}
                   onChange={(v) => listSet<Testimonial>("testimonials", i, { src: v })} />
                 <Field label="Caption / texto" value={t.caption}
                   onChange={(v) => listSet<Testimonial>("testimonials", i, { caption: v })} />
@@ -284,6 +284,31 @@ export default function ExtrasFormClient({ slug, initial }: Props) {
         <Toggle label="Mostrar banner 'Contamos con refacciones'"
           checked={!!data.showRefacciones}
           onChange={(v) => set("showRefacciones", v || undefined)} />
+        {data.showRefacciones && (
+          <>
+            <label className={labelCls}>Imágenes del banner (máx. 2)</label>
+            {(data.refaccionesImages ?? []).map((img, i) => (
+              <div key={i} className="flex flex-col gap-1">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs text-neutral-500">Imagen {i + 1}</span>
+                  <RemoveBtn onClick={() => listRemove("refaccionesImages", i)} />
+                </div>
+                <ImagePicker
+                  value={img}
+                  onChange={(v) => {
+                    const arr = [...(data.refaccionesImages ?? [])];
+                    arr[i] = v;
+                    set("refaccionesImages", arr);
+                  }}
+                />
+              </div>
+            ))}
+            {(data.refaccionesImages ?? []).length < 2 && (
+              <AddBtn label="Agregar imagen" onClick={() =>
+                set("refaccionesImages", [...(data.refaccionesImages ?? []), ""])} />
+            )}
+          </>
+        )}
       </Section>
 
       {/* ─── 8. Videos ──────────────────────────────── */}
@@ -305,14 +330,12 @@ export default function ExtrasFormClient({ slug, initial }: Props) {
 
       {/* ─── 9. Ficha técnica ───────────────────────── */}
       <Section title="Ficha técnica">
-        <div className="grid grid-cols-2 gap-3">
-          <Field label="Título de la ficha" value={data.specTitle ?? ""}
-            onChange={(v) => set("specTitle", v || undefined)}
-            placeholder="Ficha técnica Business 1 Plus" />
-          <Field label="Imagen de ficha (URL)" value={data.specImage ?? ""}
-            onChange={(v) => set("specImage", v || undefined)}
-            placeholder="/img/bplus1/ficha-tecnica.jpeg" />
-        </div>
+        <Field label="Título de la ficha" value={data.specTitle ?? ""}
+          onChange={(v) => set("specTitle", v || undefined)}
+          placeholder="Ficha técnica Business 1 Plus" />
+        <ImageField label="Imagen de ficha técnica"
+          value={data.specImage ?? ""}
+          onChange={(v) => set("specImage", v || undefined)} />
 
         <div className="flex flex-col gap-2">
           <label className={labelCls}>Especificaciones (filas)</label>
