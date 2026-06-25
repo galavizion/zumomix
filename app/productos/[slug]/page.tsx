@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Container from "@/components/ui/Container";
@@ -16,6 +18,16 @@ async function getExtras(slug: string): Promise<ProductExtra | null> {
     .eq("slug", slug)
     .single();
   return (data?.data as ProductExtra | null) ?? productExtras[slug] ?? null;
+}
+
+async function getProduct(slug: string) {
+  const { data } = await supabase
+    .from("products")
+    .select("data")
+    .eq("slug", slug)
+    .single();
+  if (data?.data) return data.data as (typeof PRODUCTS)[number];
+  return PRODUCTS.find((p) => p.slug === slug) ?? null;
 }
 
 const BASE_URL = "https://www.zumomix.com";
@@ -102,7 +114,7 @@ export function generateStaticParams() {
 
 export default async function ProductoPage({ params }: Props) {
   const { slug } = await params;
-  const product = PRODUCTS.find((p) => p.slug === slug);
+  const product = await getProduct(slug);
   if (!product) notFound();
 
   const related = PRODUCTS.filter(
