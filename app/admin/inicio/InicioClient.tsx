@@ -26,9 +26,11 @@ const sections = [
     name: "promo",
     label: "Barra de Promoción",
     fields: [
-      { key: "text", label: "Texto", type: "text" },
-      { key: "discount", label: "Descuento", type: "text" },
-      { key: "description", label: "Descripción", type: "text" },
+      { key: "active", label: "Mostrar barra", type: "toggle" },
+      { key: "text", label: "Texto principal", type: "text" },
+      { key: "showDiscount", label: "Mostrar descuento", type: "toggle" },
+      { key: "discount", label: "Descuento (ej. 20% OFF)", type: "text" },
+      { key: "description", label: "Texto final", type: "text" },
     ],
   },
   {
@@ -280,7 +282,17 @@ export default function InicioClient() {
                 <label className="block text-sm font-semibold text-neutral-700 mb-1.5">
                   {field.label}
                 </label>
-                {field.type === "textarea" ? (
+                {field.type === "toggle" ? (
+                  <label className="flex items-center gap-3 cursor-pointer select-none">
+                    <div
+                      onClick={() => handleChange(activeTab, field.key, !currentData.content[field.key])}
+                      className={`relative w-10 h-6 rounded-full transition-colors ${currentData.content[field.key] ? "bg-brand-green" : "bg-neutral-300"}`}
+                    >
+                      <span className={`absolute top-1 w-4 h-4 bg-white rounded-full shadow transition-transform ${currentData.content[field.key] ? "translate-x-5" : "translate-x-1"}`} />
+                    </div>
+                    <span className="text-sm text-neutral-600">{currentData.content[field.key] ? "Sí" : "No"}</span>
+                  </label>
+                ) : field.type === "textarea" ? (
                   <textarea
                     value={currentData.content[field.key] || ""}
                     onChange={(e) => handleChange(activeTab, field.key, e.target.value)}

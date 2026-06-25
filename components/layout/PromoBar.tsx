@@ -5,15 +5,18 @@ import { useHomeData } from "@/hooks/useHomeData";
 export default function PromoBar() {
   const { data } = useHomeData();
 
-  const promoData = data.promo?.content || {
-    text: "Promoción de temporada · hasta",
-    discount: "20% OFF",
-    description: "en equipos seleccionados",
-  };
+  const promo = data.promo?.content ?? {};
+
+  // Si el toggle "active" existe y está en false, no mostrar
+  if ("active" in promo && !promo.active) return null;
+
+  const text = promo.text ?? "Promoción de temporada · hasta";
+  const showDiscount = !("showDiscount" in promo) || promo.showDiscount;
+  const discount = promo.discount ?? "20% OFF";
+  const description = promo.description ?? "en equipos seleccionados";
 
   return (
     <div
-      data-dc-tpl="24"
       style={{
         background: "rgb(232, 245, 216)",
         color: "rgb(58, 92, 28)",
@@ -25,11 +28,14 @@ export default function PromoBar() {
         animation: "fadeIn 0.6s ease-out",
       }}
     >
-      {promoData.text}{" "}
-      <span data-dc-tpl="25" style={{ color: "rgb(224, 112, 12)" }}>
-        {promoData.discount}
-      </span>{" "}
-      {promoData.description}
+      {text}
+      {showDiscount && discount && (
+        <>
+          {" "}
+          <span style={{ color: "rgb(224, 112, 12)" }}>{discount}</span>
+        </>
+      )}
+      {description && <> {description}</>}
     </div>
   );
 }
