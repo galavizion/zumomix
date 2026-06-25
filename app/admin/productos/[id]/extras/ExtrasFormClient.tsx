@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import dynamic from "next/dynamic";
-import type { ProductExtra, Highlight, Benefit, VideoItem, SpecRow, Testimonial } from "@/lib/productExtras";
+import type { ProductExtra, Highlight, Benefit, VideoItem, SpecRow, Testimonial, SpecTable } from "@/lib/productExtras";
 
 const ImagePicker = dynamic(() => import("@/components/admin/ImagePicker"), { ssr: false });
 
@@ -330,29 +330,108 @@ export default function ExtrasFormClient({ slug, initial }: Props) {
 
       {/* ─── 9. Ficha técnica ───────────────────────── */}
       <Section title="Ficha técnica">
-        <Field label="Título de la ficha" value={data.specTitle ?? ""}
+        <Field label="Título de la sección" value={data.specTitle ?? ""}
           onChange={(v) => set("specTitle", v || undefined)}
           placeholder="Ficha técnica Business 1 Plus" />
-        <ImageField label="Imagen de ficha técnica"
+        <ImageField label="Imagen lateral (1/3 izquierda)"
           value={data.specImage ?? ""}
           onChange={(v) => set("specImage", v || undefined)} />
 
-        <div className="flex flex-col gap-2">
-          <label className={labelCls}>Especificaciones (filas)</label>
-          {(data.specs ?? []).map((s, i) => (
-            <div key={i} className="flex gap-2 items-center">
-              <input value={s.label} placeholder="Etiqueta"
-                onChange={(e) => listSet<SpecRow>("specs", i, { label: e.target.value })}
-                className={inputCls + " flex-1"} />
-              <input value={s.value} placeholder="Valor"
-                onChange={(e) => listSet<SpecRow>("specs", i, { value: e.target.value })}
-                className={inputCls + " flex-1"} />
-              <RemoveBtn onClick={() => listRemove("specs", i)} />
-            </div>
-          ))}
-          <AddBtn label="Agregar fila" onClick={() =>
-            listAdd<SpecRow>("specs", { label: "", value: "" })} />
+        {/* Modo: simple vs múltiples fichas con pestañas */}
+        <div className="flex gap-2 pt-1">
+          <button type="button"
+            onClick={() => { set("specTabs", undefined); if (!data.specs) set("specs", []); }}
+            className={`px-3 py-1.5 text-xs font-semibold rounded-lg border transition-colors ${!data.specTabs ? "bg-brand-green text-white border-brand-green" : "border-neutral-300 text-neutral-600 hover:border-brand-green"}`}>
+            Una sola ficha
+          </button>
+          <button type="button"
+            onClick={() => { set("specs", undefined); if (!data.specTabs) set("specTabs", [{ label: "Modelo 1", rows: [] }]); }}
+            className={`px-3 py-1.5 text-xs font-semibold rounded-lg border transition-colors ${data.specTabs ? "bg-brand-green text-white border-brand-green" : "border-neutral-300 text-neutral-600 hover:border-brand-green"}`}>
+            Múltiples fichas (pestañas)
+          </button>
         </div>
+
+        {/* Una sola ficha */}
+        {!data.specTabs && (
+          <div className="flex flex-col gap-2">
+            <label className={labelCls}>Especificaciones</label>
+            {(data.specs ?? []).map((s, i) => (
+              <div key={i} className="flex gap-2 items-center">
+                <input value={s.label} placeholder="Etiqueta"
+                  onChange={(e) => listSet<SpecRow>("specs", i, { label: e.target.value })}
+                  className={inputCls + " flex-1"} />
+                <input value={s.value} placeholder="Valor"
+                  onChange={(e) => listSet<SpecRow>("specs", i, { value: e.target.value })}
+                  className={inputCls + " flex-1"} />
+                <RemoveBtn onClick={() => listRemove("specs", i)} />
+              </div>
+            ))}
+            <AddBtn label="Agregar fila" onClick={() =>
+              listAdd<SpecRow>("specs", { label: "", value: "" })} />
+          </div>
+        )}
+
+        {/* Múltiples fichas con pestañas */}
+        {data.specTabs && (
+          <div className="flex flex-col gap-4">
+            {data.specTabs.map((tab, ti) => (
+              <div key={ti} className="border border-neutral-200 rounded-lg overflow-hidden bg-neutral-50">
+                <div className="flex items-center gap-2 px-4 py-2.5 bg-white border-b border-neutral-200">
+                  <input
+                    value={tab.label}
+                    placeholder="Nombre de la pestaña (ej. MIX2 — 2 tanques)"
+                    onChange={(e) => {
+                      const tabs = [...data.specTabs!];
+                      tabs[ti] = { ...tabs[ti], label: e.target.value };
+                      set("specTabs", tabs);
+                    }}
+                    className={inputCls + " flex-1"}
+                  />
+                  <RemoveBtn onClick={() => {
+                    const tabs = data.specTabs!.filter((_, i) => i !== ti);
+                    set("specTabs", tabs.length ? tabs : undefined);
+                  }} />
+                </div>
+                <div className="p-4 flex flex-col gap-2">
+                  {tab.rows.map((s, ri) => (
+                    <div key={ri} className="flex gap-2 items-center">
+                      <input value={s.label} placeholder="Etiqueta"
+                        onChange={(e) => {
+                          const tabs = [...data.specTabs!];
+                          const rows = [...tabs[ti].rows];
+                          rows[ri] = { ...rows[ri], label: e.target.value };
+                          tabs[ti] = { ...tabs[ti], rows };
+                          set("specTabs", tabs);
+                        }}
+                        className={inputCls + " flex-1"} />
+                      <input value={s.value} placeholder="Valor"
+                        onChange={(e) => {
+                          const tabs = [...data.specTabs!];
+                          const rows = [...tabs[ti].rows];
+                          rows[ri] = { ...rows[ri], value: e.target.value };
+                          tabs[ti] = { ...tabs[ti], rows };
+                          set("specTabs", tabs);
+                        }}
+                        className={inputCls + " flex-1"} />
+                      <RemoveBtn onClick={() => {
+                        const tabs = [...data.specTabs!];
+                        tabs[ti] = { ...tabs[ti], rows: tabs[ti].rows.filter((_, i) => i !== ri) };
+                        set("specTabs", tabs);
+                      }} />
+                    </div>
+                  ))}
+                  <AddBtn label="Agregar fila" onClick={() => {
+                    const tabs = [...data.specTabs!];
+                    tabs[ti] = { ...tabs[ti], rows: [...tabs[ti].rows, { label: "", value: "" }] };
+                    set("specTabs", tabs);
+                  }} />
+                </div>
+              </div>
+            ))}
+            <AddBtn label="Agregar ficha" onClick={() =>
+              set("specTabs", [...(data.specTabs ?? []), { label: "Nueva ficha", rows: [] }])} />
+          </div>
+        )}
       </Section>
 
       {/* save bottom */}
