@@ -195,7 +195,7 @@ export default function InicioClient() {
     }
   };
 
-  const handleChange = (sectionName: string, key: string, value: string) => {
+  const handleChange = (sectionName: string, key: string, value: string | boolean) => {
     setSectionData((prev) => ({
       ...prev,
       [sectionName]: {
