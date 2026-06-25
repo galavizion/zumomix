@@ -228,9 +228,10 @@ export default function ProductDetail({ product }: { product: Product }) {
             <h1 style={{ fontSize: "42px", fontWeight: "800", color: "rgb(34,48,15)", letterSpacing: "-0.02em", marginBottom: "16px", lineHeight: "1.1" }}>
               {activeName}
             </h1>
-            <p style={{ fontSize: "16px", lineHeight: "1.6", color: "rgb(91,102,80)" }}>
-              {product.description}
-            </p>
+            <div
+              style={{ fontSize: "16px", lineHeight: "1.6", color: "rgb(91,102,80)" }}
+              dangerouslySetInnerHTML={{ __html: product.description }}
+            />
           </div>
 
           {/* Variantes */}

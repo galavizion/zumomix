@@ -5,7 +5,10 @@ import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import ConfirmDialog from "@/components/admin/ConfirmDialog";
 import ImagePicker from "@/components/admin/ImagePicker";
+import dynamic from "next/dynamic";
 import type { Product } from "@/types";
+
+const RichEditor = dynamic(() => import("@/components/admin/RichEditor"), { ssr: false });
 
 interface Props {
   product: Product | null;
@@ -30,6 +33,7 @@ export default function ProductoFormClient({ product, isNew }: Props) {
     stock: product?.stock?.toString() ?? "",
     status: product?.status ?? "active",
     images: product?.images ?? [""],
+    slug: product?.slug ?? "",
   });
 
   const update = (key: keyof Omit<typeof form, "images">) => (
@@ -47,7 +51,7 @@ export default function ProductoFormClient({ product, isNew }: Props) {
   const buildProduct = (): Product => ({
     ...(product ?? {}),
     id: product?.id ?? crypto.randomUUID(),
-    slug: product?.slug ?? form.name.toLowerCase().replace(/\s+/g, "-"),
+    slug: form.slug || form.name.toLowerCase().replace(/\s+/g, "-"),
     name: form.name,
     sku: form.sku,
     shortDescription: form.shortDescription,
@@ -151,12 +155,19 @@ export default function ProductoFormClient({ product, isNew }: Props) {
             </div>
           </div>
           <div className="flex flex-col gap-1.5">
+            <Input label="Slug (URL)" value={form.slug} onChange={update("slug")} placeholder="exprimidor-atomic" />
+            <p className="text-xs text-neutral-400 mt-0.5">/productos/<span className="font-medium text-neutral-600">{form.slug || "…"}</span></p>
+          </div>
+          <div className="flex flex-col gap-1.5">
             <label className="text-sm font-medium text-neutral-700">Descripción corta</label>
             <textarea value={form.shortDescription} onChange={update("shortDescription")} rows={2} className="px-4 py-2.5 border border-neutral-200 rounded-card text-sm focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all duration-300 resize-none" />
           </div>
           <div className="flex flex-col gap-1.5">
             <label className="text-sm font-medium text-neutral-700">Descripción completa</label>
-            <textarea value={form.description} onChange={update("description")} rows={5} className="px-4 py-2.5 border border-neutral-200 rounded-card text-sm focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all duration-300 resize-none" />
+            <RichEditor
+              value={form.description}
+              onChange={(html) => setForm((f) => ({ ...f, description: html }))}
+            />
           </div>
         </div>
 
