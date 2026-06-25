@@ -94,7 +94,7 @@ export default function ProductExtras({ extra }: { extra: ProductExtra }) {
             {extra.highlights.map((h) => (
               <div key={h.title} style={{ background: "white", border: `1.5px solid ${border}`, borderRadius: "18px", overflow: "hidden" }}>
                 {h.image && (
-                  <div style={{ background: light, aspectRatio: "16/9", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
+                  <div style={{ background: light, aspectRatio: "1/1", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
                     <Image
                       src={h.image}
                       alt={h.title}
