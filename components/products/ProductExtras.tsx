@@ -151,19 +151,6 @@ export default function ProductExtras({ extra }: { extra: ProductExtra }) {
         </section>
       )}
 
-      {/* ===== Refacciones ===== */}
-      {extra.showRefacciones && (
-        <section style={{ background: dark, borderRadius: "20px", padding: "36px 40px", color: "white" }}>
-          <h3 style={{ fontSize: "18px", fontWeight: "800", marginBottom: "12px", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-            Contamos con refacciones y taller especializado
-          </h3>
-          <p style={{ fontSize: "15px", color: "rgba(255,255,255,0.75)", lineHeight: 1.7, marginBottom: "8px" }}>
-            A diferencia de otras marcas, nosotros sí tenemos refacciones para nuestras máquinas. Además contamos con un taller especializado para brindarte apoyo ante cualquier problema.
-          </p>
-          <p style={{ fontSize: "15px", color: green, fontWeight: "700" }}>Siempre contarás con el soporte de Zumomix.</p>
-        </section>
-      )}
-
       {/* ===== Videos / Shorts ===== */}
       {extra.videos && extra.videos.length > 0 && (
         <section>
@@ -239,6 +226,19 @@ export default function ProductExtras({ extra }: { extra: ProductExtra }) {
               {extra.specs && <SpecTable rows={extra.specs} />}
             </div>
           </div>
+        </section>
+      )}
+
+      {/* ===== Refacciones ===== */}
+      {extra.showRefacciones && (
+        <section style={{ background: dark, borderRadius: "20px", padding: "36px 40px", color: "white" }}>
+          <h3 style={{ fontSize: "18px", fontWeight: "800", marginBottom: "12px", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+            Contamos con refacciones y taller especializado
+          </h3>
+          <p style={{ fontSize: "15px", color: "rgba(255,255,255,0.75)", lineHeight: 1.7, marginBottom: "8px" }}>
+            A diferencia de otras marcas, nosotros sí tenemos refacciones para nuestras máquinas. Además contamos con un taller especializado para brindarte apoyo ante cualquier problema.
+          </p>
+          <p style={{ fontSize: "15px", color: green, fontWeight: "700" }}>Siempre contarás con el soporte de Zumomix.</p>
         </section>
       )}
 
