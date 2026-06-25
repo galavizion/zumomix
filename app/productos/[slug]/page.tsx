@@ -17,7 +17,10 @@ async function getExtras(slug: string): Promise<ProductExtra | null> {
     .select("data")
     .eq("slug", slug)
     .single();
-  return (data?.data as ProductExtra | null) ?? productExtras[slug] ?? null;
+  const fromDb = data?.data as ProductExtra | null;
+  // Si el registro existe pero está vacío, usa el fallback hardcodeado
+  if (fromDb && Object.keys(fromDb).length > 0) return fromDb;
+  return productExtras[slug] ?? null;
 }
 
 async function getProduct(slug: string) {

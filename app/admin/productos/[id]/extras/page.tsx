@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { PRODUCTS } from "@/lib/constants";
-import productExtras from "@/lib/productExtras";
+import productExtras, { type ProductExtra } from "@/lib/productExtras";
 import ExtrasFormClient from "./ExtrasFormClient";
 import { supabase } from "@/lib/supabase";
 
@@ -21,7 +21,8 @@ export default async function ExtrasPage({ params }: Props) {
     .eq("slug", product.slug)
     .single();
 
-  const initial = row?.data ?? productExtras[product.slug] ?? {};
+  const fromDb = row?.data as ProductExtra | null;
+  const initial = (fromDb && Object.keys(fromDb).length > 0 ? fromDb : null) ?? productExtras[product.slug] ?? {};
 
   return (
     <div className="flex flex-col gap-6">
