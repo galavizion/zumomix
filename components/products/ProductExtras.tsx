@@ -195,45 +195,50 @@ export default function ProductExtras({ extra }: { extra: ProductExtra }) {
             </h2>
           )}
 
-          {/* Tabs (múltiples variantes) */}
-          {extra.specTabs && (
-            <>
-              <div style={{ display: "flex", gap: "8px", marginBottom: "20px" }}>
-                {extra.specTabs.map((t, i) => (
-                  <button
-                    key={t.label}
-                    onClick={() => setTab(i)}
-                    style={{
-                      padding: "10px 24px", borderRadius: "10px", border: "1.5px solid",
-                      borderColor: tab === i ? green : border,
-                      background: tab === i ? green : "white",
-                      color: tab === i ? "white" : "rgb(63, 74, 54)",
-                      fontWeight: "700", fontSize: "14px", cursor: "pointer", transition: "all 0.2s",
-                    }}
-                  >
-                    {t.label}
-                  </button>
-                ))}
+          <div style={{ display: "grid", gridTemplateColumns: extra.specImage ? "1fr 2fr" : "1fr", gap: "32px", alignItems: "start" }}>
+            {/* Imagen ficha técnica — izquierda 1/3 */}
+            {extra.specImage && (
+              <div style={{ position: "relative", borderRadius: "16px", overflow: "hidden", border: `1.5px solid ${border}` }}>
+                <Image
+                  src={extra.specImage}
+                  alt="Ficha técnica"
+                  width={600}
+                  height={800}
+                  style={{ width: "100%", height: "auto", display: "block" }}
+                />
               </div>
-              <SpecTable rows={extra.specTabs[tab].rows} />
-            </>
-          )}
+            )}
 
-          {/* Tabla simple */}
-          {extra.specs && <SpecTable rows={extra.specs} />}
+            {/* Tabla — derecha 2/3 */}
+            <div>
+              {/* Tabs (múltiples variantes) */}
+              {extra.specTabs && (
+                <>
+                  <div style={{ display: "flex", gap: "8px", marginBottom: "20px" }}>
+                    {extra.specTabs.map((t, i) => (
+                      <button
+                        key={t.label}
+                        onClick={() => setTab(i)}
+                        style={{
+                          padding: "10px 24px", borderRadius: "10px", border: "1.5px solid",
+                          borderColor: tab === i ? green : border,
+                          background: tab === i ? green : "white",
+                          color: tab === i ? "white" : "rgb(63, 74, 54)",
+                          fontWeight: "700", fontSize: "14px", cursor: "pointer", transition: "all 0.2s",
+                        }}
+                      >
+                        {t.label}
+                      </button>
+                    ))}
+                  </div>
+                  <SpecTable rows={extra.specTabs[tab].rows} />
+                </>
+              )}
 
-          {/* Imagen ficha técnica */}
-          {extra.specImage && (
-            <div style={{ marginTop: "28px" }}>
-              <Image
-                src={extra.specImage}
-                alt="Ficha técnica"
-                width={900}
-                height={600}
-                style={{ width: "100%", height: "auto", borderRadius: "16px", border: `1.5px solid ${border}` }}
-              />
+              {/* Tabla simple */}
+              {extra.specs && <SpecTable rows={extra.specs} />}
             </div>
-          )}
+          </div>
         </section>
       )}
 
