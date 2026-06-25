@@ -115,14 +115,23 @@ export function generateStaticParams() {
   return PRODUCTS.map((p) => ({ slug: p.slug }));
 }
 
+async function getAllProducts() {
+  const { data, error } = await supabase
+    .from("products")
+    .select("data")
+    .order("updated_at", { ascending: false });
+  if (error || !data || data.length === 0) return PRODUCTS;
+  return data.map((r) => r.data as (typeof PRODUCTS)[number]);
+}
+
 export default async function ProductoPage({ params }: Props) {
   const { slug } = await params;
-  const product = await getProduct(slug);
+  const [product, allProducts] = await Promise.all([getProduct(slug), getAllProducts()]);
   if (!product) notFound();
 
-  const related = PRODUCTS.filter(
-    (p) => p.id !== product.id && p.category === product.category
-  ).slice(0, 3);
+  const related = allProducts
+    .filter((p) => p.id !== product.id && p.category === product.category)
+    .slice(0, 3);
 
   const extra = await getExtras(product.slug);
 
