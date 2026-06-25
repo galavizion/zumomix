@@ -53,13 +53,15 @@ export default function ProductExtras({ extra }: { extra: ProductExtra }) {
             {extra.benefits.map((b) => (
               <div key={b.title} style={{ background: light, border: `1.5px solid ${border}`, borderRadius: "16px", padding: "20px 16px", display: "flex", flexDirection: "column", alignItems: "center", gap: "12px", textAlign: "center" }}>
                 {b.image && (
-                  <Image
-                    src={b.image}
-                    alt={b.title}
-                    width={b.imageWidth ?? 120}
-                    height={b.imageHeight ?? 120}
-                    style={{ width: "80px", height: "80px", objectFit: "contain" }}
-                  />
+                  <div style={{ position: "relative", width: "80px", height: "80px", flexShrink: 0 }}>
+                    <Image
+                      src={b.image}
+                      alt={b.title}
+                      fill
+                      style={{ objectFit: "contain" }}
+                      sizes="80px"
+                    />
+                  </div>
                 )}
                 <p style={{ fontSize: "13px", fontWeight: "700", color: dark, lineHeight: 1.4 }}>{b.title}</p>
               </div>
