@@ -184,6 +184,7 @@ export default function ProductoFormClient({ product, isNew }: Props) {
               <label className="text-sm font-medium text-neutral-700">Estado</label>
               <select value={form.status} onChange={update("status")} className="px-4 py-2.5 border border-neutral-200 rounded-card text-sm focus:outline-none focus:ring-2 focus:ring-brand-green transition-all duration-300">
                 <option value="active">Activo</option>
+                <option value="suspended">Suspendido</option>
                 <option value="draft">Borrador</option>
               </select>
             </div>

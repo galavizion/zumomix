@@ -16,6 +16,7 @@ export default function ProductDetail({ product }: { product: Product }) {
   const [activeImage, setActiveImage] = useState(product.images[0] ?? "");
   const [lightbox, setLightbox] = useState(false);
 
+  const isSuspended = product.status === "suspended";
   const activePrice = selectedVariant?.price ?? product.salePrice ?? product.price;
   const activeSalePrice = selectedVariant ? undefined : product.salePrice;
   const activeOriginalPrice = selectedVariant ? selectedVariant.price : product.price;
@@ -268,8 +269,8 @@ export default function ProductDetail({ product }: { product: Product }) {
             </div>
           )}
 
-          {/* Cantidad */}
-          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+          {/* Cantidad — solo si no está suspendido */}
+          {!isSuspended && <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
             <span style={{ fontSize: "14px", fontWeight: "600", color: "rgb(72,84,60)" }}>Cantidad:</span>
             <div style={{ display: "flex", alignItems: "center", border: "1.5px solid rgb(227,232,220)", borderRadius: "13px", overflow: "hidden" }}>
               <button className="quantity-btn" onClick={() => setQty((q) => Math.max(1, q - 1))}
@@ -284,15 +285,27 @@ export default function ProductDetail({ product }: { product: Product }) {
                 onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
               >+</button>
             </div>
-          </div>
+          </div>}
 
           {/* Botones */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "14px" }}>
-            <button className="add-button" onClick={handleAdd}
-              style={{ background: "rgb(122,181,54)", color: "white", border: "none", fontWeight: "700", fontSize: "16px", padding: "15px 28px", borderRadius: "14px", cursor: "pointer", boxShadow: "rgba(122,181,54,0.32) 0px 12px 28px" }}
-            >
-              {added ? "✓ Agregado" : "Agregar al carrito"}
-            </button>
+          {isSuspended ? (
+            <div style={{ padding: "18px 24px", borderRadius: "14px", background: "rgb(245,248,238)", border: "1.5px solid rgb(216,232,194)", textAlign: "center" }}>
+              <span style={{ fontSize: "13px", fontWeight: "700", letterSpacing: "0.08em", textTransform: "uppercase", color: "rgb(122,181,54)" }}>
+                🕐 Próximamente disponible
+              </span>
+              <p style={{ fontSize: "13px", color: "rgb(91,102,80)", marginTop: "6px" }}>
+                Contáctanos para más información
+              </p>
+            </div>
+          ) : null}
+          <div style={{ display: "grid", gridTemplateColumns: isSuspended ? "1fr" : "1fr 1fr", gap: "14px" }}>
+            {!isSuspended && (
+              <button className="add-button" onClick={handleAdd}
+                style={{ background: "rgb(122,181,54)", color: "white", border: "none", fontWeight: "700", fontSize: "16px", padding: "15px 28px", borderRadius: "14px", cursor: "pointer", boxShadow: "rgba(122,181,54,0.32) 0px 12px 28px" }}
+              >
+                {added ? "✓ Agregado" : "Agregar al carrito"}
+              </button>
+            )}
             <a
               href={`https://wa.me/${CONTACT.whatsapp}?text=${waMessage}`}
               target="_blank"

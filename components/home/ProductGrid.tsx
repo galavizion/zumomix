@@ -9,8 +9,8 @@ async function getProducts(): Promise<Product[]> {
     .select("data")
     .order("updated_at", { ascending: false });
   if (error || !data || data.length === 0)
-    return PRODUCTS.filter((p) => p.status === "active");
-  return data.map((r) => r.data as Product).filter((p) => p.status === "active");
+    return PRODUCTS.filter((p) => p.status !== "draft");
+  return data.map((r) => r.data as Product).filter((p) => p.status !== "draft");
 }
 
 const badgeConfig: Record<string, { label: string; bgColor: string; textColor: string }> = {

@@ -130,7 +130,7 @@ export default async function ProductoPage({ params }: Props) {
   if (!product) notFound();
 
   const related = allProducts
-    .filter((p) => p.id !== product.id && p.category === product.category)
+    .filter((p) => p.id !== product.id && p.category === product.category && p.status !== "draft")
     .slice(0, 3);
 
   const extra = await getExtras(product.slug);

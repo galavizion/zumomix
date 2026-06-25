@@ -18,7 +18,7 @@ export interface Product {
   images: string[];
   features?: string[];
   stock: number;
-  status: "active" | "draft";
+  status: "active" | "suspended" | "draft";
   related?: string[];
   variants?: ProductVariant[];
 }

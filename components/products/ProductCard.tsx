@@ -14,10 +14,11 @@ interface ProductCardProps {
 
 export default function ProductCard({ product, showAddToCart = false }: ProductCardProps) {
   const { addItem } = useCart();
+  const isSuspended = product.status === "suspended";
 
   return (
     <article className="bg-white rounded-card border border-neutral-200 overflow-hidden shadow-card hover:shadow-card-hover transition-shadow duration-300 group flex flex-col">
-      <Link href={`/productos/${product.slug}`} className="block overflow-hidden bg-white aspect-4/3">
+      <Link href={`/productos/${product.slug}`} className="block overflow-hidden bg-white aspect-4/3 relative">
         <Image
           src={product.images[0]}
           alt={product.name}
@@ -25,6 +26,11 @@ export default function ProductCard({ product, showAddToCart = false }: ProductC
           height={360}
           className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300"
         />
+        {isSuspended && (
+          <span className="absolute top-3 left-3 bg-neutral-800 text-white text-xs font-bold px-2.5 py-1 rounded-full uppercase tracking-wide">
+            Próximamente
+          </span>
+        )}
       </Link>
       <div className="p-5 flex flex-col flex-1 gap-3">
         <div className="flex-1">
@@ -37,7 +43,7 @@ export default function ProductCard({ product, showAddToCart = false }: ProductC
             {product.shortDescription}
           </p>
         </div>
-        {product.price > 0 && (
+        {!isSuspended && product.price > 0 && (
           <p className="text-brand-green font-semibold text-lg">
             {formatPrice(product.price)}
           </p>
@@ -48,7 +54,7 @@ export default function ProductCard({ product, showAddToCart = false }: ProductC
               Ver más
             </Button>
           </Link>
-          {showAddToCart && (
+          {showAddToCart && !isSuspended && (
             <Button
               size="sm"
               onClick={() => addItem(product, 1)}

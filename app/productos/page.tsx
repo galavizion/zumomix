@@ -13,8 +13,8 @@ async function getProducts(): Promise<Product[]> {
     .from("products")
     .select("data")
     .order("updated_at", { ascending: false });
-  if (error || !data || data.length === 0) return PRODUCTS.filter((p) => p.status === "active");
-  return data.map((r) => r.data as Product).filter((p) => p.status === "active");
+  if (error || !data || data.length === 0) return PRODUCTS.filter((p) => p.status !== "draft");
+  return data.map((r) => r.data as Product).filter((p) => p.status !== "draft");
 }
 
 export const metadata: Metadata = {
