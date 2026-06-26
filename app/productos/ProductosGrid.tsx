@@ -69,7 +69,7 @@ function ProductCard({ product }: { product: Product }) {
           </p>
         </div>
 
-        {product.price > 0 && (
+        {product.price > 0 && product.status !== "suspended" && (
           <div style={{ fontSize: "20px", fontWeight: "800", color: "rgb(122, 181, 54)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
             {formatPrice(product.price)}
           </div>
