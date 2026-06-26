@@ -222,8 +222,8 @@ export default function ProductExtras({ extra }: { extra: ProductExtra }) {
                 </>
               )}
 
-              {/* Tabla simple */}
-              {extra.specs && <SpecTable rows={extra.specs} />}
+              {/* Tabla simple — solo si no hay pestañas */}
+              {!extra.specTabs && extra.specs && <SpecTable rows={extra.specs} />}
             </div>
           </div>
         </section>
