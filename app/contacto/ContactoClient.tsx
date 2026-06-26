@@ -399,16 +399,12 @@ export default function ContactoClient() {
               fontSize: "clamp(26px, 3.5vw, 42px)",
               fontWeight: "800",
               color: "white",
-              lineHeight: 1.1,
+              lineHeight: 1.2,
               letterSpacing: "-0.02em",
               fontFamily: "'Plus Jakarta Sans', sans-serif",
             }}>
-              Tenemos un equipo<br />
-              <span style={{ color: "rgb(122, 181, 54)" }}>listo para ti.</span>
+              Tenemos un equipo listo para ti. Contáctanos para que obtengas el tuyo.
             </h2>
-            <p style={{ fontSize: "17px", color: "rgba(255,255,255,0.65)", lineHeight: 1.7, maxWidth: "420px" }}>
-              Contáctanos para que obtengas el tuyo.
-            </p>
             <div style={{ display: "flex", gap: "14px", flexWrap: "wrap" }}>
               <a
                 href={`https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent("Hola, me interesa conocer sus equipos Zumomix.")}`}
