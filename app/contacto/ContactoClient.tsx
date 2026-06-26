@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { CONTACT, PRODUCTS } from "@/lib/constants";
 import { Mail, Phone, MapPin, Send, CheckCircle } from "lucide-react";
 
@@ -330,6 +331,109 @@ export default function ContactoClient() {
           </div>
         </div>
       </div>
+
+      {/* ===== Sección equipos ===== */}
+      <section style={{ background: "rgb(34, 48, 15)", padding: "72px 28px" }}>
+        <div style={{
+          maxWidth: "1180px",
+          margin: "0 auto",
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          gap: "56px",
+          alignItems: "center",
+        }}
+          className="contacto-equipos"
+        >
+          {/* Fotos */}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gridTemplateRows: "auto auto", gap: "12px" }}>
+            <div style={{ gridColumn: "1 / -1", borderRadius: "18px", overflow: "hidden", aspectRatio: "16/7", position: "relative" }}>
+              <Image
+                src="/img/products-1.jpeg"
+                alt="Equipos Zumomix"
+                fill
+                style={{ objectFit: "cover" }}
+                sizes="(max-width: 768px) 100vw, 560px"
+              />
+            </div>
+            <div style={{ borderRadius: "18px", overflow: "hidden", aspectRatio: "1/1", position: "relative" }}>
+              <Image
+                src="/img/products-2.jpeg"
+                alt="Equipos Zumomix"
+                fill
+                style={{ objectFit: "cover" }}
+                sizes="(max-width: 768px) 50vw, 270px"
+              />
+            </div>
+            <div style={{ borderRadius: "18px", overflow: "hidden", aspectRatio: "1/1", position: "relative" }}>
+              <Image
+                src="/img/products-3.jpeg"
+                alt="Equipos Zumomix"
+                fill
+                style={{ objectFit: "cover" }}
+                sizes="(max-width: 768px) 50vw, 270px"
+              />
+            </div>
+          </div>
+
+          {/* Texto */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+            <span style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "8px",
+              background: "rgba(122,181,54,0.15)",
+              border: "1px solid rgba(122,181,54,0.3)",
+              color: "rgb(162, 210, 100)",
+              fontSize: "12px",
+              fontWeight: "700",
+              letterSpacing: "0.1em",
+              textTransform: "uppercase",
+              padding: "7px 14px",
+              borderRadius: "999px",
+              width: "fit-content",
+            }}>
+              <span style={{ width: 6, height: 6, borderRadius: "50%", background: "rgb(122, 181, 54)", display: "inline-block" }} />
+              Equipos de calidad
+            </span>
+            <h2 style={{
+              fontSize: "clamp(26px, 3.5vw, 42px)",
+              fontWeight: "800",
+              color: "white",
+              lineHeight: 1.1,
+              letterSpacing: "-0.02em",
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+            }}>
+              Tenemos un equipo<br />
+              <span style={{ color: "rgb(122, 181, 54)" }}>listo para ti.</span>
+            </h2>
+            <p style={{ fontSize: "17px", color: "rgba(255,255,255,0.65)", lineHeight: 1.7, maxWidth: "420px" }}>
+              Contáctanos para que obtengas el tuyo.
+            </p>
+            <div style={{ display: "flex", gap: "14px", flexWrap: "wrap" }}>
+              <a
+                href={`https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent("Hola, me interesa conocer sus equipos Zumomix.")}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: "inline-flex", alignItems: "center", gap: "9px",
+                  background: "rgb(122, 181, 54)", color: "white",
+                  textDecoration: "none", fontWeight: "700", fontSize: "15px",
+                  padding: "13px 24px", borderRadius: "13px",
+                  boxShadow: "0 8px 24px rgba(122,181,54,0.35)",
+                }}
+              >
+                Contáctanos por WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <style>{`
+          @media (max-width: 768px) {
+            .contacto-equipos { grid-template-columns: 1fr !important; }
+          }
+        `}</style>
+      </section>
     </div>
   );
 }
