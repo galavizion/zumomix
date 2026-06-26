@@ -16,7 +16,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Carrito vacío" }, { status: 400 });
     }
 
-    let serverTotal = 0;
+    // Accumulate in integer cents to avoid floating-point drift
+    let serverTotalCents = 0;
     const lineItems: object[] = [];
 
     for (const { productId, quantity } of items) {
@@ -32,16 +33,17 @@ export async function POST(request: NextRequest) {
       }
 
       const unitPrice = product.salePrice ?? product.price;
-      serverTotal += unitPrice * quantity;
+      const unitCents = Math.round(unitPrice * 100);
+      serverTotalCents += unitCents * quantity;
       lineItems.push({
         name: product.name,
         sku: product.sku,
-        unit_amount: { currency_code: "MXN", value: unitPrice.toFixed(2) },
+        unit_amount: { currency_code: "MXN", value: (unitCents / 100).toFixed(2) },
         quantity: String(quantity),
       });
     }
 
-    const totalStr = serverTotal.toFixed(2);
+    const totalStr = (serverTotalCents / 100).toFixed(2);
 
     const createOrderRequest = new checkoutNodeJssdk.orders.OrdersCreateRequest();
     createOrderRequest.prefer("return=representation");

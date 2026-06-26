@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import checkoutNodeJssdk from "@paypal/checkout-server-sdk";
 import client from "@/lib/paypal";
-import { supabase } from "@/lib/supabase";
+import { supabaseAdmin } from "@/lib/supabase";
 import { PRODUCTS } from "@/lib/constants";
 import { verifyCustomerToken } from "@/lib/jwt";
 
@@ -19,7 +19,18 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Order ID requerido" }, { status: 400 });
     }
 
-    // 1. Capture the payment with PayPal — this is authoritative
+    // 1. Guard against double-capture: reject if this paypal orderID already exists
+    const { data: existing } = await supabaseAdmin
+      .from("orders")
+      .select("id")
+      .eq("payment_id", orderID)
+      .maybeSingle();
+
+    if (existing) {
+      return NextResponse.json({ error: "Orden ya procesada" }, { status: 409 });
+    }
+
+    // 2. Capture the payment with PayPal — this is authoritative
     const captureRequest = new checkoutNodeJssdk.orders.OrdersCaptureRequest(orderID);
     captureRequest.requestBody({});
     const response = await client().execute(captureRequest);
@@ -28,12 +39,16 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Pago no completado" }, { status: 400 });
     }
 
-    // 2. Use the amount PayPal captured — never trust the client for this
+    // 3. Use the amount PayPal captured — never trust the client for this
     const capturedAmount = parseFloat(
       response.result.purchase_units?.[0]?.payments?.captures?.[0]?.amount?.value ?? "0"
     );
 
-    // 3. Identify customer if logged in (optional — guest checkout allowed)
+    if (!capturedAmount || capturedAmount <= 0) {
+      return NextResponse.json({ error: "Monto capturado inválido" }, { status: 400 });
+    }
+
+    // 4. Identify customer if logged in (optional — guest checkout allowed)
     let customerId: string | null = null;
     const token = request.cookies.get("customer_token")?.value;
     if (token) {
@@ -45,8 +60,8 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // 4. Create the order record using verified data
-    const { data: order, error: orderError } = await supabase
+    // 5. Create the order record using verified data
+    const { data: order, error: orderError } = await supabaseAdmin
       .from("orders")
       .insert({
         customer_id: customerId,
@@ -60,7 +75,7 @@ export async function POST(request: NextRequest) {
 
     if (orderError) throw orderError;
 
-    // 5. Create order items using server-side prices from PRODUCTS
+    // 6. Create order items using server-side prices from PRODUCTS
     if (Array.isArray(items) && items.length > 0) {
       const orderItems = items
         .map(({ productId, quantity }) => {
@@ -77,7 +92,7 @@ export async function POST(request: NextRequest) {
         .filter((x): x is NonNullable<typeof x> => x !== null);
 
       if (orderItems.length > 0) {
-        const { error: itemsError } = await supabase
+        const { error: itemsError } = await supabaseAdmin
           .from("order_items")
           .insert(orderItems);
         if (itemsError) console.error("Error guardando items:", itemsError);
