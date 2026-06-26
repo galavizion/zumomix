@@ -6,6 +6,7 @@ import { PRODUCTS } from "@/lib/constants";
 export interface CarouselItem {
   productId: string;
   badge: string;
+  image?: string;
 }
 
 export const DEFAULT_CAROUSEL: CarouselItem[] = [
@@ -16,10 +17,10 @@ export const DEFAULT_CAROUSEL: CarouselItem[] = [
 
 export default function HeroCarousel({ items }: { items?: CarouselItem[] }) {
   const slides = (items && items.length > 0 ? items : DEFAULT_CAROUSEL)
-    .map((item) => ({
-      ...item,
-      product: PRODUCTS.find((p) => p.id === item.productId),
-    }))
+    .map((item) => {
+      const product = PRODUCTS.find((p) => p.id === item.productId);
+      return { ...item, product, resolvedImage: item.image || product?.images[0] || "" };
+    })
     .filter((s) => !!s.product);
 
   const [current, setCurrent] = useState(0);
@@ -43,7 +44,7 @@ export default function HeroCarousel({ items }: { items?: CarouselItem[] }) {
     >
       {/* Stack de slides — usan posición relativa en el primero para darle altura al contenedor */}
       <div style={{ position: "relative" }}>
-        {slides.map(({ product, badge }, i) => (
+        {slides.map(({ product, badge, resolvedImage }, i) => (
           <div
             key={i}
             style={{
@@ -57,7 +58,7 @@ export default function HeroCarousel({ items }: { items?: CarouselItem[] }) {
             {/* Imagen */}
             <div style={{ textAlign: "center", padding: "18px 18px 56px" }}>
               <img
-                src={product!.images[0]}
+                src={resolvedImage}
                 alt={product!.name}
                 style={{
                   width: "65%",

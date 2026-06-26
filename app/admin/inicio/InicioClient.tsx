@@ -1,9 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import { Plus, Trash2, GripVertical } from "lucide-react";
 import { PRODUCTS } from "@/lib/constants";
 import { DEFAULT_CAROUSEL, type CarouselItem } from "@/components/home/HeroCarousel";
+
+const ImagePicker = dynamic(() => import("@/components/admin/ImagePicker"), { ssr: false });
 
 interface Section {
   id: string;
@@ -78,6 +81,9 @@ function CarouselEditor({
   const updateItem = (idx: number, key: keyof CarouselItem, val: string) =>
     onChange(items.map((item, i) => (i === idx ? { ...item, [key]: val } : item)));
 
+  const clearImage = (idx: number) =>
+    onChange(items.map((item, i) => (i === idx ? { ...item, image: undefined } : item)));
+
   return (
     <div className="flex flex-col gap-3">
       {items.map((item, idx) => {
@@ -122,6 +128,22 @@ function CarouselEditor({
                 placeholder="Texto del badge, ej: Más vendido"
                 className="w-full px-3 py-1.5 rounded-lg border border-neutral-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-green"
               />
+              <div>
+                <p className="text-xs text-neutral-400 mb-1">Foto del carrusel (opcional — si no eliges, usa la primera del producto)</p>
+                <ImagePicker
+                  value={item.image ?? ""}
+                  onChange={(url) => updateItem(idx, "image", url)}
+                />
+                {item.image && (
+                  <button
+                    type="button"
+                    onClick={() => clearImage(idx)}
+                    className="mt-1 text-xs text-red-400 hover:text-red-600"
+                  >
+                    × Quitar imagen personalizada
+                  </button>
+                )}
+              </div>
             </div>
 
             {/* Eliminar */}
