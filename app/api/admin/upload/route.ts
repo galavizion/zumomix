@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseAdmin as supabase } from "@/lib/supabase";
+import { verifyAdminToken, unauthorizedResponse } from "@/lib/adminAuth";
 
 export async function POST(req: NextRequest) {
+  if (!verifyAdminToken(req)) return unauthorizedResponse();
   const formData = await req.formData();
   const file = formData.get("file") as File | null;
   const customPath = formData.get("path") as string | null;
