@@ -5,8 +5,6 @@ import {
   Save, Globe, Code2, Image as ImageIcon, BarChart3,
   CheckCircle, AlertCircle, Upload, Loader2, X,
 } from "lucide-react";
-import { supabase } from "@/lib/supabase";
-
 interface Settings {
   site_title: string;
   site_description: string;
@@ -42,8 +40,6 @@ const TABS = [
   { id: "pixeles", label: "Píxeles", icon: Code2 },
 ];
 
-const BUCKET = "archivos";
-
 const inputCls =
   "w-full px-3.5 py-2.5 rounded-lg border border-neutral-200 text-sm text-neutral-900 focus:outline-none focus:ring-2 focus:ring-brand-green/30 focus:border-brand-green transition-all";
 
@@ -78,18 +74,14 @@ function ImageUploadField({
     setUploading(true);
 
     try {
-      const ext = file.name.split(".").pop() ?? "png";
-      const path = `${storagePath}.${ext}`;
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("path", storagePath);
 
-      const { error: upErr } = await supabase.storage
-        .from(BUCKET)
-        .upload(path, file, { upsert: true, cacheControl: "3600" });
-
-      if (upErr) throw upErr;
-
-      const { data } = supabase.storage.from(BUCKET).getPublicUrl(path);
-      // Forzar recarga añadiendo timestamp para evitar caché del navegador
-      onChange(data.publicUrl + "?t=" + Date.now());
+      const res = await fetch("/api/admin/upload", { method: "POST", body: formData });
+      if (!res.ok) throw new Error((await res.json())?.error ?? "Error al subir");
+      const { url } = await res.json();
+      onChange(url + "?t=" + Date.now());
     } catch (err: any) {
       setError(err?.message ?? "Error al subir archivo");
     } finally {

@@ -4,16 +4,17 @@ import { supabaseAdmin as supabase } from "@/lib/supabase";
 export async function POST(req: NextRequest) {
   const formData = await req.formData();
   const file = formData.get("file") as File | null;
+  const customPath = formData.get("path") as string | null;
 
   if (!file) return NextResponse.json({ error: "No file" }, { status: 400 });
 
   const ext = file.name.split(".").pop() ?? "jpg";
-  const filename = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+  const filename = customPath ? `${customPath}.${ext}` : `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
   const buffer = await file.arrayBuffer();
 
   const { data, error } = await supabase.storage
     .from("archivos")
-    .upload(filename, buffer, { contentType: file.type, upsert: false });
+    .upload(filename, buffer, { contentType: file.type, upsert: true });
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
