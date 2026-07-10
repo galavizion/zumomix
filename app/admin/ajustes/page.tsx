@@ -1,3 +1,5 @@
+﻿export const dynamic = "force-dynamic";
+
 import AjustesClient from "./AjustesClient";
 
 export const metadata = {

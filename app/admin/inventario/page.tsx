@@ -1,3 +1,5 @@
+﻿export const dynamic = "force-dynamic";
+
 import { PRODUCTS } from "@/lib/constants";
 
 const MIN_STOCK = 5;

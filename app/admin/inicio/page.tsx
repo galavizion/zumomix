@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import InicioClient from "./InicioClient";
 
 export const metadata = {
