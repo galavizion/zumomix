@@ -14,7 +14,7 @@ const BLOCKS = [
   },
   {
     slug: "exprimidora-business-1-plus",
-    videoId: "BPLUS_VIDEO_ID",
+    videoId: "0CwTeLh8acw",
     label: "En acción",
     title: "Naranjas frescas en segundos",
     description: "La Business 1 Plus procesa hasta 500 naranjas por hora. Ideal para cafeterías, restaurantes y tiendas de jugos naturales.",
