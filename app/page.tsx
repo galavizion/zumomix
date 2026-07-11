@@ -6,7 +6,7 @@ import Hero from "@/components/home/Hero";
 import ProductGrid from "@/components/home/ProductGrid";
 import ContactSection from "@/components/home/ContactSection";
 import Testimonials from "@/components/home/Testimonials";
-import ActionSection from "@/components/home/ActionSection";
+import ActionSection, { ActionSectionB1 } from "@/components/home/ActionSection";
 import ConcentradosBanner from "@/components/home/ConcentradosBanner";
 import ClientLogos from "@/components/home/ClientLogos";
 import GallerySection from "@/components/home/GallerySection";
@@ -48,6 +48,7 @@ export default async function HomePage() {
       {vis.action && <ActionSection />}
       {vis.concentrados && <ConcentradosBanner />}
       {vis.clientLogos && <ClientLogos />}
+      <ActionSectionB1 />
       {vis.gallery && <GallerySection />}
       {vis.contact && <ContactSection />}
     </>

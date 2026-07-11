@@ -4,22 +4,21 @@ import { useState } from "react";
 import Image from "next/image";
 import { CONTACT, PRODUCTS } from "@/lib/constants";
 
-const BLOCKS = [
-  {
-    slug: "exprimidor-atomic",
-    videoId: "ktgUkTHa8ag",
-    label: "En acción",
-    title: "Exprime jugo de limón sin esfuerzo",
-    description: "Mira cómo el Exprimidor Atomic trabaja en piloto automático: rápido, robusto y fácil de operar todos los días.",
-  },
-  {
-    slug: "exprimidora-business-1-plus",
-    videoId: "0CwTeLh8acw",
-    label: "En acción",
-    title: "Naranjas frescas en segundos",
-    description: "La Business 1 Plus procesa hasta 500 naranjas por hora. Ideal para cafeterías, restaurantes y tiendas de jugos naturales.",
-  },
-];
+const ATOMIC = {
+  slug: "exprimidor-atomic",
+  videoId: "ktgUkTHa8ag",
+  label: "En acción",
+  title: "Exprime jugo de limón sin esfuerzo",
+  description: "Mira cómo el Exprimidor Atomic trabaja en piloto automático: rápido, robusto y fácil de operar todos los días.",
+};
+
+const B1PLUS = {
+  slug: "exprimidora-business-1-plus",
+  videoId: "0CwTeLh8acw",
+  label: "En acción",
+  title: "Naranjas frescas en segundos",
+  description: "La Business 1 Plus procesa hasta 500 naranjas por hora. Ideal para cafeterías, restaurantes y tiendas de jugos naturales.",
+};
 
 function VideoBlock({ slug, videoId, label, title, description }: typeof BLOCKS[0]) {
   const [playing, setPlaying] = useState(false);
@@ -120,19 +119,19 @@ function VideoBlock({ slug, videoId, label, title, description }: typeof BLOCKS[
   );
 }
 
-export default function ActionSection() {
+function SectionWrap({ children }: { children: React.ReactNode }) {
   return (
     <section style={{ maxWidth: "1180px", margin: "0 auto", padding: "84px 28px" }}>
-      <style>{`
-        @media (max-width: 768px) {
-          .action-block { grid-template-columns: 1fr !important; }
-        }
-      `}</style>
-      <div style={{ display: "flex", flexDirection: "column", gap: "80px" }}>
-        {BLOCKS.map((block) => (
-          <VideoBlock key={block.slug} {...block} />
-        ))}
-      </div>
+      <style>{`@media (max-width: 768px) { .action-block { grid-template-columns: 1fr !important; } }`}</style>
+      {children}
     </section>
   );
+}
+
+export default function ActionSection() {
+  return <SectionWrap><VideoBlock {...ATOMIC} /></SectionWrap>;
+}
+
+export function ActionSectionB1() {
+  return <SectionWrap><VideoBlock {...B1PLUS} /></SectionWrap>;
 }
