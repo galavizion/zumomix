@@ -301,10 +301,10 @@ export default function ContactSection() {
             animationName: "revup",
             animationTimeline: "view()",
             animationRange: "entry cover 26%",
-            background: "linear-gradient(160deg, rgb(140, 55, 5), rgb(210, 90, 15))",
+            background: "linear-gradient(160deg, rgb(160, 90, 5), rgb(245, 158, 11))",
             borderRadius: "24px",
             padding: "38px",
-            color: "rgb(223, 233, 206)",
+            color: "rgb(255, 235, 210)",
             alignSelf: "start",
             opacity: 1,
             transform: "translateY(0px)",
@@ -322,7 +322,7 @@ export default function ContactSection() {
             }}
           >
             zumo
-            <span data-dc-tpl="140" style={{ color: "rgb(122, 181, 54)" }}>
+            <span data-dc-tpl="140" style={{ color: "rgb(255, 220, 150)" }}>
               mix
             </span>
           </div>
@@ -331,7 +331,7 @@ export default function ContactSection() {
             style={{
               fontSize: "14.5px",
               lineHeight: "1.65",
-              color: "rgb(196, 211, 173)",
+              color: "rgb(255, 225, 185)",
               marginBottom: "26px",
             }}
           >
@@ -358,7 +358,7 @@ export default function ContactSection() {
                   width: "8px",
                   height: "8px",
                   borderRadius: "50%",
-                  background: "rgb(122, 181, 54)",
+                  background: "rgb(255, 220, 150)",
                 }}
               ></span>
               <span
@@ -366,7 +366,7 @@ export default function ContactSection() {
                 style={{
                   fontSize: "14.5px",
                   fontWeight: "600",
-                  color: "rgb(238, 245, 226)",
+                  color: "rgb(255, 240, 215)",
                 }}
               >
                 Atención personalizada
@@ -386,7 +386,7 @@ export default function ContactSection() {
                   width: "8px",
                   height: "8px",
                   borderRadius: "50%",
-                  background: "rgb(122, 181, 54)",
+                  background: "rgb(255, 220, 150)",
                 }}
               ></span>
               <span
@@ -394,7 +394,7 @@ export default function ContactSection() {
                 style={{
                   fontSize: "14.5px",
                   fontWeight: "600",
-                  color: "rgb(238, 245, 226)",
+                  color: "rgb(255, 240, 215)",
                 }}
               >
                 Garantía y refacciones
@@ -414,7 +414,7 @@ export default function ContactSection() {
                   width: "8px",
                   height: "8px",
                   borderRadius: "50%",
-                  background: "rgb(122, 181, 54)",
+                  background: "rgb(255, 220, 150)",
                 }}
               ></span>
               <span
@@ -422,7 +422,7 @@ export default function ContactSection() {
                 style={{
                   fontSize: "14.5px",
                   fontWeight: "600",
-                  color: "rgb(238, 245, 226)",
+                  color: "rgb(255, 240, 215)",
                 }}
               >
                 Servicio rápido y compra segura
@@ -449,7 +449,7 @@ export default function ContactSection() {
               data-dc-tpl="154"
               href={`mailto:${CONTACT.email}`}
               style={{
-                color: "rgb(223, 233, 206)",
+                color: "rgb(255, 235, 210)",
                 textDecoration: "none",
               }}
             >
@@ -458,7 +458,7 @@ export default function ContactSection() {
             <span
               data-dc-tpl="155"
               style={{
-                color: "rgb(223, 233, 206)",
+                color: "rgb(255, 235, 210)",
               }}
             >
               <strong data-dc-tpl="156" style={{ color: "rgb(255, 255, 255)" }}>
@@ -469,7 +469,7 @@ export default function ContactSection() {
             <span
               data-dc-tpl="157"
               style={{
-                color: "rgb(223, 233, 206)",
+                color: "rgb(255, 235, 210)",
               }}
             >
               <strong data-dc-tpl="158" style={{ color: "rgb(255, 255, 255)" }}>
