@@ -20,7 +20,9 @@ const B1PLUS = {
   description: "La Business 1 Plus procesa hasta 500 naranjas por hora. Ideal para cafeterías, restaurantes y tiendas de jugos naturales.",
 };
 
-function VideoBlock({ slug, videoId, label, title, description }: typeof BLOCKS[0]) {
+interface BlockConfig { slug: string; videoId: string; label: string; title: string; description: string; }
+
+function VideoBlock({ slug, videoId, label, title, description }: BlockConfig) {
   const [playing, setPlaying] = useState(false);
   const product = PRODUCTS.find((p) => p.slug === slug) || PRODUCTS[0];
   const waMessage = encodeURIComponent(`Hola, me interesa el ${product.name}. ¿Podrían darme una cotización?`);
