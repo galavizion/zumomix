@@ -18,8 +18,8 @@ export default function PromoBar() {
   return (
     <div
       style={{
-        background: "rgb(232, 245, 216)",
-        color: "rgb(58, 92, 28)",
+        background: "rgb(254, 240, 220)",
+        color: "rgb(150, 70, 10)",
         fontSize: "13.5px",
         fontWeight: "600",
         textAlign: "center",
