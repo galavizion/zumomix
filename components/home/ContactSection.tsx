@@ -108,7 +108,7 @@ export default function ContactSection({ logoUrl }: { logoUrl?: string }) {
               fontWeight: "700",
               letterSpacing: "0.16em",
               textTransform: "uppercase",
-              color: "rgb(122, 181, 54)",
+              color: "rgb(196, 98, 15)",
             }}
           >
             Contáctanos
@@ -270,7 +270,7 @@ export default function ContactSection({ logoUrl }: { logoUrl?: string }) {
               style={{
                 fontFamily: "inherit",
                 justifySelf: "start",
-                background: "rgb(122, 181, 54)",
+                background: "rgb(245, 158, 11)",
                 color: "rgb(255, 255, 255)",
                 border: "none",
                 fontWeight: "700",
@@ -278,7 +278,7 @@ export default function ContactSection({ logoUrl }: { logoUrl?: string }) {
                 padding: "15px 34px",
                 borderRadius: "13px",
                 cursor: isSubmitting ? "not-allowed" : "pointer",
-                boxShadow: "rgba(122, 181, 54, 0.3) 0px 12px 26px",
+                boxShadow: "rgba(245, 158, 11, 0.35) 0px 12px 26px",
                 transition: "transform 0.2s, box-shadow 0.2s",
                 opacity: isSubmitting ? 0.7 : 1,
               }}
