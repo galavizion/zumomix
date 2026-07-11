@@ -79,7 +79,7 @@ export default function AdminClientesPage() {
                   key={c.id}
                   className="border-b border-neutral-100 last:border-0 hover:bg-neutral-50 transition-colors"
                 >
-                  <td className="px-4 py-3 font-medium text-neutral-900 max-w-[160px] truncate">
+                  <td className="px-4 py-3 font-medium text-neutral-900 max-w-40 truncate">
                     {c.nombre}
                   </td>
                   <td className="px-4 py-3 text-neutral-600">{c.email}</td>
