@@ -7,6 +7,7 @@ import ProductGrid from "@/components/home/ProductGrid";
 import ContactSection from "@/components/home/ContactSection";
 import Testimonials from "@/components/home/Testimonials";
 import ActionSection, { ActionSectionB1 } from "@/components/home/ActionSection";
+import TranquilidadSection from "@/components/home/TranquilidadSection";
 import ConcentradosBanner from "@/components/home/ConcentradosBanner";
 import ClientLogos from "@/components/home/ClientLogos";
 import GallerySection from "@/components/home/GallerySection";
@@ -23,6 +24,7 @@ const DEFAULT_VISIBILITY = {
   action: true,
   concentrados: true,
   clientLogos: true,
+  tranquilidad: true,
   gallery: true,
   contact: true,
 };
@@ -37,8 +39,20 @@ async function getSectionVisibility() {
   return { ...DEFAULT_VISIBILITY, ...(data.content as typeof DEFAULT_VISIBILITY) };
 }
 
+async function getTranquilidadData() {
+  const { data } = await supabase
+    .from("home_sections")
+    .select("content")
+    .eq("section", "tranquilidad")
+    .single();
+  return (data?.content ?? {}) as { title?: string; description?: string; image?: string };
+}
+
 export default async function HomePage() {
-  const vis = await getSectionVisibility();
+  const [vis, tranquilidad] = await Promise.all([
+    getSectionVisibility(),
+    getTranquilidadData(),
+  ]);
 
   return (
     <>
@@ -49,6 +63,7 @@ export default async function HomePage() {
       {vis.concentrados && <ConcentradosBanner />}
       {vis.clientLogos && <ClientLogos />}
       <ActionSectionB1 />
+      {vis.tranquilidad && <TranquilidadSection {...tranquilidad} />}
       {vis.gallery && <GallerySection />}
       {vis.contact && <ContactSection />}
     </>

@@ -60,6 +60,15 @@ const sections = [
       { key: "description", label: "Descripción", type: "textarea" },
     ],
   },
+  {
+    name: "tranquilidad",
+    label: "Tranquilidad",
+    fields: [
+      { key: "title", label: "Título", type: "text" },
+      { key: "description", label: "Descripción", type: "textarea" },
+      { key: "image", label: "Foto de soporte/refacciones", type: "image" },
+    ],
+  },
 ];
 
 /* ── Editor de carrusel ── */
@@ -178,6 +187,7 @@ const VISIBILITY_SECTIONS = [
   { key: "action",       label: "Sección de Acción",     description: "Banner CTA central" },
   { key: "concentrados", label: "Banner Concentrados",   description: "Sección de concentrados naturales" },
   { key: "clientLogos",  label: "Logos de Clientes",     description: "Galería de marcas / clientes" },
+  { key: "tranquilidad", label: "Tranquilidad en tu compra", description: "Sección de soporte y refacciones" },
   { key: "gallery",      label: "Galería",               description: "Galería de imágenes" },
   { key: "contact",      label: "Sección Contacto",      description: "Formulario de contacto en inicio" },
 ];
@@ -393,6 +403,22 @@ export default function InicioClient() {
                     rows={4}
                     className="w-full px-3 py-2 border border-neutral-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-green text-sm"
                   />
+                ) : field.type === "image" ? (
+                  <div>
+                    <ImagePicker
+                      value={currentData.content[field.key] || ""}
+                      onChange={(url) => handleChange(activeTab, field.key, url)}
+                    />
+                    {currentData.content[field.key] && (
+                      <button
+                        type="button"
+                        onClick={() => handleChange(activeTab, field.key, "")}
+                        className="mt-1 text-xs text-red-400 hover:text-red-600"
+                      >
+                        × Quitar imagen
+                      </button>
+                    )}
+                  </div>
                 ) : (
                   <input
                     type="text"
