@@ -32,7 +32,7 @@ export default function PromoBar() {
       {showDiscount && discount && (
         <>
           {" "}
-          <span style={{ color: "rgb(224, 112, 12)" }}>{discount}</span>
+          <span style={{ color: "rgb(244, 130, 31)", fontWeight: 800 }}>{discount}</span>
         </>
       )}
       {description && <> {description}</>}

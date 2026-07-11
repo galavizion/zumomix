@@ -44,7 +44,7 @@ export default function ProductCard({ product, showAddToCart = false }: ProductC
           </p>
         </div>
         {!isSuspended && product.price > 0 && (
-          <p className="text-brand-green font-semibold text-lg">
+          <p className="text-brand-orange font-semibold text-lg">
             {formatPrice(product.price)}
           </p>
         )}

@@ -6,6 +6,9 @@
   --color-brand-green: #7AB536;
   --color-brand-green-dark: #4A7A1A;
   --color-brand-green-light: #E8F5D8;
+  --color-brand-orange: #F4821F;
+  --color-brand-orange-dark: #C4620F;
+  --color-brand-orange-light: #FEF0E6;
   --color-neutral-50: #FAFAFA;
   --color-neutral-100: #F5F5F5;
   --color-neutral-200: #E5E5E5;
@@ -176,8 +179,8 @@ h1, h2, h3, h4, h5, h6 {
 
 /* ===== Product page hero ===== */
 .page-hero {
-  background: linear-gradient(135deg, rgb(247, 252, 239) 0%, rgb(232, 245, 216) 100%);
-  border-bottom: 1px solid rgb(216, 232, 194);
+  background: linear-gradient(135deg, #fffaf5 0%, #fff3e6 60%, #fef6ee 100%);
+  border-bottom: 1px solid #f5d9bb;
 }
 
 /* ===== Cards hover ===== */
@@ -226,8 +229,8 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Inter', sans-serif;
 }
 .contact-input:focus {
-  border-color: rgb(122, 181, 54);
-  box-shadow: 0 0 0 3px rgba(122, 181, 54, 0.12);
+  border-color: rgb(244, 130, 31);
+  box-shadow: 0 0 0 3px rgba(244, 130, 31, 0.12);
 }
 .contact-input::placeholder {
   color: rgb(170, 180, 160);

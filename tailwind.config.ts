@@ -14,6 +14,9 @@ const config: Config = {
           green: "#7AB536",
           "green-dark": "#4A7A1A",
           "green-light": "#E8F5D8",
+          orange: "#F4821F",
+          "orange-dark": "#C4620F",
+          "orange-light": "#FEF0E6",
         },
         neutral: {
           50: "#FAFAFA",

@@ -108,11 +108,11 @@ export default function Navbar({ logoUrl, logoText }: NavbarProps) {
                 priority
               />
             ) : (
-              <span className="text-2xl font-display font-bold text-brand-green">
+              <span className="text-2xl font-display font-bold">
                 {logoText ? (
-                  logoText
+                  <span className="text-brand-orange">{logoText}</span>
                 ) : (
-                  <>zumo<span className="text-neutral-900">mix</span></>
+                  <><span className="text-brand-orange">zumo</span><span className="text-neutral-900">mix</span></>
                 )}
               </span>
             )}

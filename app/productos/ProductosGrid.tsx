@@ -11,7 +11,7 @@ const BADGE: Record<string, { label: string; color: string; bg: string }> = {
   "1": { label: "Más vendido", color: "rgb(122,181,54)", bg: "rgb(232,245,216)" },
   "2": { label: "Pro", color: "rgb(37,99,235)", bg: "rgb(219,234,254)" },
   "3": { label: "Alta capacidad", color: "rgb(217,119,6)", bg: "rgb(254,243,199)" },
-  "4": { label: "Nuevo", color: "rgb(220,38,38)", bg: "rgb(254,226,226)" },
+  "4": { label: "Nuevo", color: "rgb(244,130,31)", bg: "rgb(254,240,230)" },
 };
 
 function ProductCard({ product }: { product: Product }) {
@@ -70,7 +70,7 @@ function ProductCard({ product }: { product: Product }) {
         </div>
 
         {product.price > 0 && product.status !== "suspended" && (
-          <div style={{ fontSize: "20px", fontWeight: "800", color: "rgb(122, 181, 54)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+          <div style={{ fontSize: "20px", fontWeight: "800", color: "rgb(244, 130, 31)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
             {formatPrice(product.price)}
           </div>
         )}

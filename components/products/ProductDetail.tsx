@@ -258,7 +258,7 @@ export default function ProductDetail({ product }: { product: Product }) {
 
           {activePrice > 0 && !isSuspended && (
             <div style={{ display: "flex", alignItems: "baseline", gap: "12px", paddingBottom: "24px", borderBottom: "1px solid rgb(227,232,220)" }}>
-              <span style={{ fontSize: "36px", fontWeight: "800", color: "rgb(122,181,54)" }}>
+              <span style={{ fontSize: "36px", fontWeight: "800", color: "rgb(244,130,31)" }}>
                 {formatPrice(activePrice)}
               </span>
               {activeSalePrice && (
