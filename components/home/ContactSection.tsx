@@ -301,7 +301,7 @@ export default function ContactSection() {
             animationName: "revup",
             animationTimeline: "view()",
             animationRange: "entry cover 26%",
-            background: "linear-gradient(160deg, rgb(34, 48, 15), rgb(47, 67, 24))",
+            background: "linear-gradient(160deg, rgb(140, 55, 5), rgb(210, 90, 15))",
             borderRadius: "24px",
             padding: "38px",
             color: "rgb(223, 233, 206)",
