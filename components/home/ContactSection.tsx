@@ -1,9 +1,10 @@
 "use client";
 
+import Image from "next/image";
 import { PRODUCTS, CONTACT } from "@/lib/constants";
 import { useState } from "react";
 
-export default function ContactSection() {
+export default function ContactSection({ logoUrl }: { logoUrl?: string }) {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -301,7 +302,7 @@ export default function ContactSection() {
             animationName: "revup",
             animationTimeline: "view()",
             animationRange: "entry cover 26%",
-            background: "linear-gradient(160deg, rgb(160, 90, 5), rgb(245, 158, 11))",
+            background: "rgb(245, 158, 11)",
             borderRadius: "24px",
             padding: "38px",
             color: "rgb(255, 235, 210)",
@@ -311,20 +312,14 @@ export default function ContactSection() {
             transitionDelay: "100ms",
           }}
         >
-          <div
-            data-dc-tpl="139"
-            style={{
-              fontSize: "25px",
-              fontWeight: "800",
-              letterSpacing: "-0.02em",
-              color: "rgb(255, 255, 255)",
-              marginBottom: "22px",
-            }}
-          >
-            zumo
-            <span data-dc-tpl="140" style={{ color: "rgb(255, 220, 150)" }}>
-              mix
-            </span>
+          <div style={{ marginBottom: "22px" }}>
+            {logoUrl ? (
+              <Image src={logoUrl} alt="Zumomix" width={160} height={60} style={{ objectFit: "contain", objectPosition: "left", maxHeight: "60px", width: "auto" }} />
+            ) : (
+              <span style={{ fontSize: "25px", fontWeight: "800", letterSpacing: "-0.02em", color: "rgb(255, 255, 255)" }}>
+                zumo<span style={{ color: "rgb(255, 220, 150)" }}>mix</span>
+              </span>
+            )}
           </div>
           <p
             data-dc-tpl="141"

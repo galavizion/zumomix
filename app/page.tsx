@@ -2,6 +2,7 @@ export const dynamic = "force-dynamic";
 
 import type { Metadata } from "next";
 import { supabase } from "@/lib/supabase";
+import { getSiteSettings } from "@/lib/site-settings";
 import Hero from "@/components/home/Hero";
 import ProductGrid from "@/components/home/ProductGrid";
 import ContactSection from "@/components/home/ContactSection";
@@ -49,9 +50,10 @@ async function getTranquilidadData() {
 }
 
 export default async function HomePage() {
-  const [vis, tranquilidad] = await Promise.all([
+  const [vis, tranquilidad, settings] = await Promise.all([
     getSectionVisibility(),
     getTranquilidadData(),
+    getSiteSettings(),
   ]);
 
   return (
@@ -65,7 +67,7 @@ export default async function HomePage() {
       <ActionSectionB1 />
       {vis.tranquilidad && <TranquilidadSection {...tranquilidad} />}
       {vis.gallery && <GallerySection />}
-      {vis.contact && <ContactSection />}
+      {vis.contact && <ContactSection logoUrl={settings.logo_url} />}
     </>
   );
 }

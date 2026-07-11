@@ -14,7 +14,7 @@ export default function TranquilidadSection({ title, description, image }: Props
   const body = description || "Soporte técnico y de refacciones exclusivo para nuestros clientes.";
 
   return (
-    <section style={{ background: "rgb(130, 70, 5)", padding: "0" }}>
+    <section style={{ background: "rgb(245, 158, 11)", padding: "0" }}>
       <div
         style={{
           maxWidth: "1180px",
@@ -35,7 +35,7 @@ export default function TranquilidadSection({ title, description, image }: Props
         }}>
           <span style={{
             fontSize: "12px", fontWeight: "700", letterSpacing: "0.14em",
-            textTransform: "uppercase", color: "rgb(255, 220, 150)",
+            textTransform: "uppercase", color: "rgba(255,255,255,0.85)",
           }}>
             Nuestro compromiso
           </span>
@@ -75,7 +75,7 @@ export default function TranquilidadSection({ title, description, image }: Props
             style={{ objectFit: "cover", objectPosition: "center" }}
             sizes="(max-width: 768px) 100vw, 590px"
           />
-          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgb(130,70,5) 0%, transparent 30%)" }} />
+          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgb(245,158,11) 0%, transparent 30%)" }} />
         </div>
       </div>
 
