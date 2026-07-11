@@ -172,6 +172,16 @@ function CarouselEditor({
   );
 }
 
+const VISIBILITY_SECTIONS = [
+  { key: "products",     label: "Productos destacados",  description: "Grid de productos en el inicio" },
+  { key: "testimonials", label: "Testimonios",           description: "Reseñas de clientes" },
+  { key: "action",       label: "Sección de Acción",     description: "Banner CTA central" },
+  { key: "concentrados", label: "Banner Concentrados",   description: "Sección de concentrados naturales" },
+  { key: "clientLogos",  label: "Logos de Clientes",     description: "Galería de marcas / clientes" },
+  { key: "gallery",      label: "Galería",               description: "Galería de imágenes" },
+  { key: "contact",      label: "Sección Contacto",      description: "Formulario de contacto en inicio" },
+];
+
 /* ── Página principal ── */
 export default function InicioClient() {
   const [sectionData, setSectionData] = useState<Record<string, Section>>({});
@@ -227,6 +237,19 @@ export default function InicioClient() {
     }));
   };
 
+  const handleVisibilityChange = (key: string, value: boolean) => {
+    setSectionData((prev) => ({
+      ...prev,
+      visibility: {
+        ...prev.visibility,
+        id: prev.visibility?.id ?? "",
+        section: "visibility",
+        updated_at: prev.visibility?.updated_at ?? new Date().toISOString(),
+        content: { ...prev.visibility?.content, [key]: value },
+      },
+    }));
+  };
+
   const handleCarouselChange = (items: CarouselItem[]) => {
     setSectionData((prev) => ({
       ...prev,
@@ -269,7 +292,7 @@ export default function InicioClient() {
       )}
 
       {/* Tabs */}
-      <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-6 gap-3">
         {sections.map((section) => {
           const d = sectionData[section.name];
           return (
@@ -291,7 +314,56 @@ export default function InicioClient() {
             </button>
           );
         })}
+        {/* Tab Secciones */}
+        <button
+          onClick={() => setActiveTab("secciones")}
+          className={`p-4 rounded-xl border-2 transition-all text-left ${
+            activeTab === "secciones"
+              ? "border-brand-orange bg-brand-orange/5"
+              : "border-neutral-200 hover:border-neutral-300"
+          }`}
+        >
+          <div className="font-semibold text-sm">Secciones</div>
+          <div className="text-xs text-neutral-400 mt-1">Mostrar / ocultar</div>
+        </button>
       </div>
+
+      {/* ── Panel Secciones ── */}
+      {activeTab === "secciones" && (
+        <div className="bg-white rounded-xl border border-neutral-200 p-6 space-y-6">
+          <div>
+            <h2 className="text-xl font-bold text-neutral-900">Secciones del inicio</h2>
+            <p className="text-sm text-neutral-500 mt-1">Activa o desactiva cada sección de la página principal.</p>
+          </div>
+          <div className="divide-y divide-neutral-100">
+            {VISIBILITY_SECTIONS.map(({ key, label, description }) => {
+              const isOn = sectionData.visibility?.content?.[key] !== false;
+              return (
+                <div key={key} className="flex items-center justify-between py-4">
+                  <div>
+                    <div className="text-sm font-semibold text-neutral-800">{label}</div>
+                    <div className="text-xs text-neutral-400 mt-0.5">{description}</div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => handleVisibilityChange(key, !isOn)}
+                    className={`relative w-11 h-6 rounded-full transition-colors shrink-0 ${isOn ? "bg-brand-green" : "bg-neutral-300"}`}
+                  >
+                    <span className={`absolute top-1 w-4 h-4 bg-white rounded-full shadow transition-transform ${isOn ? "translate-x-6" : "translate-x-1"}`} />
+                  </button>
+                </div>
+              );
+            })}
+          </div>
+          <button
+            onClick={() => handleSave("visibility")}
+            disabled={saving}
+            className="bg-brand-green text-white font-semibold py-2.5 px-6 rounded-xl hover:bg-brand-green-dark transition-colors disabled:opacity-50"
+          >
+            {saving ? "Guardando..." : "Guardar cambios"}
+          </button>
+        </div>
+      )}
 
       {currentSection && currentData && (
         <div className="bg-white rounded-xl border border-neutral-200 p-6 space-y-6">
