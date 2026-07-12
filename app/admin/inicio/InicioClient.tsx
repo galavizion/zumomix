@@ -234,7 +234,7 @@ export default function InicioClient() {
   const handleSave = async (sectionName: string) => {
     setSaving(true);
     try {
-      const section = sectionData[sectionName];
+      const section = sectionData[sectionName] ?? { content: {} };
       const response = await fetch("/api/home", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -293,7 +293,7 @@ export default function InicioClient() {
   }
 
   const currentSection = sections.find((s) => s.name === activeTab);
-  const currentData = sectionData[activeTab];
+  const currentData = sectionData[activeTab] ?? { id: "", section: activeTab, content: {}, updated_at: "" };
 
   const carouselItems: CarouselItem[] =
     sectionData.hero?.content?.carousel ?? DEFAULT_CAROUSEL;
