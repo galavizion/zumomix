@@ -89,7 +89,7 @@ function VideoBlock({ slug, videoId, label, title, description, bgImage }: Block
               src={thumbSrc}
               alt={product.name}
               fill
-              style={{ objectFit: "contain", objectPosition: "right bottom", opacity: 0.92, padding: "0 0 6% 0" }}
+              style={{ objectFit: "cover", objectPosition: "center", opacity: 0.92 }}
               sizes="600px"
             />
             <div style={{ position: "absolute", inset: 0, background: "linear-gradient(90deg, rgba(20,28,10,0.7) 30%, rgba(20,28,10,0.1))" }} />
