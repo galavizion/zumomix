@@ -140,8 +140,8 @@ export default async function ProductGrid() {
                 style={{
                   position: "relative",
                   background: "rgb(255, 255, 255)",
-                  padding: "26px",
-                  height: "248px",
+                  padding: "16px",
+                  height: "500px",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",

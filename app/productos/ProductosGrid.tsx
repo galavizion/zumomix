@@ -22,12 +22,12 @@ function ProductCard({ product }: { product: Product }) {
     <article className="product-card-new">
       {/* Imagen */}
       <Link href={`/productos/${product.slug}`} style={{ display: "block", position: "relative", background: "#ffffff", overflow: "hidden" }}>
-        <div style={{ position: "relative", aspectRatio: "4/3" }}>
+        <div style={{ position: "relative", height: "500px" }}>
           <Image
             src={product.images[0]}
             alt={product.name}
             fill
-            style={{ objectFit: "contain", padding: "20px", transition: "transform 0.3s" }}
+            style={{ objectFit: "contain", padding: "16px", transition: "transform 0.3s" }}
             className="group-hover:scale-105"
           />
         </div>
