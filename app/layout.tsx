@@ -6,6 +6,7 @@ import TopBar from "@/components/layout/TopBar";
 import PromoBar from "@/components/layout/PromoBar";
 import Footer from "@/components/layout/Footer";
 import WhatsAppButton from "@/components/layout/WhatsAppButton";
+import SocialButtons from "@/components/layout/SocialButtons";
 import { CartProvider } from "@/components/cart/CartProvider";
 import { CustomerProvider } from "@/components/customer/CustomerProvider";
 import { getSiteSettings } from "@/lib/site-settings";
@@ -115,6 +116,7 @@ export default async function RootLayout({
             <main className="flex-1">{children}</main>
             <Footer logoUrl={settings.logo_url} logoText={settings.logo_text} />
             <WhatsAppButton />
+            <SocialButtons />
           </CartProvider>
         </CustomerProvider>
       </body>
