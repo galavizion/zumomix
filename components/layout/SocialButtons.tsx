@@ -1,3 +1,5 @@
+"use client";
+
 import { CONTACT } from "@/lib/constants";
 
 export default function SocialButtons() {
