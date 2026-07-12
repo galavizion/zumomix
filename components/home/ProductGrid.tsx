@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { PRODUCTS } from "@/lib/constants";
 import { supabase } from "@/lib/supabase";
+import { formatPrice } from "@/lib/utils";
 import type { Product } from "@/types";
 
 async function getProducts(): Promise<Product[]> {
@@ -209,12 +210,23 @@ export default async function ProductGrid() {
                     fontWeight: "700",
                     color: "rgb(34, 48, 15)",
                     lineHeight: "1.3",
-                    marginBottom: "18px",
+                    marginBottom: "10px",
                     flex: "1 1 0%",
                   }}
                 >
                   {product.name}
                 </h3>
+                {product.price > 0 && product.status !== "suspended" && (
+                  <div style={{
+                    fontSize: "20px",
+                    fontWeight: "800",
+                    color: "rgb(244, 130, 31)",
+                    fontFamily: "'Plus Jakarta Sans', sans-serif",
+                    marginBottom: "14px",
+                  }}>
+                    {formatPrice(product.price)}
+                  </div>
+                )}
                 <Link
                   data-dc-tpl="84"
                   href={`/productos/${product.slug}`}
