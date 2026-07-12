@@ -20,14 +20,16 @@ const B1PLUS = {
   description: "La Business 1 Plus procesa hasta 500 naranjas por hora. Ideal para cafeterías, restaurantes y tiendas de jugos naturales.",
 };
 
-interface BlockConfig { slug: string; videoId: string; label: string; title: string; description: string; }
+interface BlockConfig { slug: string; videoId: string; label: string; title: string; description: string; bgImage?: string; }
+export interface VideoSectionData { label?: string; title?: string; description?: string; videoId?: string; bgImage?: string; }
 
-function VideoBlock({ slug, videoId, label, title, description }: BlockConfig) {
+function VideoBlock({ slug, videoId, label, title, description, bgImage }: BlockConfig) {
   const [playing, setPlaying] = useState(false);
   const product = PRODUCTS.find((p) => p.slug === slug) || PRODUCTS[0];
   const waMessage = encodeURIComponent(`Hola, me interesa el ${product.name}. ¿Podrían darme una cotización?`);
   const waUrl = `https://wa.me/${CONTACT.whatsapp}?text=${waMessage}`;
-  const hasVideo = videoId && videoId !== "BPLUS_VIDEO_ID";
+  const hasVideo = !!videoId;
+  const thumbSrc = bgImage || product.images[0];
 
   return (
     <div
@@ -84,7 +86,7 @@ function VideoBlock({ slug, videoId, label, title, description }: BlockConfig) {
         ) : (
           <>
             <Image
-              src={product.images[0]}
+              src={thumbSrc}
               alt={product.name}
               fill
               style={{ objectFit: "contain", objectPosition: "right bottom", opacity: 0.92, padding: "0 0 6% 0" }}
@@ -130,10 +132,12 @@ function SectionWrap({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default function ActionSection() {
-  return <SectionWrap><VideoBlock {...ATOMIC} /></SectionWrap>;
+export default function ActionSection({ data }: { data?: VideoSectionData }) {
+  const config = { ...ATOMIC, ...Object.fromEntries(Object.entries(data ?? {}).filter(([, v]) => v)) };
+  return <SectionWrap><VideoBlock {...config} /></SectionWrap>;
 }
 
-export function ActionSectionB1() {
-  return <SectionWrap><VideoBlock {...B1PLUS} /></SectionWrap>;
+export function ActionSectionB1({ data }: { data?: VideoSectionData }) {
+  const config = { ...B1PLUS, ...Object.fromEntries(Object.entries(data ?? {}).filter(([, v]) => v)) };
+  return <SectionWrap><VideoBlock {...config} /></SectionWrap>;
 }

@@ -53,11 +53,25 @@ const sections = [
     ],
   },
   {
-    name: "action",
-    label: "Sección de Acción",
+    name: "action_atomic",
+    label: "Video — Exprimidor Atomic",
     fields: [
+      { key: "label", label: "Etiqueta (ej. En acción)", type: "text" },
       { key: "title", label: "Título", type: "text" },
       { key: "description", label: "Descripción", type: "textarea" },
+      { key: "videoId", label: "ID del video YouTube (ej. ktgUkTHa8ag)", type: "text" },
+      { key: "bgImage", label: "Imagen de fondo del video (opcional)", type: "image" },
+    ],
+  },
+  {
+    name: "action_b1plus",
+    label: "Video — Business 1 Plus",
+    fields: [
+      { key: "label", label: "Etiqueta (ej. En acción)", type: "text" },
+      { key: "title", label: "Título", type: "text" },
+      { key: "description", label: "Descripción", type: "textarea" },
+      { key: "videoId", label: "ID del video YouTube (ej. 0CwTeLh8acw)", type: "text" },
+      { key: "bgImage", label: "Imagen de fondo del video (opcional)", type: "image" },
     ],
   },
   {

@@ -7,7 +7,7 @@ import Hero from "@/components/home/Hero";
 import ProductGrid from "@/components/home/ProductGrid";
 import ContactSection from "@/components/home/ContactSection";
 import Testimonials from "@/components/home/Testimonials";
-import ActionSection, { ActionSectionB1 } from "@/components/home/ActionSection";
+import ActionSection, { ActionSectionB1, type VideoSectionData } from "@/components/home/ActionSection";
 import TranquilidadSection from "@/components/home/TranquilidadSection";
 import ConcentradosBanner from "@/components/home/ConcentradosBanner";
 import ClientLogos from "@/components/home/ClientLogos";
@@ -49,11 +49,22 @@ async function getTranquilidadData() {
   return (data?.content ?? {}) as { title?: string; description?: string; image?: string };
 }
 
+async function getVideoSectionData(section: string) {
+  const { data } = await supabase
+    .from("home_sections")
+    .select("content")
+    .eq("section", section)
+    .single();
+  return (data?.content ?? {}) as VideoSectionData;
+}
+
 export default async function HomePage() {
-  const [vis, tranquilidad, settings] = await Promise.all([
+  const [vis, tranquilidad, settings, actionAtomic, actionB1] = await Promise.all([
     getSectionVisibility(),
     getTranquilidadData(),
     getSiteSettings(),
+    getVideoSectionData("action_atomic"),
+    getVideoSectionData("action_b1plus"),
   ]);
 
   return (
@@ -61,10 +72,10 @@ export default async function HomePage() {
       <Hero />
       {vis.products && <ProductGrid />}
       {vis.testimonials && <Testimonials />}
-      {vis.action && <ActionSection />}
+      {vis.action && <ActionSection data={actionAtomic} />}
       {vis.concentrados && <ConcentradosBanner />}
       {vis.clientLogos && <ClientLogos />}
-      <ActionSectionB1 />
+      <ActionSectionB1 data={actionB1} />
       {vis.tranquilidad && <TranquilidadSection {...tranquilidad} />}
       {vis.gallery && <GallerySection />}
       {vis.contact && <ContactSection logoUrl={settings.logo_url} />}
