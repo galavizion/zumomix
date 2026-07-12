@@ -9,8 +9,8 @@ export default function SocialButtons() {
   return (
     <div style={{
       position: "fixed",
-      right: "16px",
-      top: "50%",
+      right: "30px",
+      top: "70%",
       transform: "translateY(-50%)",
       display: "flex",
       flexDirection: "column",
